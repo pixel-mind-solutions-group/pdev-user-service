@@ -1,0 +1,21 @@
+﻿id_component,name,active,created_by,created_on,updated_by,updated_on,component_id_component,element_name
+,recruitment_m_employer_c_employer_e_employer_name,TRUE,admin,11/10/2024 5:01,,,20,Employer name
+,recruitment_m_employer_c_employer_e_address,TRUE,admin,11/10/2024 5:01,,,20,Address
+,recruitment_m_employer_c_employer_e_employer_tpno,TRUE,admin,11/10/2024 5:01,,,20,Telephone.No
+,recruitment_m_employer_c_employer_e_employer_mobno,TRUE,admin,11/10/2024 5:01,,,20,Mobile.No
+,recruitment_m_employer_c_employer_e_employer_no,TRUE,admin,11/10/2024 5:01,,,20,Employer.No
+,recruitment_m_job_position_c_job_position_e_position,TRUE,admin,11/10/2024 5:01,,,44,Position
+,recruitment_m_job_position_c_job_position_e_industry,TRUE,admin,11/10/2024 5:01,,,44,Industry
+,recruitment_m_job_vacancy_c_job_vacancy_e_employer,TRUE,admin,11/10/2024 5:01,,,21,Employer
+,recruitment_m_job_vacancy_c_job_vacancy_e_position,TRUE,admin,11/10/2024 5:01,,,21,Position
+,recruitment_m_job_vacancy_c_job_vacancy_e_description,TRUE,admin,11/10/2024 5:01,,,21,Description
+,recruitment_m_job_vacancy_c_job_vacancy_e_closing_date,TRUE,admin,11/10/2024 5:01,,,21,Closing Date
+,recruitment_m_job_vacancy_c_job_vacancy_e_govt_job,TRUE,admin,11/10/2024 5:01,,,21,Govt.Job
+,recruitment_m_job_vacancy_c_job_vacancy_e_walk_in_interview,TRUE,admin,11/10/2024 5:01,,,21,Walks in interview
+,recruitment_m_job_vacancy_c_job_vacancy_e_part_time,TRUE,admin,11/10/2024 5:01,,,21,Part time
+,recruitment_m_job_vacancy_c_job_vacancy_e_doc_place_holder,TRUE,admin,11/10/2024 5:01,,,21,
+,recruitment_m_recieved_cvs_c_recieved_cvs_e_job_refno,TRUE,admin,11/10/2024 5:01,,,22,Job.Ref.No
+,recruitment_m_recieved_cvs_c_recieved_cvs_e_employer,TRUE,admin,11/10/2024 5:01,,,22,Employer
+,recruitment_m_recieved_cvs_c_recieved_cvs_e_position,TRUE,admin,11/10/2024 5:01,,,22,Position
+,candidate_m_dashboard_c_dashboard_e_user_dropdown,TRUE,admin,11/10/2024 5:01,,,45,
+,candidate_m_dashboard_c_dashboard_e_signup,TRUE,admin,11/10/2024 5:01,,,45,Signup

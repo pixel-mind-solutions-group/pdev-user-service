@@ -1,0 +1,43 @@
+version: "3.2"
+
+services:
+#  Service
+  app:
+    build: .
+    ports:
+      - "8889:8889"
+    networks:
+      - p-dev-shared-network
+
+# Consul agent
+  consul:
+    image: hashicorp/consul:latest
+    container_name: p-dev-consul
+    ports:
+      - "8500:8500"
+    networks:
+      - p-dev-shared-network
+
+# Database
+  postgres:
+    image: bitnami/postgresql:latest
+    container_name: p-dev-postgres
+    environment:
+      POSTGRES_USER: maleeshasa
+      POSTGRES_PASSWORD: 300400@AzIT
+      POSTGRES_DB: pdev_user_management
+    ports:
+      - "5432:5432"
+    networks:
+      - p-dev-shared-network
+    volumes:
+      - p-dev-data-volume:/var/lib/postgresql/data
+
+# Shared network
+networks:
+  p-dev-shared-network:
+    driver: bridge
+
+# Volume
+volumes:
+  p-dev-data-volume:

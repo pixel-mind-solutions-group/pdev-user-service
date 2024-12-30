@@ -1,0 +1,10 @@
+﻿id_user_role,role,active,created_by,created_on,updated_by,updated_on,application_scope_id_application_scope
+,CANDIDATE,TRUE,admin,11/10/2024 5:01,,,1
+,ADMIN,TRUE,admin,11/10/2024 5:01,,,1
+,RECRUITMENT_MANAGER,TRUE,admin,11/10/2024 5:01,,,2
+,SENIOR_RECRUITER,TRUE,admin,11/10/2024 5:01,,,2
+,RECRUITER,TRUE,admin,11/10/2024 5:01,,,2
+,ACCOUNT_MANAGER,TRUE,admin,11/10/2024 5:01,,,2
+,HR_ADMINISTRATOR,TRUE,admin,11/10/2024 5:01,,,2
+,ADMIN,TRUE,admin,11/14/2024 5:01,,,2
+,AD_USER,TRUE,admin,01:00.0,,,5

@@ -1,0 +1,4 @@
+﻿id_user_has_application_scope_has_user_role,created_on,updated_by,updated_on,created_by,user_id_user,application_scope_id_application_scope,user_role_id_user_role,active
+,11/10/2024 5:01,,,admin,1,1,2,TRUE
+,11/10/2024 5:01,,,admin,1,2,2,TRUE
+,11/10/2024 5:01,,,admin,1,5,9,TRUE

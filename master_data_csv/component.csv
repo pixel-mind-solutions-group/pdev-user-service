@@ -1,0 +1,24 @@
+﻿id_component,name,active,created_by,created_on,updated_by,updated_on,module_id_module
+,candidate_m_my_profile_c_my_cv_documents,TRUE,admin,11/10/2024 5:01,,,1
+,candidate_m_my_profile_c_my_login_details,TRUE,admin,11/10/2024 5:01,,,1
+,candidate_m_my_jobs_c_flagged_jobs,TRUE,admin,11/10/2024 5:01,,,3
+,candidate_m_my_jobs_c_preferred_companies,TRUE,admin,11/10/2024 5:01,,,3
+,candidate_m_job_vacancies_c_job_vacancies,TRUE,admin,11/10/2024 5:01,,,2
+,candidate_m_my_preferences_c_job_alerts,TRUE,admin,11/10/2024 5:01,,,4
+,candidate_m_common_profile_c_personal_details,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_professional_experiences,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_higher_education,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_school_education,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_membership,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_language_proficiency,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_research,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_achievements,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_referees,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_family_information,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_job_preferences,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_preferred_job_location,TRUE,admin,11/10/2024 5:01,,,5
+,candidate_m_common_profile_c_uoloaded_cvs_certificates,TRUE,admin,11/10/2024 5:01,,,5
+,recruitment_m_job_position_c_job_position,TRUE,admin,11/10/2024 5:01,,,6
+,recruitment_m_job_vacancy_c_job_vacancy,TRUE,admin,11/10/2024 5:01,,,7
+,recruitment_m_recieved_cvs_c_recieved_cvs,TRUE,admin,11/10/2024 5:01,,,8
+,candidate_m_dashboard_c_dashboard,TRUE,admin,11/10/2024 5:01,,,16

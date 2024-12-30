@@ -1,0 +1,9 @@
+﻿id_authorize_party_role,role,active,created_by,created_on,updated_by,updated_on
+,candidate-service-permission,TRUE,admin,11/10/2024 5:01,,
+,document-service-permission,TRUE,admin,11/10/2024 5:01,,
+,location-service-permission,TRUE,admin,11/10/2024 5:01,,
+,communication-service-permission,TRUE,admin,11/10/2024 5:01,,
+,recruitment-service-permission,TRUE,admin,11/10/2024 5:01,,
+,user-service-permission,TRUE,admin,11/10/2024 5:01,,
+,keycloak-service-permission,TRUE,admin,11/10/2024 5:01,,
+,draft-service-permission,TRUE,admin,01:00.0,,

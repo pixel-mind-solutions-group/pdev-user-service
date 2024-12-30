@@ -1,0 +1,5 @@
+﻿id_application_scope,scope,active,created_by,created_on,updated_by,updated_on,unique_id
+,rempms_candidate,TRUE,admin,11/10/2024 5:01,,,e7a75653-1d2c-4fbd-a0f7-2f7b7b9bb2f8
+,rempms_recruitment,TRUE,admin,11/10/2024 5:01,,,2b86b637-b3b8-4073-9400-4e1b71f3427d
+,pdev-keycloak,TRUE,admin,01:43.1,,,2b86b637-b3b8-4073-9400-4e1b71f3429c
+,pdev-user,TRUE,admin,01:43.1,,,2b86b637-b3b8-4073-9400-4e1b71f3426j

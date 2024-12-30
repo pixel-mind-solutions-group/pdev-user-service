@@ -1,0 +1,11 @@
+﻿id_module,name,active,created_by,created_on,updated_by,updated_on,application_scope_id_application_scope
+,candidate_m_my_profile,TRUE,admin,11/10/2024 5:01,,,1
+,candidate_m_job_vacancies,TRUE,admin,11/10/2024 5:01,,,1
+,candidate_m_my_jobs,TRUE,admin,11/10/2024 5:01,,,1
+,candidate_m_my_preferences,TRUE,admin,11/10/2024 5:01,,,1
+,candidate_m_common_profile,TRUE,admin,11/10/2024 5:01,,,1
+,recruitment_m_employer,TRUE,admin,11/10/2024 5:01,,,2
+,recruitment_m_job_position,TRUE,admin,11/10/2024 5:01,,,2
+,recruitment_m_job_vacancy,TRUE,admin,11/10/2024 5:01,,,2
+,recruitment_m_recieved_cvs,TRUE,admin,11/10/2024 5:01,,,2
+,candidate_m_dashboard,TRUE,admin,11/10/2024 5:01,,,1

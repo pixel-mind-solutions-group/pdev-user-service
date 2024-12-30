@@ -1,0 +1,182 @@
+// application_scope
+CREATE TABLE application_scope (
+    id_application_scope SERIAL PRIMARY KEY,
+    scope VARCHAR(32) NOT NULL,
+    unique_id VARCHAR NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP
+);
+
+// authorize_party
+CREATE TABLE authorize_party (
+    id_authorize_party SERIAL PRIMARY KEY,
+    party VARCHAR(32) NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP
+);
+
+// authorize_party_has_authorize_party_role
+CREATE TABLE authorize_party_has_authorize_party_role (
+    id_authorize_party_has_authorize_party_role SERIAL PRIMARY KEY,
+    authorize_party_id_authorize_party INT NOT NULL,
+    authorize_party_role_id_authorize_party_role INT NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    FOREIGN KEY (authorize_party_id_authorize_party) REFERENCES authorize_party(id_authorize_party),
+    FOREIGN KEY (authorize_party_role_id_authorize_party_role) REFERENCES authorize_party_role(id_authorize_party_role)
+);
+
+// authorize_party_role
+CREATE TABLE authorize_party_role (
+    id_authorize_party_role SERIAL PRIMARY KEY,
+    role VARCHAR(32) NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP
+);
+
+// component
+CREATE TABLE component (
+    id_component SERIAL PRIMARY KEY,
+    name VARCHAR(32) NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    module_id_module INT NOT NULL,
+    FOREIGN KEY (module_id_module) REFERENCES module(id_module)
+);
+
+// component_element
+CREATE TABLE component_element (
+    id_element SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    element_name VARCHAR NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    component_id_component INT,
+    FOREIGN KEY (component_id_component) REFERENCES component(id_component)
+);
+
+// module
+CREATE TABLE module (
+    id_module SERIAL PRIMARY KEY,
+    name VARCHAR(32) NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    application_scope_id_application_scope INT REFERENCES application_scope(id_application_scope) ON REFRESH CASCADE,
+);
+
+// user
+CREATE TABLE user_account (
+    id_user SERIAL PRIMARY KEY,
+    email VARCHAR(32) NOT NULL,
+    is_email_verified BOOLEAN NOT NULL,    
+non_locked BOOLEAN NOT NULL,
+    first_name VARCHAR(32) NOT NULL,
+    last_name VARCHAR(32) NOT NULL,
+    user_name VARCHAR(32) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    active BOOLEAN NOT NULL,
+    fail_count short NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP
+);
+
+// user_has_application_scope_has_user_role
+CREATE TABLE user_has_application_scope_has_user_role (
+    id_user_has_application_scope_has_user_role SERIAL PRIMARY KEY,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    user_id_user INT REFERENCES user_account(id_user) ON DELETE CASCADE,
+    application_scope_id_application_scope INT REFERENCES application_scope(id_application_scope) ON DELETE CASCADE,
+    user_role_id_user_role INT REFERENCES user_role(id_user_role) ON DELETE CASCADE
+);
+
+// user_has_authorize_party
+CREATE TABLE user_has_authorize_party (
+    id_user_has_authorize_party SERIAL PRIMARY KEY,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    user_id_user INT REFERENCES user_account(id_user) ON DELETE CASCADE,
+    authorize_party_id_authorize_party INT REFERENCES authorize_party(id_authorize_party) ON DELETE CASCADE
+);
+
+// user_role
+CREATE TABLE user_role (
+    id_user_role SERIAL PRIMARY KEY,
+    role VARCHAR(32) NOT NULL,
+    active BOOLEAN NOT NULL,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    application_scope_id_application_scope INT REFERENCES application_scope(id_application_scope) ON DELETE CASCADE
+);
+
+// user_role_has_module
+CREATE TABLE user_role_has_module (
+    id_user_role_has_module SERIAL PRIMARY KEY,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    user_role_id_user_role INT REFERENCES user_role(id_user_role) ON DELETE CASCADE,
+    module_id_module INT REFERENCES module(id_module) ON DELETE CASCADE
+);
+
+// user_role_has_module_has_component
+CREATE TABLE user_role_has_module_has_component (
+    id_user_role_has_module_has_component SERIAL PRIMARY KEY,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    updated_on TIMESTAMP,
+    user_role_has_module_id_user_role_has_module INT REFERENCES user_role_has_module(id_user_role_has_module) ON DELETE CASCADE,
+    component_id_component INT REFERENCES component(id_component) ON DELETE CASCADE
+);
+
+// user_role_has_module_has_component_has_element
+CREATE TABLE user_role_has_module_has_component_has_element (
+    id_user_role_has_module_has_component_has_element SERIAL PRIMARY KEY,
+    created_by VARCHAR(50),
+    created_on TIMESTAMP,
+    updated_by VARCHAR(50),
+    editable BOOLEAN NOT NULL,
+    updated_on TIMESTAMP,
+    user_role_has_module_has_component_id_user_role_has_module_has_component INT REFERENCES user_role_has_module_has_component(id_user_role_has_module_has_component) ON DELETE CASCADE,
+    component_element_id_component_element INT REFERENCES component_element(id_element) ON DELETE CASCADE
+);
+
+// user_login_registry
+CREATE TABLE user_login_registry (
+    id_user_login_registry SERIAL PRIMARY KEY,
+    created_on TIMESTAMP,
+    login_or_logout int NOT NULL,
+    last_updated_date_time TIMESTAMP NOT NULL,
+    user_account_id_user INT REFERENCES user_account(id_user) ON REFRESH CASCADE,
+    application_scope_id_application_scope INT REFERENCES application_scope(id_application_scope) ON REFRESH CASCADE
+);
