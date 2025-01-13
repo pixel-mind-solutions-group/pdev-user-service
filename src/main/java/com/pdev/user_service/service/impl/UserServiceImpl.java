@@ -51,13 +51,12 @@ public class UserServiceImpl implements UserService {
      * This method is allowed to create or modify user
      *
      * @param userRequest {@link UserRequestDTO} - user request details
-     * @param userType    {@link String} - user type
      * @return {@link CommonResponse} - user created or modified response
      * @author maleesahsa
      */
     @Override
     @Transactional
-    public CommonResponse createOrModify(UserRequestDTO userRequest, String userType) {
+    public CommonResponse createOrModifyAd(UserRequestDTO userRequest) {
         log.info("UserServiceImpl.createOrModify() => started.");
         CommonResponse commonResponse = new CommonResponse();
         String message;
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
             user = new User();
             user.setEmail(userRequest.getEmail());
             user.setAccountNonLocked(Boolean.TRUE);
-            user.setIsEmailVerified(Boolean.FALSE);
+            user.setIsEmailVerified(Boolean.TRUE);
             user.setUserName(userRequest.getUserName());
             user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword())); // Set password only for new user
             user.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));

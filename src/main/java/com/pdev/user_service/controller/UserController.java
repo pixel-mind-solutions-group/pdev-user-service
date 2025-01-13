@@ -26,17 +26,16 @@ public class UserController {
      * This method is allowed to create or modify user
      *
      * @param userRequest {@link UserRequestDTO} - user request details
-     * @param userType    {@link String} - user type
      * @return {@link ResponseEntity<CommonResponse>} - user created or modified response
      * @author maleesahsa
      */
     @PreAuthorize("hasRole(T(com.pdev.user_service.constant.UserRoles).ADMIN) and hasAuthority(T(com.pdev.user_service.constant.RolePermissionsConstants).PERMISSION_USER_AUTH_SERVICE)")
-    @PostMapping(value = "/create-or-modify/{userType}")
-    public ResponseEntity<CommonResponse> createOrModify(@RequestBody UserRequestDTO userRequest,
-                                                         @PathVariable String userType) {
+    @PostMapping(value = "/ad/create-or-modify")
+    public ResponseEntity<CommonResponse> createOrModifyAd(@RequestBody UserRequestDTO userRequest) {
         log.info("UserController.createOrModify() => started.");
-        return ResponseEntity.ok(userService.createOrModify(userRequest, userType));
+        return ResponseEntity.ok(userService.createOrModifyAd(userRequest));
     }
+
 
     /**
      * This method is allowed to get user by username

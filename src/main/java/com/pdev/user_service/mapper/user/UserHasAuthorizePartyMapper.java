@@ -6,6 +6,7 @@ import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.model.user.UserHasAuthorizeParty;
 import com.pdev.user_service.repository.authorizeParty.AuthorizePartyRepository;
+import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserHasAuthorizePartyMapper {
 
+    private final CommonUtil commonUtil;
     private final AuthorizePartyRepository authorizePartyRepository;
 
     public UserHasAuthorizeParty mapToEntity(UserHasAuthorizeParty hasAuthorizeParty, User user, Integer authorizePartyId) {
@@ -30,7 +32,7 @@ public class UserHasAuthorizePartyMapper {
         hasAuthorizeParty.setAuthorizeParty(authorizePartyRepository.findById(authorizePartyId)
                 .orElseThrow(() -> new RecordNotFoundException("Authorize party is not exists.")));
         hasAuthorizeParty.setUser(user);
-        hasAuthorizeParty.setAuditData(new AuditData(LocalDateTime.now(), "admin"));
+        hasAuthorizeParty.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
         hasAuthorizeParty.setActive(Boolean.TRUE);
         log.info("UserHasAuthorizePartyMapper.mapToEntity() => ended.");
         return hasAuthorizeParty;
