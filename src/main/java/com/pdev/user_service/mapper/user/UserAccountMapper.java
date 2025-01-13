@@ -60,7 +60,7 @@ public class UserAccountMapper {
         return dto;
     }
 
-    public void mapToEntity(User user, UserRequestDTO userRequest) {
+    public void mapToADEntity(User user, UserRequestDTO userRequest) {
         log.info("UserAccountMapper.mapToEntity() => started.");
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
@@ -68,7 +68,19 @@ public class UserAccountMapper {
         user.setFailCount((short) 0);
         user.setUserHasAuthorizeParties(userHasAuthorizePartyMapper.mapToEntities(userRequest, user));
         user.setUserHasApplicationScopeHasUserRoles(
-                userHasApplicationScopeHasUserRoleMapper.mapToEntities(userRequest.getUserHasApplicationScopeHasUserRoles(), user));
+                userHasApplicationScopeHasUserRoleMapper.mapToEntitiesForAD(userRequest.getUserHasApplicationScopeHasUserRoles(), user));
         log.info("UserAccountMapper.mapToEntity() => ended.");
+    }
+
+    public void mapToNonADEntity(User user, UserRequestDTO userRequest) {
+        log.info("UserAccountMapper.mapToNonADEntity() => started.");
+        user.setFirstName(userRequest.getFirstName());
+        user.setLastName(userRequest.getLastName());
+        user.setActive(userRequest.getActive());
+        user.setFailCount((short) 0);
+        user.setUserHasAuthorizeParties(userHasAuthorizePartyMapper.mapToEntities(userRequest, user));
+        user.setUserHasApplicationScopeHasUserRoles(
+                userHasApplicationScopeHasUserRoleMapper.mapToEntitiesForNonAD(userRequest.getUserHasApplicationScopeHasUserRoles(), user));
+        log.info("UserAccountMapper.mapToNonADEntity() => ended.");
     }
 }

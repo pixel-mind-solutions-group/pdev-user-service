@@ -21,7 +21,7 @@ public class DateTimeUtil {
         LocalDateTime localDateTime = null;
         try {
             localDateTime = LocalDateTime.parse(dateTime, FORMATE);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return (localDateTime);
     }
@@ -64,7 +64,7 @@ public class DateTimeUtil {
     public static String getLocalTimeByUTC(String utcTime, String timeZone) {
         String localDatetime = null;
         if (utcTime == null) {
-            return localDatetime;
+            return null;
         }
         if (utcTime.contains(".")) {
             utcTime = utcTime.substring(0, utcTime.lastIndexOf("."));

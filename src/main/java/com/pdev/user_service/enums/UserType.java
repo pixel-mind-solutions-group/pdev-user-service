@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum UserType {
 
-    AD("Active Directory"),
-    NON_AD("Non Active Directory");
+    AD("active_directory_user"),
+    NON_AD("non_active_directory_user");
 
     private final String name;
 

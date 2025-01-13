@@ -1,6 +1,5 @@
 package com.pdev.user_service.service;
 
-import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
 import com.pdev.user_service.util.CommonResponse;
 
@@ -9,15 +8,6 @@ import com.pdev.user_service.util.CommonResponse;
  * @Date 2024/11/15
  */
 public interface UserService {
-
-    /**
-     * This method is allowed to create or modify user
-     *
-     * @param userRequest {@link UserRequestDTO} - user request details
-     * @return {@link CommonResponse} - user created or modified response
-     * @author maleesahsa
-     */
-    CommonResponse createOrModifyAd(UserRequestDTO userRequest);
 
     /**
      * This method is allowed to get user by username

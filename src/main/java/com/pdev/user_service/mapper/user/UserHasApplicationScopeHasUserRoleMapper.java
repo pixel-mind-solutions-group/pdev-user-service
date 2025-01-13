@@ -60,7 +60,7 @@ public class UserHasApplicationScopeHasUserRoleMapper {
     }
 
 
-    public List<UserHasApplicationScopeHasUserRole> mapToEntities(List<UserHasApplicationScopeHasUserRoleRequestDTO> userHasApplicationScopeHasUserRoles,
+    public List<UserHasApplicationScopeHasUserRole> mapToEntitiesForAD(List<UserHasApplicationScopeHasUserRoleRequestDTO> userHasApplicationScopeHasUserRoles,
                                                                   User user) {
         log.info("UserHasApplicationScopeHasUserRoleMapper.mapToEntities() => started.");
         List<UserHasApplicationScopeHasUserRole> entities = new ArrayList<>();
@@ -68,6 +68,25 @@ public class UserHasApplicationScopeHasUserRoleMapper {
         userHasApplicationScopeHasUserRoles.forEach(dto -> {
             UserHasApplicationScopeHasUserRole entity = new UserHasApplicationScopeHasUserRole();
             entity.setUserRole(userRoleRepository.findById(dto.getUserRoleId())
+                    .orElseThrow(() -> new RecordNotFoundException("User role is not exists.")));
+            entity.setUser(user);
+            entity.setApplicationScope(applicationScopeRepository.findById(dto.getApplicationScopeId())
+                    .orElseThrow(() -> new RecordNotFoundException("Application scope is not exists.")));
+            entity.setAuditData(new AuditData(LocalDateTime.now(), "admin"));
+            entity.setActive(Boolean.TRUE);
+            entities.add(entity);
+        });
+        return entities;
+    }
+
+    public List<UserHasApplicationScopeHasUserRole> mapToEntitiesForNonAD(List<UserHasApplicationScopeHasUserRoleRequestDTO> userHasApplicationScopeHasUserRoles,
+                                                                          User user) {
+        log.info("UserHasApplicationScopeHasUserRoleMapper.mapToEntitiesForNonAD() => started.");
+        List<UserHasApplicationScopeHasUserRole> entities = new ArrayList<>();
+
+        userHasApplicationScopeHasUserRoles.forEach(dto -> {
+            UserHasApplicationScopeHasUserRole entity = new UserHasApplicationScopeHasUserRole();
+            entity.setUserRole(userRoleRepository.findByRole(dto.getUserRole())
                     .orElseThrow(() -> new RecordNotFoundException("User role is not exists.")));
             entity.setUser(user);
             entity.setApplicationScope(applicationScopeRepository.findById(dto.getApplicationScopeId())

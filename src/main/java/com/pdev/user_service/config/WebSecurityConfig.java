@@ -63,6 +63,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/health/healthChecker").permitAll()
                                 .requestMatchers("/api/iam/v1/auth/user/token").permitAll()
                                 .requestMatchers("/api/iam/v1/user/get-by-username/**").permitAll()
+                                .requestMatchers("/api/iam/v1/user/create-or-modify-non-ad").permitAll()
                                 .requestMatchers("/api/iam/v1/user/**").hasAuthority(RolePermissionsConstants.PERMISSION_USER_AUTH_SERVICE)
                                 .anyRequest().authenticated()
                 ).sessionManagement(ses -> ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

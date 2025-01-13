@@ -2,6 +2,8 @@ package com.pdev.user_service.controller;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
+import com.pdev.user_service.service.ADUserService;
+import com.pdev.user_service.service.NonADUserService;
 import com.pdev.user_service.service.UserService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,21 +23,35 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final ADUserService adUserService;
+    private final NonADUserService nonADUserService;
 
     /**
-     * This method is allowed to create or modify user
+     * This method is allowed to create or modify AD user
      *
      * @param userRequest {@link UserRequestDTO} - user request details
      * @return {@link ResponseEntity<CommonResponse>} - user created or modified response
      * @author maleesahsa
      */
     @PreAuthorize("hasRole(T(com.pdev.user_service.constant.UserRoles).ADMIN) and hasAuthority(T(com.pdev.user_service.constant.RolePermissionsConstants).PERMISSION_USER_AUTH_SERVICE)")
-    @PostMapping(value = "/ad/create-or-modify")
-    public ResponseEntity<CommonResponse> createOrModifyAd(@RequestBody UserRequestDTO userRequest) {
+    @PostMapping(value = "/create-or-modify-ad")
+    public ResponseEntity<CommonResponse> createOrModifyAD(@RequestBody UserRequestDTO userRequest) {
         log.info("UserController.createOrModify() => started.");
-        return ResponseEntity.ok(userService.createOrModifyAd(userRequest));
+        return ResponseEntity.ok(adUserService.createOrModifyAD(userRequest));
     }
 
+    /**
+     * This method is allowed to create or modify Non AD user
+     *
+     * @param userRequest {@link UserRequestDTO} - user request details
+     * @return {@link ResponseEntity<CommonResponse>} - user created or modified response
+     * @author maleesahsa
+     */
+    @PostMapping(value = "/create-or-modify-non-ad")
+    public ResponseEntity<CommonResponse> createOrModifyNonAD(@RequestBody UserRequestDTO userRequest) {
+        log.info("UserController.createOrModifyNonAD() => started.");
+        return ResponseEntity.ok(nonADUserService.createOrModifyNonAD(userRequest));
+    }
 
     /**
      * This method is allowed to get user by username

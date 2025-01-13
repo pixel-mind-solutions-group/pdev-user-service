@@ -1,9 +1,11 @@
 package com.pdev.user_service.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Map;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class FeignCustomException extends RuntimeException {
 

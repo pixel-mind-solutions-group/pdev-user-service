@@ -1,9 +1,12 @@
 package com.pdev.user_service.util;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommonResponse {
     private HttpStatus status;
     private String message;
