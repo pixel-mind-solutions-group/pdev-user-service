@@ -27,7 +27,7 @@ public class UserHasAuthorizePartyMapper {
     private final CommonUtil commonUtil;
     private final AuthorizePartyRepository authorizePartyRepository;
 
-    public UserHasAuthorizeParty mapToEntity(UserHasAuthorizeParty hasAuthorizeParty, User user, Integer authorizePartyId) {
+    public UserHasAuthorizeParty mapToADEntity(UserHasAuthorizeParty hasAuthorizeParty, User user, Integer authorizePartyId) {
         log.info("UserHasAuthorizePartyMapper.mapToEntity() => started.");
         hasAuthorizeParty.setAuthorizeParty(authorizePartyRepository.findById(authorizePartyId)
                 .orElseThrow(() -> new RecordNotFoundException("Authorize party is not exists.")));
@@ -38,11 +38,30 @@ public class UserHasAuthorizePartyMapper {
         return hasAuthorizeParty;
     }
 
-    public List<UserHasAuthorizeParty> mapToEntities(UserRequestDTO userRequest, User user) {
-        log.info("UserHasAuthorizePartyMapper.mapToEntities() => started.");
+    public UserHasAuthorizeParty mapToNonADEntity(UserHasAuthorizeParty hasAuthorizeParty, User user, String party) {
+        log.info("UserHasAuthorizePartyMapper.mapToNonADEntity() => started.");
+        hasAuthorizeParty.setAuthorizeParty(authorizePartyRepository.findByParty(party)
+                .orElseThrow(() -> new RecordNotFoundException("Authorize party is not exists.")));
+        hasAuthorizeParty.setUser(user);
+        hasAuthorizeParty.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
+        hasAuthorizeParty.setActive(Boolean.TRUE);
+        log.info("UserHasAuthorizePartyMapper.mapToNonADEntity() => ended.");
+        return hasAuthorizeParty;
+    }
+
+    public List<UserHasAuthorizeParty> mapToADEntities(UserRequestDTO userRequest, User user) {
+        log.info("UserHasAuthorizePartyMapper.mapToADEntities() => started.");
         List<UserHasAuthorizeParty> parties = new ArrayList<>();
-        userRequest.getUserHasAuthorizePartyIds().forEach(id -> parties.add(mapToEntity(new UserHasAuthorizeParty(), user, id)));
-        log.info("UserHasAuthorizePartyMapper.mapToEntities() => ended.");
+        userRequest.getUserHasAuthorizePartyIds().forEach(id -> parties.add(mapToADEntity(new UserHasAuthorizeParty(), user, id)));
+        log.info("UserHasAuthorizePartyMapper.mapToADEntities() => ended.");
+        return parties;
+    }
+
+    public List<UserHasAuthorizeParty> mapToNonADEntities(UserRequestDTO userRequest, User user) {
+        log.info("UserHasAuthorizePartyMapper.mapToNonADEntities() => started.");
+        List<UserHasAuthorizeParty> parties = new ArrayList<>();
+        userRequest.getUserHasAuthorizeParties().forEach(party -> parties.add(mapToNonADEntity(new UserHasAuthorizeParty(), user, party)));
+        log.info("UserHasAuthorizePartyMapper.mapToNonADEntities() => ended.");
         return parties;
     }
 }

@@ -61,7 +61,7 @@ public class UserHasApplicationScopeHasUserRoleMapper {
 
 
     public List<UserHasApplicationScopeHasUserRole> mapToEntitiesForAD(List<UserHasApplicationScopeHasUserRoleRequestDTO> userHasApplicationScopeHasUserRoles,
-                                                                  User user) {
+                                                                       User user) {
         log.info("UserHasApplicationScopeHasUserRoleMapper.mapToEntities() => started.");
         List<UserHasApplicationScopeHasUserRole> entities = new ArrayList<>();
 
@@ -89,7 +89,7 @@ public class UserHasApplicationScopeHasUserRoleMapper {
             entity.setUserRole(userRoleRepository.findByRole(dto.getUserRole())
                     .orElseThrow(() -> new RecordNotFoundException("User role is not exists.")));
             entity.setUser(user);
-            entity.setApplicationScope(applicationScopeRepository.findById(dto.getApplicationScopeId())
+            entity.setApplicationScope(applicationScopeRepository.findByScope(dto.getApplicationScope())
                     .orElseThrow(() -> new RecordNotFoundException("Application scope is not exists.")));
             entity.setAuditData(new AuditData(LocalDateTime.now(), "admin"));
             entity.setActive(Boolean.TRUE);

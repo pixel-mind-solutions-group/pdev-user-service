@@ -16,6 +16,7 @@ import java.util.List;
 public class UserHasApplicationScopeHasUserRoleRequestDTO {
     private Integer userHasApplicationScopeHasUserRoleId;
     private Integer applicationScopeId;
+    private String applicationScope;
     private Integer userRoleId;
     private String userRole; // if non-ad
     private List<RoleHasModuleHasComponentHasElementRequestDTO> hasElements = new ArrayList<>();

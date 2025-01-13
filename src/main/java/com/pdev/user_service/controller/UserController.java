@@ -47,10 +47,10 @@ public class UserController {
      * @return {@link ResponseEntity<CommonResponse>} - user created or modified response
      * @author maleesahsa
      */
-    @PostMapping(value = "/create-or-modify-non-ad")
-    public ResponseEntity<CommonResponse> createOrModifyNonAD(@RequestBody UserRequestDTO userRequest) {
-        log.info("UserController.createOrModifyNonAD() => started.");
-        return ResponseEntity.ok(nonADUserService.createOrModifyNonAD(userRequest));
+    @PostMapping(value = "/create-non-ad")
+    public ResponseEntity<CommonResponse> createNonAD(@RequestBody UserRequestDTO userRequest) {
+        log.info("UserController.createNonAD() => started.");
+        return ResponseEntity.ok(nonADUserService.createNonAD(userRequest));
     }
 
     /**

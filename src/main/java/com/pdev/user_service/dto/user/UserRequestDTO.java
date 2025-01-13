@@ -23,5 +23,6 @@ public class UserRequestDTO {
     private String uuid;
     private Boolean active;
     private List<Integer> userHasAuthorizePartyIds = new ArrayList<>();
+    private List<String> userHasAuthorizeParties = new ArrayList<>();
     private List<UserHasApplicationScopeHasUserRoleRequestDTO> userHasApplicationScopeHasUserRoles = new ArrayList<>();
 }
