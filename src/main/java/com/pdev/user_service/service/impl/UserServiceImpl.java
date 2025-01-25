@@ -41,24 +41,6 @@ public class UserServiceImpl implements UserService {
     private final CommonUtil commonUtil;
 
     /**
-     * This method is allowed to in-active existing user data
-     *
-     * @param user {@link User} - existing user
-     * @author maleesahsa
-     */
-    private void inActiveExistingUserData(User user) {
-        log.info("UserServiceImpl.inActiveExistingUserData() => started.");
-        user.getUserHasAuthorizeParties().forEach(entity -> {
-            entity.setActive(Boolean.FALSE);
-        });
-
-        user.getUserHasApplicationScopeHasUserRoles().forEach(entity -> {
-            entity.setActive(Boolean.FALSE);
-        });
-        log.info("UserServiceImpl.inActiveExistingUserData() => ended.");
-    }
-
-    /**
      * This method is allowed to get user by username
      *
      * @param userName {@link String} - user name

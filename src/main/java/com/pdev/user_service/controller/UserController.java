@@ -34,7 +34,7 @@ public class UserController {
      * @author maleesahsa
      */
     @PreAuthorize("hasRole(T(com.pdev.user_service.constant.UserRoles).ADMIN) and hasAuthority(T(com.pdev.user_service.constant.RolePermissionsConstants).PERMISSION_USER_AUTH_SERVICE)")
-    @PostMapping(value = "/create-or-modify-ad")
+    @PostMapping(value = "/ad/create-or-modify")
     public ResponseEntity<CommonResponse> createOrModifyAD(@RequestBody UserRequestDTO userRequest) {
         log.info("UserController.createOrModify() => started.");
         return ResponseEntity.ok(adUserService.createOrModifyAD(userRequest));
@@ -47,7 +47,7 @@ public class UserController {
      * @return {@link ResponseEntity<CommonResponse>} - user created or modified response
      * @author maleesahsa
      */
-    @PostMapping(value = "/create-non-ad")
+    @PostMapping(value = "/non-ad/create")
     public ResponseEntity<CommonResponse> createNonAD(@RequestBody UserRequestDTO userRequest) {
         log.info("UserController.createNonAD() => started.");
         return ResponseEntity.ok(nonADUserService.createNonAD(userRequest));

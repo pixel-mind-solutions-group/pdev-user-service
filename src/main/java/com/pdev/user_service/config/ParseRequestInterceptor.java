@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -27,8 +28,9 @@ public class ParseRequestInterceptor {
 
         return (RequestTemplate requestTemplate) -> {
             Map<String, Collection<String>> headers = requestTemplate.headers();
-            if (headers.containsKey("OUT_SERVICE") && headers.get("OUT_SERVICE").contains("out_service")) {
+            if (headers.containsKey(CommonConstants.OUT_SERVICE)) {
                 log.info("Calling outside services for resources.");
+
             } else {
                 // Retrieve the JWT token from the SecurityContext
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

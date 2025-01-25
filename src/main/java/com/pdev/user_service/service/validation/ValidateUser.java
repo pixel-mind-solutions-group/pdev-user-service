@@ -1,16 +1,18 @@
 package com.pdev.user_service.service.validation;
 
+import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.exception.BaseException;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.exception.UnauthorizedException;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
-import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.repository.user.UserHasApplicationScopeHasUserRoleRepository;
+import com.pdev.user_service.repository.user.UserRepository;
 import com.pdev.user_service.util.CommonValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.List;
 public class ValidateUser {
 
     private final UserHasApplicationScopeHasUserRoleRepository userHasApplicationScopeHasUserRoleRepository;
-    private final ApplicationScopeRepository applicationScopeRepository;
+    private final UserRepository userRepository;
 
     public void validateUser(User user) {
         log.info("ValidateUser.validateUser() => started.");
@@ -84,6 +86,17 @@ public class ValidateUser {
 
         } else if (applicationScopeHasUserRoles.size() > 1) {
             throw new BaseException(422, "User has duplicate application scopes.");
+        }
+    }
+
+    public void validateNonAdUserCreate(UserRequestDTO userRequest) {
+        User userByUname = userRepository.findByUserName(userRequest.getUserName());
+        if (userByUname != null) {
+            throw new BaseException(HttpStatus.BAD_REQUEST.value(), "User name already in used.");
+        }
+        User userByEmail = userRepository.findByEmail(userRequest.getEmail());
+        if (userByEmail != null) {
+            throw new BaseException(HttpStatus.BAD_REQUEST.value(), "Email is already in used.");
         }
     }
 }
