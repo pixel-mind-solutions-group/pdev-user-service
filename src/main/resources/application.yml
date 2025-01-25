@@ -19,6 +19,6 @@ spring:
         enabled: true
 
   profiles:
-    active: ${PROFILE_ACTIVE:dev}
+    active: ${PROFILE_ACTIVE:prod}
   application:
     name: iam-service

@@ -22,7 +22,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "email", nullable = false, length = 32)
+    @Column(name = "email", nullable = false, length = 60)
     private String email;
 
     @Column(name = "is_email_verified", nullable = false)
