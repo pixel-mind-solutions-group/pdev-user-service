@@ -8,10 +8,13 @@ import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.applicationScope.ApplicationScopeMapper;
 import com.pdev.user_service.mapper.userRole.UserRoleMapper;
 import com.pdev.user_service.model.AuditData;
+import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
+import com.pdev.user_service.model.userRole.UserRole;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.repository.userRole.UserRoleRepository;
+import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -34,6 +37,7 @@ public class UserHasApplicationScopeHasUserRoleMapper {
 
     private final ApplicationScopeMapper applicationScopeMapper;
     private final UserRoleMapper userRoleMapper;
+    private final CommonUtil commonUtil;
 
     public UserHasApplicationScopeHasUserRoleResponseDTO mapToDTO(UserHasApplicationScopeHasUserRoleResponseDTO dto,
                                                                   UserHasApplicationScopeHasUserRole applicationScopeHasUserRole) {
@@ -86,12 +90,12 @@ public class UserHasApplicationScopeHasUserRoleMapper {
 
         userHasApplicationScopeHasUserRoles.forEach(dto -> {
             UserHasApplicationScopeHasUserRole entity = new UserHasApplicationScopeHasUserRole();
-            entity.setUserRole(userRoleRepository.findByRole(dto.getUserRole())
-                    .orElseThrow(() -> new RecordNotFoundException("User role is not exists.")));
+            ApplicationScope scope = applicationScopeRepository.findByScope(dto.getApplicationScope()).orElseThrow(() -> new RecordNotFoundException("Application scope is not exists."));
+            UserRole userRole = userRoleRepository.findByRoleAndApplicationScope(dto.getUserRole(), scope).orElseThrow(() -> new RecordNotFoundException("User role is not exists."));
+            entity.setUserRole(userRole);
             entity.setUser(user);
-            entity.setApplicationScope(applicationScopeRepository.findByScope(dto.getApplicationScope())
-                    .orElseThrow(() -> new RecordNotFoundException("Application scope is not exists.")));
-            entity.setAuditData(new AuditData(LocalDateTime.now(), "admin"));
+            entity.setApplicationScope(scope);
+            entity.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
             entity.setActive(Boolean.TRUE);
             entities.add(entity);
         });
