@@ -1,10 +1,10 @@
-package com.pdev.user_service.controller;
+package com.pdev.user_service.controller.user;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
-import com.pdev.user_service.service.ADUserService;
-import com.pdev.user_service.service.NonADUserService;
-import com.pdev.user_service.service.UserService;
+import com.pdev.user_service.service.user.ADUserService;
+import com.pdev.user_service.service.user.NonADUserService;
+import com.pdev.user_service.service.user.UserService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

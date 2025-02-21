@@ -1,8 +1,8 @@
-package com.pdev.user_service.service.impl;
+package com.pdev.user_service.service.impl.auth;
 
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.CustomUserDetailsService;
+import com.pdev.user_service.service.auth.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

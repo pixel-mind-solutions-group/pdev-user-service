@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,8 +43,8 @@ public class ApplicationScope {
     private AuditData auditData;
 
     @OneToMany(mappedBy = "applicationScope", fetch = FetchType.LAZY)
-    private List<UserRole> userRoles;
+    private List<UserRole> userRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = "applicationScope", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
-    private List<Module> modules;
+    private List<Module> modules = new ArrayList<>();
 }

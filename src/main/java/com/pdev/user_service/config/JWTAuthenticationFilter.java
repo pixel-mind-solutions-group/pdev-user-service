@@ -5,7 +5,7 @@ import com.pdev.user_service.constant.AuthErrorMessages;
 import com.pdev.user_service.constant.ClaimsConstant;
 import com.pdev.user_service.constant.RolePermissionsConstants;
 import com.pdev.user_service.exception.UnauthorizedException;
-import com.pdev.user_service.service.rest.KeyCloakClientService;
+import com.pdev.user_service.service.rest.keyCloak.KeyCloakClientService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

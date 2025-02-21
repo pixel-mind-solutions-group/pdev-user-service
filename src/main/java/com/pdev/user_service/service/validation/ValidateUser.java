@@ -9,7 +9,6 @@ import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
 import com.pdev.user_service.repository.user.UserHasApplicationScopeHasUserRoleRepository;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.util.CommonValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

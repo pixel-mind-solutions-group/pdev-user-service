@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.impl;
+package com.pdev.user_service.service.impl.user;
 
 import com.pdev.user_service.dto.user.UserResponseDTO;
 import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
@@ -12,7 +12,7 @@ import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.repository.user.UserHasApplicationScopeHasUserRoleRepository;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.UserService;
+import com.pdev.user_service.service.user.UserService;
 import com.pdev.user_service.service.validation.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;

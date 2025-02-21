@@ -1,11 +1,11 @@
-package com.pdev.user_service.service.rest.impl;
+package com.pdev.user_service.service.rest.impl.candidate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdev.user_service.client.CandidateServiceClient;
 import com.pdev.user_service.constant.CommonConstants;
 import com.pdev.user_service.dto.candidate.CandidateDTO;
 import com.pdev.user_service.exception.BaseException;
-import com.pdev.user_service.service.rest.CandidateClientService;
+import com.pdev.user_service.service.rest.candidate.CandidateClientService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

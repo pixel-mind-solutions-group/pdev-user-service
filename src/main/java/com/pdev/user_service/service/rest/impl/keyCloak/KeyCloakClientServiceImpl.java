@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.rest.impl;
+package com.pdev.user_service.service.rest.impl.keyCloak;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,7 @@ import com.pdev.user_service.exception.BaseException;
 import com.pdev.user_service.exception.FeignCustomException;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.exception.UnauthorizedException;
-import com.pdev.user_service.service.rest.KeyCloakClientService;
+import com.pdev.user_service.service.rest.keyCloak.KeyCloakClientService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

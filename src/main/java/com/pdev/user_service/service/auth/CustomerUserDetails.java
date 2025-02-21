@@ -1,4 +1,4 @@
-package com.pdev.user_service.service;
+package com.pdev.user_service.service.auth;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

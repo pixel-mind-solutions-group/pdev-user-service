@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.impl;
+package com.pdev.user_service.service.impl.user;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
@@ -7,7 +7,7 @@ import com.pdev.user_service.mapper.user.UserAccountMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.ADUserService;
+import com.pdev.user_service.service.user.ADUserService;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import jakarta.transaction.Transactional;

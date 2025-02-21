@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.rest;
+package com.pdev.user_service.service.rest.candidate;
 
 import com.pdev.user_service.dto.candidate.CandidateDTO;
 

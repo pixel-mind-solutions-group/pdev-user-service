@@ -1,6 +1,8 @@
 package com.pdev.user_service.mapper.applicationScope;
 
+import com.pdev.user_service.dto.applicationScope.ApplicationScopeRequestDTO;
 import com.pdev.user_service.dto.applicationScope.ApplicationScopeResponseDTO;
+import com.pdev.user_service.enums.CommonStatus;
 import com.pdev.user_service.mapper.authorizePartyRole.AuthorizePartyRoleMapper;
 import com.pdev.user_service.mapper.module.ModuleMapper;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
@@ -32,6 +34,14 @@ public class ApplicationScopeMapper {
         dto.setModules(moduleMapper.mapToList(applicationScope.getModules()));
         log.info("ApplicationScopeMapper.mapToDTO() => ended.");
         return dto;
+    }
+
+    public ApplicationScope mapToEntity(ApplicationScope scope, ApplicationScopeRequestDTO dto) {
+        log.info("ApplicationScopeMapper.mapToEntity() => started.");
+        scope.setActive(dto.getStatus().equals(CommonStatus.ACTIVE.getValue()) ? Boolean.TRUE : Boolean.FALSE);
+        scope.setScope(dto.getScope());
+        log.info("ApplicationScopeMapper.mapToEntity() => ended.");
+        return scope;
     }
 
     public List<ApplicationScopeResponseDTO> mapToList(List<ApplicationScope> applicationScopes) {

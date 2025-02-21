@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.impl;
+package com.pdev.user_service.service.impl.auth;
 
 import com.pdev.user_service.dto.auth.AuthResponseDTO;
 import com.pdev.user_service.dto.user.UserRequestDTO;
@@ -6,8 +6,8 @@ import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.AuthService;
-import com.pdev.user_service.service.rest.KeyCloakClientService;
+import com.pdev.user_service.service.auth.AuthService;
+import com.pdev.user_service.service.rest.keyCloak.KeyCloakClientService;
 import com.pdev.user_service.service.validation.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;

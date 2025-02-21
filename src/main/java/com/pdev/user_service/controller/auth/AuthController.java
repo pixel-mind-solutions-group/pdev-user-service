@@ -1,7 +1,7 @@
-package com.pdev.user_service.controller;
+package com.pdev.user_service.controller.auth;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
-import com.pdev.user_service.service.AuthService;
+import com.pdev.user_service.service.auth.AuthService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

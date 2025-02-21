@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.impl;
+package com.pdev.user_service.service.impl.user;
 
 import com.pdev.user_service.dto.candidate.CandidateDTO;
 import com.pdev.user_service.dto.user.UserRequestDTO;
@@ -9,8 +9,8 @@ import com.pdev.user_service.mapper.user.UserAccountMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.NonADUserService;
-import com.pdev.user_service.service.rest.CandidateClientService;
+import com.pdev.user_service.service.user.NonADUserService;
+import com.pdev.user_service.service.rest.candidate.CandidateClientService;
 import com.pdev.user_service.service.validation.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;

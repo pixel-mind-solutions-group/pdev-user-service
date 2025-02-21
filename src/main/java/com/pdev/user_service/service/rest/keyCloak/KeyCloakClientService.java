@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.rest;
+package com.pdev.user_service.service.rest.keyCloak;
 
 import com.pdev.user_service.dto.auth.AuthResponseDTO;
 import com.pdev.user_service.dto.user.UserRequestDTO;

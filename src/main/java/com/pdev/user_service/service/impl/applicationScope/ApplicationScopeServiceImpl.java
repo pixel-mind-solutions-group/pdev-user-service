@@ -1,0 +1,91 @@
+package com.pdev.user_service.service.impl.applicationScope;
+
+import com.pdev.user_service.dto.applicationScope.ApplicationScopeRequestDTO;
+import com.pdev.user_service.dto.applicationScope.ApplicationScopeResponseDTO;
+import com.pdev.user_service.mapper.applicationScope.ApplicationScopeMapper;
+import com.pdev.user_service.model.AuditData;
+import com.pdev.user_service.model.applicationScope.ApplicationScope;
+import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
+import com.pdev.user_service.service.applicationScope.ApplicationScopeService;
+import com.pdev.user_service.service.validation.CommonValidation;
+import com.pdev.user_service.service.validation.ValidateApplicationScope;
+import com.pdev.user_service.util.CommonResponse;
+import com.pdev.user_service.util.CommonUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+/**
+ * @author @maleeshasa
+ * @Date 2025/02/21
+ */
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class ApplicationScopeServiceImpl implements ApplicationScopeService {
+
+    private final ApplicationScopeRepository applicationScopeRepository;
+    private final ValidateApplicationScope validateApplicationScope;
+    private final ApplicationScopeMapper applicationScopeMapper;
+    private final CommonUtil commonUtil;
+
+    /**
+     * This method is allowed to create or update application scope
+     *
+     * @param applicationScopeRequest {@link ApplicationScopeRequestDTO} - application scope request
+     * @return {@link CommonResponse} - created or updated response
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse createOrUpdateApplicationScope(ApplicationScopeRequestDTO applicationScopeRequest) {
+        log.info("ApplicationScopeServiceImpl.createOrUpdateApplicationScope() => started.");
+
+        // Validate application scope
+        validateApplicationScope.validateApplicationScope(applicationScopeRequest);
+
+        String message;
+        ApplicationScope applicationScope = new ApplicationScope();
+        if (!CommonValidation.stringNullValidation(applicationScopeRequest.getUniqueId())) {
+            log.info("Application scope is updating...");
+            message = "Application scope is updated.";
+            applicationScope = applicationScopeRepository.findByUniqueId(applicationScopeRequest.getUniqueId());
+            applicationScope.getAuditData().setUpdatedOn(LocalDateTime.now());
+            applicationScope.getAuditData().setUpdatedBy(commonUtil.getUsername());
+
+        } else {
+            log.info("Application scope is creating...");
+            message = "Application scope is created.";
+
+            String uuid;
+            do {
+                uuid = UUID.randomUUID().toString();
+            } while (!validateApplicationScope.uniqueUUID(uuid));
+
+            applicationScope.setUniqueId(uuid);
+            applicationScope.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
+        }
+
+        ApplicationScope mappedScope = applicationScopeMapper.mapToEntity(applicationScope, applicationScopeRequest);
+        CommonResponse commonResponse = new CommonResponse();
+        try {
+            commonResponse.setData(
+                    applicationScopeMapper.mapToDTO(new ApplicationScopeResponseDTO(),
+                            applicationScopeRepository.save(mappedScope)));
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage(message);
+            log.info("ApplicationScopeServiceImpl.createOrUpdateApplicationScope() => ended.");
+            return commonResponse;
+
+        } catch (Exception e) {
+            log.error("Error while saving application scope. Error: {}", e.getMessage());
+            commonResponse.setData(null);
+            commonResponse.setMessage("Application scope save failed.");
+            commonResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            return commonResponse;
+        }
+    }
+}
