@@ -44,7 +44,7 @@ public class ApplicationScopeMapper {
         return scope;
     }
 
-    public List<ApplicationScopeResponseDTO> mapToList(List<ApplicationScope> applicationScopes) {
+    public List<ApplicationScopeResponseDTO> mapToDTOList(List<ApplicationScope> applicationScopes) {
         log.info("ApplicationScopeMapper.mapToList() => started.");
         List<ApplicationScopeResponseDTO> dtoList = new ArrayList<>();
         if (!applicationScopes.isEmpty()) {

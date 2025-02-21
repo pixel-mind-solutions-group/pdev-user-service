@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -85,6 +86,35 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService {
             commonResponse.setData(null);
             commonResponse.setMessage("Application scope save failed.");
             commonResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            return commonResponse;
+        }
+    }
+
+    /**
+     * This method is allowed to fetch all application scopes
+     *
+     * @return {@link CommonResponse} - fetched application scopes response
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse getAll() {
+        log.info("ApplicationScopeController.getAll() => started.");
+        CommonResponse commonResponse = new CommonResponse();
+
+        List<ApplicationScope> applicationScopes = applicationScopeRepository.findAll();
+
+        if (!applicationScopes.isEmpty()) {
+            log.info("Application scopes are exists.");
+            commonResponse.setData(applicationScopeMapper.mapToDTOList(applicationScopes));
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage("Application scopes are exists.");
+            return commonResponse;
+
+        } else {
+            log.info("Application scopes are not exists.");
+            commonResponse.setData(null);
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
+            commonResponse.setMessage("Application scopes are not exists.");
             return commonResponse;
         }
     }

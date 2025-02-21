@@ -17,4 +17,12 @@ public interface ApplicationScopeService {
      * @author @maleeshasa
      */
     CommonResponse createOrUpdateApplicationScope(ApplicationScopeRequestDTO applicationScopeRequest);
+
+    /**
+     * This method is allowed to fetch all application scopes
+     *
+     * @return {@link CommonResponse} - fetched application scopes response
+     * @author @maleeshasa
+     */
+    CommonResponse getAll();
 }

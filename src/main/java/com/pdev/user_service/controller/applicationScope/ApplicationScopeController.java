@@ -6,10 +6,7 @@ import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author @maleeshasa
@@ -34,5 +31,17 @@ public class ApplicationScopeController {
     public ResponseEntity<CommonResponse> createOrUpdateApplicationScope(@RequestBody ApplicationScopeRequestDTO applicationScopeRequest) {
         log.info("ApplicationScopeController.createOrUpdateApplicationScope() => started.");
         return ResponseEntity.ok(applicationScopeService.createOrUpdateApplicationScope(applicationScopeRequest));
+    }
+
+    /**
+     * This method is allowed to fetch all application scopes
+     *
+     * @return {@link ResponseEntity<CommonResponse>} - fetched application scopes response
+     * @author @maleeshasa
+     */
+    @GetMapping(value = "/get-all")
+    public ResponseEntity<CommonResponse> getAll() {
+        log.info("ApplicationScopeController.getAll() => started.");
+        return ResponseEntity.ok(applicationScopeService.getAll());
     }
 }
