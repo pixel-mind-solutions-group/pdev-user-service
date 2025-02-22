@@ -1,7 +1,9 @@
 package com.pdev.user_service.model.componentElement;
 
 import com.pdev.user_service.model.AuditData;
+import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.component.Component;
+import com.pdev.user_service.model.module.Module;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +39,14 @@ public class ComponentElement {
             @AttributeOverride(name = "updatedOn", column = @Column(name = "updated_on"))
     })
     private AuditData auditData;
+
+    @JoinColumn(name = "module_id_module", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private Module module;
+
+    @JoinColumn(name = "application_scope_id_application_scope", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private ApplicationScope applicationScope;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn(name = "component_id_component")

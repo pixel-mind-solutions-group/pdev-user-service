@@ -3,6 +3,7 @@ package com.pdev.user_service.model.module;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.component.Component;
+import com.pdev.user_service.model.componentElement.ComponentElement;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,4 +49,7 @@ public class Module {
 
     @OneToMany(mappedBy = "module", fetch = FetchType.EAGER)
     private List<Component> components = new ArrayList<>();
+
+    @OneToMany(mappedBy = "module", fetch = FetchType.EAGER)
+    private List<ComponentElement> componentElements = new ArrayList<>();
 }
