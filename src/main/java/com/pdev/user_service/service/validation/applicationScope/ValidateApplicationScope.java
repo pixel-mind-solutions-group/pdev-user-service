@@ -1,8 +1,9 @@
-package com.pdev.user_service.service.validation;
+package com.pdev.user_service.service.validation.applicationScope;
 
 import com.pdev.user_service.dto.applicationScope.ApplicationScopeRequestDTO;
 import com.pdev.user_service.exception.BaseException;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
+import com.pdev.user_service.service.validation.CommonValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

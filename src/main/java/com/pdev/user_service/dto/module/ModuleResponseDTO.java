@@ -15,7 +15,9 @@ import java.util.List;
 @Setter
 public class ModuleResponseDTO {
     private Integer id;
-    private String name;
-    private Boolean active;
+    private String module;
+    private String key;
+    private String status;
+    private String applicationScope;
     private List<ComponentResponseDTO> components = new ArrayList<>();
 }

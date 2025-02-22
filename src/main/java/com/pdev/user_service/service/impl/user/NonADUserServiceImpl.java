@@ -11,7 +11,7 @@ import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.repository.user.UserRepository;
 import com.pdev.user_service.service.user.NonADUserService;
 import com.pdev.user_service.service.rest.candidate.CandidateClientService;
-import com.pdev.user_service.service.validation.ValidateUser;
+import com.pdev.user_service.service.validation.user.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import jakarta.transaction.Transactional;

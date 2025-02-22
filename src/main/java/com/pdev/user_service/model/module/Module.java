@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,9 @@ public class Module {
     @Column(name = "name", nullable = false, length = 32)
     private String name;
 
+    @Column(name = "element_name", nullable = false, length = 32)
+    private String elementName;
+
     @Column(name = "active", nullable = false)
     private Boolean active;
 
@@ -43,5 +47,5 @@ public class Module {
     private ApplicationScope applicationScope;
 
     @OneToMany(mappedBy = "module", fetch = FetchType.EAGER)
-    private List<Component> components;
+    private List<Component> components = new ArrayList<>();
 }

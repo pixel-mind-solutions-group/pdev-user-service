@@ -13,7 +13,7 @@ import com.pdev.user_service.repository.applicationScope.ApplicationScopeReposit
 import com.pdev.user_service.repository.user.UserHasApplicationScopeHasUserRoleRepository;
 import com.pdev.user_service.repository.user.UserRepository;
 import com.pdev.user_service.service.user.UserService;
-import com.pdev.user_service.service.validation.ValidateUser;
+import com.pdev.user_service.service.validation.user.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;

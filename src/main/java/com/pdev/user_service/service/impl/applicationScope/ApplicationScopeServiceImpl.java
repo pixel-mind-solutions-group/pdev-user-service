@@ -8,7 +8,7 @@ import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.service.applicationScope.ApplicationScopeService;
 import com.pdev.user_service.service.validation.CommonValidation;
-import com.pdev.user_service.service.validation.ValidateApplicationScope;
+import com.pdev.user_service.service.validation.applicationScope.ValidateApplicationScope;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;

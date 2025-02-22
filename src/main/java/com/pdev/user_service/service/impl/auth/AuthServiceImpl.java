@@ -8,7 +8,7 @@ import com.pdev.user_service.repository.applicationScope.ApplicationScopeReposit
 import com.pdev.user_service.repository.user.UserRepository;
 import com.pdev.user_service.service.auth.AuthService;
 import com.pdev.user_service.service.rest.keyCloak.KeyCloakClientService;
-import com.pdev.user_service.service.validation.ValidateUser;
+import com.pdev.user_service.service.validation.user.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
