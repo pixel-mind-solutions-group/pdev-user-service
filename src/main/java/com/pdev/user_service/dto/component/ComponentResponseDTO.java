@@ -16,6 +16,7 @@ import java.util.List;
 public class ComponentResponseDTO {
     private Integer componentId;
     private String name;
+    private String key;
     private Boolean active;
     private List<ComponentElementResponseDTO> componentElements = new ArrayList<>();
 }

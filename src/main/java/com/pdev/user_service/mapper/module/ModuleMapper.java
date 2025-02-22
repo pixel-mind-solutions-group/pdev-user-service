@@ -37,7 +37,6 @@ public class ModuleMapper {
 
     public Module mapToEntity(Module module, ModuleRequestDTO dto) {
         log.info("ModuleMapper.mapToEntity() => ended.");
-        module.setId(dto.getId());
         module.setName(dto.getKey());
         module.setElementName(dto.getModule());
         module.setActive(dto.getStatus().equals(CommonStatus.ACTIVE.getValue()) ? Boolean.TRUE : Boolean.FALSE);

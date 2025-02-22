@@ -1,6 +1,7 @@
 package com.pdev.user_service.model.component;
 
 import com.pdev.user_service.model.AuditData;
+import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.componentElement.ComponentElement;
 import com.pdev.user_service.model.module.Module;
 import jakarta.persistence.*;
@@ -27,6 +28,9 @@ public class Component {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "element_name", nullable = false, length = 32)
+    private String elementName;
+
     @Column(name = "active", nullable = false)
     private Boolean active;
 
@@ -42,6 +46,10 @@ public class Component {
     @JoinColumn(name = "module_id_module", nullable = false)
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Module module;
+
+    @JoinColumn(name = "application_scope_id_application_scope", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private ApplicationScope applicationScope;
 
     @OneToMany(mappedBy = "component", cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<ComponentElement> componentElements = new ArrayList<>();

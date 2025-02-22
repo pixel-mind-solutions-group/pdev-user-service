@@ -1,6 +1,7 @@
 package com.pdev.user_service.model.applicationScope;
 
 import com.pdev.user_service.model.AuditData;
+import com.pdev.user_service.model.component.Component;
 import com.pdev.user_service.model.module.Module;
 import com.pdev.user_service.model.userRole.UserRole;
 import jakarta.persistence.*;
@@ -47,4 +48,7 @@ public class ApplicationScope {
 
     @OneToMany(mappedBy = "applicationScope", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
     private List<Module> modules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "applicationScope", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
+    private List<Component> components = new ArrayList<>();
 }
