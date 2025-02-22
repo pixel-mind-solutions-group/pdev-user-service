@@ -5,13 +5,12 @@ import lombok.Setter;
 
 /**
  * @author @maleeshasa
- * @Date 2024/11/15
+ * @Date 2025/02/22
  */
 @Getter
 @Setter
-public class ComponentElementResponseDTO {
-    private Integer componentElementId;
-    private String name;
+public class ComponentElementDTO {
     private String key;
-    private Boolean active;
+    private String name;
+    private String status;
 }

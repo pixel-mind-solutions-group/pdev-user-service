@@ -1,6 +1,8 @@
 package com.pdev.user_service.mapper.componentElement;
 
+import com.pdev.user_service.dto.componentElement.ComponentElementRequestDTO;
 import com.pdev.user_service.dto.componentElement.ComponentElementResponseDTO;
+import com.pdev.user_service.enums.CommonStatus;
 import com.pdev.user_service.model.componentElement.ComponentElement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,8 @@ public class ComponentElementMapper {
     public ComponentElementResponseDTO mapToDTO(ComponentElementResponseDTO dto, ComponentElement componentElement) {
         log.info("ComponentElementMapper.mapToDTO() => started.");
         dto.setComponentElementId(componentElement.getId());
-        dto.setName(componentElement.getName());
+        dto.setName(componentElement.getElementName());
+        dto.setKey(componentElement.getName());
         dto.setActive(componentElement.getActive());
         log.info("ComponentElementMapper.mapToDTO() => ended.");
         return dto;
@@ -37,6 +40,15 @@ public class ComponentElementMapper {
         }
         log.info("ComponentElementMapper.mapToList() => ended.");
         return dtoList;
+    }
+
+    public ComponentElement mapToEntity(ComponentElement componentElement, ComponentElementRequestDTO dto) {
+        log.info("ComponentElementMapper.mapToEntity() => started.");
+        componentElement.setName(dto.getKey());
+        componentElement.setElementName(dto.getName());
+        componentElement.setActive(dto.getStatus().equals(CommonStatus.ACTIVE.getValue()) ? Boolean.TRUE : Boolean.FALSE);
+        log.info("ComponentElementMapper.mapToEntity() => ended.");
+        return componentElement;
     }
 }
 

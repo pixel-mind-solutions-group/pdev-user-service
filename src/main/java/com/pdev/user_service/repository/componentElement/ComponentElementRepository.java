@@ -10,4 +10,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ComponentElementRepository extends JpaRepository<ComponentElement, Integer> {
+
+    ComponentElement findByNameIgnoreCase(String key);
+
+    ComponentElement findByElementNameIgnoreCase(String component);
 }
