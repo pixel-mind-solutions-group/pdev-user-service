@@ -16,7 +16,7 @@ import java.util.List;
 public class ApplicationScopeResponseDTO {
     private Integer applicationScopeId;
     private String scope;
-    private Boolean active;
+    private String status;
     private String uniqueId;
     private List<ModuleResponseDTO> modules = new ArrayList<>();
 }

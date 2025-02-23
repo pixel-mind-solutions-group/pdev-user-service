@@ -30,7 +30,7 @@ public class ApplicationScopeMapper {
         dto.setApplicationScopeId(applicationScope.getId());
         dto.setScope(applicationScope.getScope());
         dto.setUniqueId(applicationScope.getUniqueId());
-        dto.setActive(applicationScope.getActive());
+        dto.setStatus(applicationScope.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
         dto.setModules(moduleMapper.mapToList(applicationScope.getModules()));
         log.info("ApplicationScopeMapper.mapToDTO() => ended.");
         return dto;
