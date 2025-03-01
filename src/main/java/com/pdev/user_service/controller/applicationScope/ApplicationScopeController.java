@@ -5,6 +5,7 @@ import com.pdev.user_service.service.applicationScope.ApplicationScopeService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,21 @@ public class ApplicationScopeController {
     public ResponseEntity<CommonResponse> createOrUpdateApplicationScope(@RequestBody ApplicationScopeRequestDTO applicationScopeRequest) {
         log.info("ApplicationScopeController.createOrUpdateApplicationScope() => started.");
         return ResponseEntity.ok(applicationScopeService.createOrUpdateApplicationScope(applicationScopeRequest));
+    }
+
+    /**
+     * This method is allowed to fetch all application scopes with pagination
+     *
+     * @param page {@link int} - page number
+     * @param size {@link int} - page size
+     * @return {@link ResponseEntity<CommonResponse>} - fetched application scopes response
+     * @author @maleeshasa
+     */
+    @GetMapping(value = "/get-all-page")
+    public ResponseEntity<CommonResponse> getAllWithPagination(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(value = "size", defaultValue = "10") int size) {
+        log.info("ApplicationScopeController.getAllWithPagination() => started.");
+        return ResponseEntity.ok(applicationScopeService.getAllWithPagination(PageRequest.of(page, size)));
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.pdev.user_service.service.impl.module;
 
+import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.module.ModuleRequestDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.module.ModuleMapper;
@@ -14,6 +15,8 @@ import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -104,6 +107,40 @@ public class ModuleServiceImpl implements ModuleService {
         if (!modules.isEmpty()) {
             log.info("Modules are exists.");
             commonResponse.setData(moduleMapper.mapToList(modules));
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage("Modules are exists.");
+            return commonResponse;
+
+        } else {
+            log.info("Modules are not exists.");
+            commonResponse.setData(null);
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
+            commonResponse.setMessage("Modules are not exists.");
+            return commonResponse;
+        }
+    }
+
+    /**
+     * This method is allowed to get all modules with pagination
+     *
+     * @param pageRequest {@link PageRequest} - page request
+     * @return {@link ResponseEntity <CommonResponse>} - all modules
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse getAllWithPagination(PageRequest pageRequest) {
+        Page<Module> modulesPage = moduleRepository.findAll(pageRequest);
+        CommonResponse commonResponse = new CommonResponse();
+        if (!modulesPage.isEmpty()) {
+            log.info("Modules are available.");
+            // Constructing page response as pagination
+            PageResponse pageResponse = PageResponse.builder()
+                    .totalPages(modulesPage.getTotalPages())
+                    .totalElements(modulesPage.getTotalElements())
+                    .currentPage(modulesPage.getNumber())
+                    .dataList(moduleMapper.mapToList(modulesPage.getContent())).build();
+
+            commonResponse.setData(pageResponse);
             commonResponse.setStatus(HttpStatus.OK);
             commonResponse.setMessage("Modules are exists.");
             return commonResponse;

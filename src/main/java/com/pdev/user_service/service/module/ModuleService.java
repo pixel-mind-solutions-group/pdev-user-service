@@ -2,6 +2,7 @@ package com.pdev.user_service.service.module;
 
 import com.pdev.user_service.dto.module.ModuleRequestDTO;
 import com.pdev.user_service.util.CommonResponse;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -26,4 +27,13 @@ public interface ModuleService {
      * @author @maleeshasa
      */
     CommonResponse getAll();
+
+    /**
+     * This method is allowed to get all modules
+     *
+     * @param pageRequest {@link PageRequest} - page request
+     * @return {@link ResponseEntity <CommonResponse>} - all modules
+     * @author @maleeshasa
+     */
+    CommonResponse getAllWithPagination(PageRequest pageRequest);
 }

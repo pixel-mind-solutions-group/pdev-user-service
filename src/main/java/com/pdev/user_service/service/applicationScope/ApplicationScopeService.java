@@ -2,6 +2,7 @@ package com.pdev.user_service.service.applicationScope;
 
 import com.pdev.user_service.dto.applicationScope.ApplicationScopeRequestDTO;
 import com.pdev.user_service.util.CommonResponse;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author @maleeshasa
@@ -25,4 +26,13 @@ public interface ApplicationScopeService {
      * @author @maleeshasa
      */
     CommonResponse getAll();
+
+    /**
+     * This method is allowed to fetch all application scopes with pagination
+     *
+     * @param pageRequest {@link PageRequest} - page request
+     * @return {@link CommonResponse} - fetched application scopes response
+     * @author @maleeshasa
+     */
+    CommonResponse getAllWithPagination(PageRequest pageRequest);
 }

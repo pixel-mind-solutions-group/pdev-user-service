@@ -5,6 +5,7 @@ import com.pdev.user_service.service.module.ModuleService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +44,20 @@ public class ModuleController {
     public ResponseEntity<CommonResponse> getAll() {
         log.info("ModuleController.getAll() => started.");
         return ResponseEntity.ok(moduleService.getAll());
+    }
+
+    /**
+     * This method is allowed to get all modules with pagination
+     *
+     * @param page {@link int} - page number
+     * @param size {@link int} - page size
+     * @return {@link ResponseEntity<CommonResponse>} - all modules
+     * @author @maleeshasa
+     */
+    @GetMapping(value = "/get-all-page")
+    public ResponseEntity<CommonResponse> getAllWithPagination(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(value = "size", defaultValue = "10") int size) {
+        log.info("ModuleController.getAllWithPagination() => started.");
+        return ResponseEntity.ok(moduleService.getAllWithPagination(PageRequest.of(page, size)));
     }
 }

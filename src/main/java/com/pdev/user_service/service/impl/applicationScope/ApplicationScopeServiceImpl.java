@@ -1,5 +1,6 @@
 package com.pdev.user_service.service.impl.applicationScope;
 
+import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.applicationScope.ApplicationScopeRequestDTO;
 import com.pdev.user_service.dto.applicationScope.ApplicationScopeResponseDTO;
 import com.pdev.user_service.mapper.applicationScope.ApplicationScopeMapper;
@@ -13,6 +14,8 @@ import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -112,6 +115,43 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService {
 
         } else {
             log.info("Application scopes are not exists.");
+            commonResponse.setData(null);
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
+            commonResponse.setMessage("Application scopes are not exists.");
+            return commonResponse;
+        }
+    }
+
+    /**
+     * This method is allowed to fetch all application scopes with pagination
+     *
+     * @param pageRequest {@link PageRequest} - page request
+     * @return {@link CommonResponse} - fetched application scopes response
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse getAllWithPagination(PageRequest pageRequest) {
+        log.info("ApplicationScopeController.getAllWithPagination() => started.");
+        CommonResponse commonResponse = new CommonResponse();
+
+        Page<ApplicationScope> applicationScopes = applicationScopeRepository.findAll(pageRequest);
+
+        if (!applicationScopes.isEmpty()) {
+            log.info("App scopes are exists.");
+            // Constructing page response as pagination
+            PageResponse pageResponse = PageResponse.builder()
+                    .totalPages(applicationScopes.getTotalPages())
+                    .totalElements(applicationScopes.getTotalElements())
+                    .currentPage(applicationScopes.getNumber())
+                    .dataList(applicationScopeMapper.mapToDTOList(applicationScopes.getContent())).build();
+
+            commonResponse.setData(pageResponse);
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage("Application scopes are exists.");
+            return commonResponse;
+
+        } else {
+            log.info("App scopes are not exists.");
             commonResponse.setData(null);
             commonResponse.setStatus(HttpStatus.NO_CONTENT);
             commonResponse.setMessage("Application scopes are not exists.");

@@ -64,7 +64,12 @@ public class ValidateModule {
         } else {
             isCreation.set(true);
             moduleRequest.getModules().forEach(m -> {
+                if (CommonValidation.stringNullValidation(m.getStatus())) {
+                    throw new RecordNotFoundException("Status is required.");
+                }
+
                 boolean valid = CommonValidation.validStatus(m.getStatus());
+
                 if (valid == Boolean.FALSE) {
                     log.warn("Status is invalid of {}", m.getModule());
                     throw new BaseException(422, "Status is invalid of " + m.getModule());
@@ -76,8 +81,6 @@ public class ValidateModule {
                 } else if (CommonValidation.stringNullValidation(m.getKey())) {
                     throw new RecordNotFoundException("Key is required.");
 
-                } else if (CommonValidation.stringNullValidation(m.getStatus())) {
-                    throw new RecordNotFoundException("Status is required.");
                 }
 
                 // Validate create module request module and key
