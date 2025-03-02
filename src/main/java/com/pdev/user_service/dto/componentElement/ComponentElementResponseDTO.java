@@ -13,5 +13,8 @@ public class ComponentElementResponseDTO {
     private Integer componentElementId;
     private String name;
     private String key;
-    private Boolean active;
+    private String status;
+    private String scope;
+    private String module;
+    private String component;
 }

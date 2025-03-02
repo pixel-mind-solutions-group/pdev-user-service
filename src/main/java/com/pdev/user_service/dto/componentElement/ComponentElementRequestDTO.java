@@ -17,9 +17,9 @@ public class ComponentElementRequestDTO {
     private String key;
     private String name;
     private String status;
-    private Integer moduleId;
+    private Integer module;
     private String applicationScope;
-    private Integer componentId;
+    private Integer component;
     private List<ComponentElementDTO> componentElements = new ArrayList<>();
 
     public ComponentElementRequestDTO(String key, String name, String status) {

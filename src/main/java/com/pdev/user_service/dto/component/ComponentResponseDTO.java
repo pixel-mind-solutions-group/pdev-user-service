@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ComponentResponseDTO {
-    private Integer componentId;
+    private Integer component;
     private String name;
     private String key;
     private String status;

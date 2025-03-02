@@ -61,9 +61,9 @@ public class ComponentElementServiceImpl implements ComponentElementService {
         validateComponentElement.validateComponentElement(componentElementRequest);
 
         List<ComponentElement> mappedComponentElements = new ArrayList<>();
-        Module module = moduleRepository.findById(componentElementRequest.getModuleId()).orElseThrow(() -> new RecordNotFoundException("Module is not exists."));
+        Module module = moduleRepository.findById(componentElementRequest.getModule()).orElseThrow(() -> new RecordNotFoundException("Module is not exists."));
         ApplicationScope applicationScope = applicationScopeRepository.findByUniqueId(componentElementRequest.getApplicationScope());
-        Component component = componentRepository.findById(componentElementRequest.getComponentId()).orElseThrow(() -> new RecordNotFoundException("Component is not exists."));
+        Component component = componentRepository.findById(componentElementRequest.getComponent()).orElseThrow(() -> new RecordNotFoundException("Component is not exists."));
         String message;
         if (componentElementRequest.getComponentElementId() != null) {
             message = "Component element is updated.";

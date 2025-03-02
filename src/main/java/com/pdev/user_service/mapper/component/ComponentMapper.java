@@ -25,7 +25,7 @@ public class ComponentMapper {
     public ComponentResponseDTO mapToDTO(ComponentResponseDTO dto,
                                          com.pdev.user_service.model.component.Component component) {
         log.info("ComponentMapper.mapToDTO() => started.");
-        dto.setComponentId(component.getId());
+        dto.setComponent(component.getId());
         dto.setName(component.getElementName());
         dto.setKey(component.getName());
         dto.setStatus(component.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
