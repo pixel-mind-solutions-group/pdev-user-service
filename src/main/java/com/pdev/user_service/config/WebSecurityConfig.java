@@ -65,6 +65,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/iam/v1/user/get-by-username/**").permitAll()
                                 .requestMatchers("/api/iam/v1/user/non-ad/create").permitAll()
 
+                                // TODO: should remove after configure authorization for below endpoints
                                 .requestMatchers("/api/iam/application-scope/v1/**").permitAll()
                                 .requestMatchers("/api/iam/component-element/v1/**").permitAll()
                                 .requestMatchers("/api/iam/component/v1/**").permitAll()

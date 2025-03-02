@@ -1,5 +1,6 @@
 package com.pdev.user_service.service.impl.componentElement;
 
+import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.dto.componentElement.ComponentElementRequestDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
@@ -19,6 +20,8 @@ import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -123,6 +126,41 @@ public class ComponentElementServiceImpl implements ComponentElementService {
 
         } else {
             log.info("Component elements are not exists.");
+            commonResponse.setData(null);
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
+            commonResponse.setMessage("Component elements are not exists.");
+            return commonResponse;
+        }
+    }
+
+    /**
+     * This method is allowed to get all component elements with pagination
+     *
+     * @param pageRequest {@link PageRequest} - page request
+     * @return {@link CommonResponse} - all components elements
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse getAllWithPage(PageRequest pageRequest) {
+        log.info("ComponentElementServiceImpl.getAllWithPage() => started.");
+        Page<ComponentElement> componentElements = componentElementRepository.findAll(pageRequest);
+        CommonResponse commonResponse = new CommonResponse();
+        if (!componentElements.isEmpty()) {
+            log.info("Component elements are available.");
+            // Constructing page response as pagination
+            PageResponse pageResponse = PageResponse.builder()
+                    .totalPages(componentElements.getTotalPages())
+                    .totalElements(componentElements.getTotalElements())
+                    .currentPage(componentElements.getNumber())
+                    .dataList(componentElementMapper.mapToList(componentElements.getContent())).build();
+
+            commonResponse.setData(pageResponse);
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage("Component elements are exists.");
+            return commonResponse;
+
+        } else {
+            log.info("Component elements are not available.");
             commonResponse.setData(null);
             commonResponse.setStatus(HttpStatus.NO_CONTENT);
             commonResponse.setMessage("Component elements are not exists.");

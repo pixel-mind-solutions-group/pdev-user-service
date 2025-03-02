@@ -164,4 +164,25 @@ public class ComponentServiceImpl implements ComponentService {
             return commonResponse;
         }
     }
+
+    /**
+     * This method is allowed to get all components by scope and module
+     *
+     * @param scope    {@link String} - scope uuid
+     * @param moduleId {@link int} - module id
+     * @return {@link CommonResponse} - all components by scope and module
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse getByScopeAndModule(String scope, int moduleId) {
+        log.info("ComponentServiceImpl.getByScopeAndModule() => started.");
+        List<Component> components = componentRepository.findByApplicationScopeUniqueIdAndModuleId(scope, moduleId);
+        if (!components.isEmpty()) {
+            log.info("Components are exists for scope and module.");
+            return new CommonResponse(HttpStatus.OK, "Components are exists.", componentMapper.mapToList(components));
+        } else {
+            log.info("Components are not exists for scope and module.");
+            return new CommonResponse(HttpStatus.NO_CONTENT, "Components are not exists.", null);
+        }
+    }
 }

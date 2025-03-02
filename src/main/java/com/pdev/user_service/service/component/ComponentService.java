@@ -30,8 +30,19 @@ public interface ComponentService {
     /**
      * This method is allowed to get all components with pagination
      *
+     * @param pageRequest {@link PageRequest} - page request
      * @return {@link CommonResponse} - all components
      * @author @maleeshasa
      */
     CommonResponse getAllWithPage(PageRequest pageRequest);
+
+    /**
+     * This method is allowed to get all components by scope and module
+     *
+     * @param scope    {@link String} - scope uuid
+     * @param moduleId {@link int} - module id
+     * @return {@link CommonResponse} - all components by scope and module
+     * @author @maleeshasa
+     */
+    CommonResponse getByScopeAndModule(String scope, int moduleId);
 }

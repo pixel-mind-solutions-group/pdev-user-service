@@ -60,4 +60,19 @@ public class ComponentController {
         log.info("ComponentController.getAllWithPage() => started.");
         return ResponseEntity.ok(componentService.getAllWithPage(PageRequest.of(page, size)));
     }
+
+    /**
+     * This method is allowed to get all components by scope and module
+     *
+     * @param scope    {@link String} - scope uuid
+     * @param moduleId {@link int} - module id
+     * @return {@link ResponseEntity<CommonResponse>} - all components by scope and module
+     * @author @maleeshasa
+     */
+    @GetMapping(value = "/get-by-scope-and-module")
+    public ResponseEntity<CommonResponse> getByScopeAndModule(@RequestParam(value = "scope") String scope,
+                                                              @RequestParam(value = "module") int moduleId) {
+        log.info("ComponentController.getByScopeAndModule() => started.");
+        return ResponseEntity.ok(componentService.getByScopeAndModule(scope, moduleId));
+    }
 }

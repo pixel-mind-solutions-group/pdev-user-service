@@ -3,6 +3,7 @@ package com.pdev.user_service.service.componentElement;
 import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.dto.componentElement.ComponentElementRequestDTO;
 import com.pdev.user_service.util.CommonResponse;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -27,4 +28,13 @@ public interface ComponentElementService {
      * @author @maleeshasa
      */
     CommonResponse getAll();
+
+    /**
+     * This method is allowed to get all component elements with pagination
+     *
+     * @param pageRequest {@link PageRequest} - page request
+     * @return {@link CommonResponse} - all components elements
+     * @author @maleeshasa
+     */
+    CommonResponse getAllWithPage(PageRequest pageRequest);
 }
