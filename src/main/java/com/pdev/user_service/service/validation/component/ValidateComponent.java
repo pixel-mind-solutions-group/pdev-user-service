@@ -40,7 +40,7 @@ public class ValidateComponent {
         }
 
         AtomicBoolean isCreation = new AtomicBoolean();
-        if (componentRequest.getComponentId() != null) {
+        if (componentRequest.getComponent() != null) {
             isCreation.set(false);
             if (CommonValidation.stringNullValidation(componentRequest.getName())) {
                 throw new RecordNotFoundException("Component is required.");
@@ -58,11 +58,14 @@ public class ValidateComponent {
             }
 
             // Validate update component request component and key
-            validateComponentNameAndKey(componentRequest.getName(), componentRequest.getKey(), isCreation, componentRequest.getComponentId());
+            validateComponentNameAndKey(componentRequest.getName(), componentRequest.getKey(), isCreation, componentRequest.getComponent());
 
         } else {
             isCreation.set(true);
             componentRequest.getComponents().forEach(c -> {
+                if (CommonValidation.stringNullValidation(c.getStatus())) {
+                    throw new RecordNotFoundException("Status is required for " + c.getName());
+                }
                 boolean valid = CommonValidation.validStatus(c.getStatus());
                 if (valid == Boolean.FALSE) {
                     log.warn("Status is invalid of {}", c.getName());
@@ -75,8 +78,6 @@ public class ValidateComponent {
                 } else if (CommonValidation.stringNullValidation(c.getKey())) {
                     throw new RecordNotFoundException("Key is required.");
 
-                } else if (CommonValidation.stringNullValidation(c.getStatus())) {
-                    throw new RecordNotFoundException("Status is required.");
                 }
 
                 // Validate create component request component and key

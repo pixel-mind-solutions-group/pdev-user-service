@@ -60,4 +60,17 @@ public class ModuleController {
         log.info("ModuleController.getAllWithPagination() => started.");
         return ResponseEntity.ok(moduleService.getAllWithPagination(PageRequest.of(page, size)));
     }
+
+    /**
+     * This method is allowed to get modules by application scope
+     *
+     * @param uuid {@link String} -uuid
+     * @return {@link ResponseEntity<CommonResponse>} - all modules
+     * @author @maleeshasa
+     */
+    @GetMapping(value = "/get-by-uuid")
+    public ResponseEntity<CommonResponse> getModulesByAppScope(@RequestParam(value = "uuid") String uuid) {
+        log.info("ModuleController.getModulesByAppScope() => started.");
+        return ResponseEntity.ok(moduleService.getModulesByAppScope(uuid));
+    }
 }

@@ -1,8 +1,11 @@
 package com.pdev.user_service.service.impl.component;
 
+import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
+import com.pdev.user_service.mapper.applicationScope.ApplicationScopeMapper;
 import com.pdev.user_service.mapper.component.ComponentMapper;
+import com.pdev.user_service.mapper.module.ModuleMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.component.Component;
@@ -16,6 +19,8 @@ import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,6 +44,8 @@ public class ComponentServiceImpl implements ComponentService {
     private final ComponentRepository componentRepository;
     private final CommonUtil commonUtil;
     private final ComponentMapper componentMapper;
+    private final ApplicationScopeMapper applicationScopeMapper;
+    private final ModuleMapper moduleMapper;
 
     /**
      * This method is allowed to create or update component
@@ -54,12 +61,12 @@ public class ComponentServiceImpl implements ComponentService {
         validateComponent.validateComponent(componentRequest);
 
         List<Component> mappedComponents = new ArrayList<>();
-        Module module = moduleRepository.findById(componentRequest.getModuleId()).orElseThrow(() -> new RecordNotFoundException("Module is not exists."));
+        Module module = moduleRepository.findById(componentRequest.getModule()).orElseThrow(() -> new RecordNotFoundException("Module is not exists."));
         ApplicationScope applicationScope = applicationScopeRepository.findByUniqueId(componentRequest.getApplicationScope());
         String message;
-        if (componentRequest.getComponentId() != null) {
+        if (componentRequest.getComponent() != null) {
             message = "Component is updated.";
-            Component component = componentRepository.findById(componentRequest.getComponentId())
+            Component component = componentRepository.findById(componentRequest.getComponent())
                     .orElseThrow(() -> new RecordNotFoundException("Component is not exists."));
             component.getAuditData().setUpdatedBy(commonUtil.getUsername());
             component.getAuditData().setUpdatedOn(LocalDateTime.now());
@@ -116,6 +123,41 @@ public class ComponentServiceImpl implements ComponentService {
 
         } else {
             log.info("Components are not exists.");
+            commonResponse.setData(null);
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
+            commonResponse.setMessage("Components are not exists.");
+            return commonResponse;
+        }
+    }
+
+    /**
+     * This method is allowed to get all components
+     *
+     * @param pageRequest {@link PageRequest} - page request
+     * @return {@link ResponseEntity <CommonResponse>} - all components
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse getAllWithPage(PageRequest pageRequest) {
+        log.info("ComponentServiceImpl.getAllWithPage() => started.");
+        Page<Component> componentsPage = componentRepository.findAll(pageRequest);
+        CommonResponse commonResponse = new CommonResponse();
+        if (!componentsPage.isEmpty()) {
+            log.info("Components are available.");
+            // Constructing page response as pagination
+            PageResponse pageResponse = PageResponse.builder()
+                    .totalPages(componentsPage.getTotalPages())
+                    .totalElements(componentsPage.getTotalElements())
+                    .currentPage(componentsPage.getNumber())
+                    .dataList(componentMapper.mapToList(componentsPage.getContent())).build();
+
+            commonResponse.setData(pageResponse);
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage("Components are exists.");
+            return commonResponse;
+
+        } else {
+            log.info("Components are not available.");
             commonResponse.setData(null);
             commonResponse.setStatus(HttpStatus.NO_CONTENT);
             commonResponse.setMessage("Components are not exists.");

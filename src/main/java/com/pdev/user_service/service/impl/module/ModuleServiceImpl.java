@@ -102,6 +102,7 @@ public class ModuleServiceImpl implements ModuleService {
      */
     @Override
     public CommonResponse getAll() {
+        log.info("ModuleServiceImpl.getAll() => started.");
         List<Module> modules = moduleRepository.findAll();
         CommonResponse commonResponse = new CommonResponse();
         if (!modules.isEmpty()) {
@@ -112,7 +113,7 @@ public class ModuleServiceImpl implements ModuleService {
             return commonResponse;
 
         } else {
-            log.info("Modules are not exists.");
+            log.info("Modules are not available.");
             commonResponse.setData(null);
             commonResponse.setStatus(HttpStatus.NO_CONTENT);
             commonResponse.setMessage("Modules are not exists.");
@@ -129,6 +130,7 @@ public class ModuleServiceImpl implements ModuleService {
      */
     @Override
     public CommonResponse getAllWithPagination(PageRequest pageRequest) {
+        log.info("ModuleServiceImpl.getAllWithPagination() => started.");
         Page<Module> modulesPage = moduleRepository.findAll(pageRequest);
         CommonResponse commonResponse = new CommonResponse();
         if (!modulesPage.isEmpty()) {
@@ -150,6 +152,33 @@ public class ModuleServiceImpl implements ModuleService {
             commonResponse.setData(null);
             commonResponse.setStatus(HttpStatus.NO_CONTENT);
             commonResponse.setMessage("Modules are not exists.");
+            return commonResponse;
+        }
+    }
+
+    /**
+     * This method is allowed to get modules by application scope
+     *
+     * @param uuid {@link String} - application scope uuid
+     * @return {@link CommonResponse} - modules by application scope response
+     * @author @maleeshasa
+     */
+    @Override
+    public CommonResponse getModulesByAppScope(String uuid) {
+        log.info("ModuleServiceImpl.getModulesByAppScope() => started.");
+        CommonResponse commonResponse = new CommonResponse();
+        List<Module> modules = moduleRepository.findByApplicationScopeUniqueId(uuid);
+        if (!modules.isEmpty()) {
+            log.info("Modules are exists by app scope.");
+            commonResponse.setData(moduleMapper.mapToList(modules));
+            commonResponse.setMessage("Modules are exists.");
+            commonResponse.setStatus(HttpStatus.OK);
+            return commonResponse;
+        } else {
+            log.info("Modules are not exists by app scope.");
+            commonResponse.setData(null);
+            commonResponse.setMessage("Modules are not exists.");
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
             return commonResponse;
         }
     }

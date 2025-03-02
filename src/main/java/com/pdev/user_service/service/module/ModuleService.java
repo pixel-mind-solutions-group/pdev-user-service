@@ -36,4 +36,13 @@ public interface ModuleService {
      * @author @maleeshasa
      */
     CommonResponse getAllWithPagination(PageRequest pageRequest);
+
+    /**
+     * This method is allowed to get modules by application scope
+     *
+     * @param uuid {@link String} - application scope uuid
+     * @return {@link CommonResponse} - modules by application scope response
+     * @author @maleeshasa
+     */
+    CommonResponse getModulesByAppScope(String uuid);
 }

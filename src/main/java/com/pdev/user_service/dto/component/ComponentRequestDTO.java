@@ -13,9 +13,9 @@ import java.util.List;
 @Getter
 @Setter
 public class ComponentRequestDTO {
-    private Integer componentId;
+    private Integer component;
     private String applicationScope;
-    private Integer moduleId;
+    private Integer module;
     private String key;
     private String name;
     private String status;
