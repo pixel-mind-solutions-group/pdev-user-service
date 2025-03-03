@@ -70,6 +70,9 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/iam/component-element/v1/**").permitAll()
                                 .requestMatchers("/api/iam/component/v1/**").permitAll()
                                 .requestMatchers("/api/iam/module/v1/**").permitAll()
+                                .requestMatchers("/api/iam/authorize-party/v1/**").permitAll()
+                                .requestMatchers("/api/iam/authorize-party-role/v1/**").permitAll()
+                                .requestMatchers("/api/iam/authorize-party-profile/v1/**").permitAll()
 
                                 .requestMatchers("/api/iam/v1/user/**").hasAuthority(RolePermissionsConstants.PERMISSION_USER_AUTH_SERVICE)
                                 .anyRequest().authenticated()

@@ -1,5 +1,6 @@
 package com.pdev.user_service.repository.authorizeParty;
 
+import com.pdev.user_service.model.authorizeParty.AuthorizeParty;
 import com.pdev.user_service.model.authorizeParty.AuthorizePartyHasAuthorizePartyRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AuthorizePartyHasAuthorizePartyRoleRepository extends JpaRepository<AuthorizePartyHasAuthorizePartyRole, Integer> {
+
+    void deleteAllByAuthorizeParty(AuthorizeParty authorizeParty);
 }
