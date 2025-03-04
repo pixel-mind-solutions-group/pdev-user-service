@@ -87,7 +87,7 @@ public class AuthorizePartyRoleServiceImpl implements AuthorizePartyRoleService 
         List<AuthorizePartyRole> authorizePartyRoles = authorizePartyRoleRepository.findAll();
         if (!authorizePartyRoles.isEmpty()) {
             return new CommonResponse(
-                    HttpStatus.OK, "Authorize party roles are exists.", authorizePartyRoleMapper.mapToDTOList(authorizePartyRoles)
+                    HttpStatus.OK, "Authorize party roles are exists.", authorizePartyRoleMapper.mapToList(authorizePartyRoles)
             );
         } else {
             return new CommonResponse(
@@ -111,7 +111,7 @@ public class AuthorizePartyRoleServiceImpl implements AuthorizePartyRoleService 
                     .currentPage(authorizePartyRoles.getNumber())
                     .totalPages(authorizePartyRoles.getTotalPages())
                     .totalElements(authorizePartyRoles.getTotalElements())
-                    .dataList(authorizePartyRoleMapper.mapToDTOList(authorizePartyRoles.getContent())).build();
+                    .dataList(authorizePartyRoleMapper.mapToList(authorizePartyRoles.getContent())).build();
 
             return new CommonResponse(
                     HttpStatus.OK, "Authorize party roles are exists.", pageResponse

@@ -1,9 +1,15 @@
 package com.pdev.user_service.service.impl.authorizePartyProfile;
 
+import com.pdev.user_service.controller.response.PageResponse;
+import com.pdev.user_service.dto.authorizeParty.AuthorizePartyResponseDTO;
 import com.pdev.user_service.dto.authorizePartyProfile.AuthorizePartyProfileRequestDTO;
+import com.pdev.user_service.dto.authorizePartyProfile.AuthorizePartyProfileResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
+import com.pdev.user_service.mapper.authorizeParty.AuthorizePartyMapper;
 import com.pdev.user_service.mapper.authorizePartyProfile.AuthorizePartyProfileMapper;
+import com.pdev.user_service.mapper.authorizePartyRole.AuthorizePartyRoleMapper;
 import com.pdev.user_service.model.authorizeParty.AuthorizeParty;
+import com.pdev.user_service.model.authorizeParty.AuthorizePartyHasAuthorizePartyRole;
 import com.pdev.user_service.repository.authorizeParty.AuthorizePartyHasAuthorizePartyRoleRepository;
 import com.pdev.user_service.repository.authorizeParty.AuthorizePartyRepository;
 import com.pdev.user_service.service.authorizePartyProfile.AuthorizePartyProfileService;
@@ -12,9 +18,12 @@ import com.pdev.user_service.util.CommonResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +34,8 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
     private final AuthorizePartyHasAuthorizePartyRoleRepository authorizePartyHasAuthorizePartyRoleRepository;
     private final AuthorizePartyRepository authorizePartyRepository;
     private final AuthorizePartyProfileMapper authorizePartyProfileMapper;
+    private final AuthorizePartyMapper authorizePartyMapper;
+    private final AuthorizePartyRoleMapper authorizePartyRoleMapper;
 
     @Override
     @Transactional
@@ -63,11 +74,59 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
 
     @Override
     public CommonResponse getAll() {
-        return null;
+        List<AuthorizeParty> authorizeParties = authorizePartyRepository.findAll();
+        List<AuthorizePartyProfileResponseDTO> list = authorizeParties.stream()
+                .map(authorizeParty -> {
+
+                    List<AuthorizePartyHasAuthorizePartyRole> hasAuthorizePartyRoles =
+                            authorizePartyHasAuthorizePartyRoleRepository.findByAuthorizeParty(authorizeParty);
+
+                    AuthorizePartyProfileResponseDTO dto = new AuthorizePartyProfileResponseDTO();
+                    dto.setAuthorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), authorizeParty));
+                    dto.setAuthorizePartyRoles(
+                            authorizePartyRoleMapper.mapToList(hasAuthorizePartyRoles.stream()
+                                    .map(AuthorizePartyHasAuthorizePartyRole::getAuthorizePartyRole)
+                                    .toList()));
+
+                    return dto;
+                }).toList();
+
+        if (!authorizeParties.isEmpty()) {
+            return new CommonResponse(HttpStatus.OK, "Authorize profiles are exists.", list);
+        } else {
+            return new CommonResponse(HttpStatus.NO_CONTENT, "Authorize profiles are not exists.", null);
+        }
     }
 
     @Override
     public CommonResponse getAllWithPage(PageRequest of) {
-        return null;
+        Page<AuthorizeParty> authorizeParties = authorizePartyRepository.findAll(of);
+        List<AuthorizePartyProfileResponseDTO> list = authorizeParties.stream()
+                .map(authorizeParty -> {
+
+                    List<AuthorizePartyHasAuthorizePartyRole> hasAuthorizePartyRoles =
+                            authorizePartyHasAuthorizePartyRoleRepository.findByAuthorizeParty(authorizeParty);
+
+                    AuthorizePartyProfileResponseDTO dto = new AuthorizePartyProfileResponseDTO();
+                    dto.setAuthorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), authorizeParty));
+                    dto.setAuthorizePartyRoles(
+                            authorizePartyRoleMapper.mapToList(hasAuthorizePartyRoles.stream()
+                                    .map(AuthorizePartyHasAuthorizePartyRole::getAuthorizePartyRole)
+                                    .toList()));
+
+                    return dto;
+                }).toList();
+
+        PageResponse pageResponse = PageResponse.builder()
+                .currentPage(authorizeParties.getNumber())
+                .totalPages(authorizeParties.getTotalPages())
+                .totalElements(authorizeParties.getTotalElements())
+                .dataList(list).build();
+
+        if (!authorizeParties.isEmpty()) {
+            return new CommonResponse(HttpStatus.OK, "Authorize profiles are exists.", pageResponse);
+        } else {
+            return new CommonResponse(HttpStatus.NO_CONTENT, "Authorize profiles are not exists.", null);
+        }
     }
 }

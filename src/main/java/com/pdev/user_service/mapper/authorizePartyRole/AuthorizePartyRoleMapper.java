@@ -45,14 +45,4 @@ public class AuthorizePartyRoleMapper {
         authorizePartyRole.setRole(authorizePartyRoleRequest.getRole());
         return authorizePartyRole;
     }
-
-    public List<AuthorizePartyRoleResponseDTO> mapToDTOList(List<AuthorizePartyRole> authorizePartyRoles) {
-        List<AuthorizePartyRoleResponseDTO> dtoList = new ArrayList<>();
-        if (!authorizePartyRoles.isEmpty()) {
-            dtoList = authorizePartyRoles.stream()
-                    .map(authorizePartyRole -> mapToDTO(new AuthorizePartyRoleResponseDTO(), authorizePartyRole))
-                    .toList();
-        }
-        return dtoList;
-    }
 }

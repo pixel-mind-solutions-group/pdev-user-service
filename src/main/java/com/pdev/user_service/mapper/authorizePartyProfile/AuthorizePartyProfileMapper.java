@@ -59,4 +59,8 @@ public class AuthorizePartyProfileMapper {
                     return dto;
                 }).toList();
     }
+
+    public void mapToDTOListToAll() {
+
+    }
 }
