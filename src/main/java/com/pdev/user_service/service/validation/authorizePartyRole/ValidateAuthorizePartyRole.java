@@ -14,6 +14,7 @@ public class ValidateAuthorizePartyRole {
     public void validateAuthorizePartyRole(AuthorizePartyRoleRequestDTO authorizePartyRoleRequest) {
         if (CommonValidation.stringNullValidation(authorizePartyRoleRequest.getRole())) {
             throw new BaseException(HttpStatus.NOT_FOUND.value(), "Authorize party role is required.");
+
         } else if (CommonValidation.stringNullValidation(authorizePartyRoleRequest.getStatus())) {
             throw new BaseException(HttpStatus.NOT_FOUND.value(), "Authorize party role status is required.");
         }

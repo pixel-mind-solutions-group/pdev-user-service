@@ -7,11 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * This class is allowed to manage authorize party role
+ *
+ * @author maleeshasa
+ * @version 1.0
+ */
 @Slf4j
 @RestController
 @RequestMapping(value = "/api/iam/authorize-party-role/v1")
@@ -27,6 +30,7 @@ public class AuthorizePartyRoleController {
      * @return {@link ResponseEntity<CommonResponse>} - authorize party role created or updated response
      * @author @maleeshasa
      */
+    @PostMapping(value = "/create-or-update")
     public ResponseEntity<CommonResponse> createOrUpdate(@RequestBody AuthorizePartyRoleRequestDTO authorizePartyRoleRequest) {
         log.info("AuthorizePartyRoleController.createOrUpdate() => started.");
         return ResponseEntity.ok(authorizePartyRoleService.createOrUpdate(authorizePartyRoleRequest));
@@ -38,6 +42,7 @@ public class AuthorizePartyRoleController {
      * @return {@link ResponseEntity<CommonResponse>} - all authorize party roles
      * @author @maleeshasa
      */
+    @GetMapping(value = "/get-all")
     public ResponseEntity<CommonResponse> getAll() {
         log.info("AuthorizePartyRoleController.getAll() => started.");
         return ResponseEntity.ok(authorizePartyRoleService.getAll());
@@ -51,9 +56,22 @@ public class AuthorizePartyRoleController {
      * @return {@link ResponseEntity<CommonResponse>} - all authorize party roles
      * @author @maleeshasa
      */
+    @GetMapping(value = "/get-all-page")
     public ResponseEntity<CommonResponse> getAllWithPage(@RequestParam(value = "page", defaultValue = "0") int page,
                                                          @RequestParam(value = "size", defaultValue = "10") int size) {
         log.info("AuthorizePartyRoleController.getAllWithPage() => started.");
         return ResponseEntity.ok(authorizePartyRoleService.getAllWithPage(PageRequest.of(page, size)));
+    }
+
+    @GetMapping(value = "/get-by-id")
+    public ResponseEntity<CommonResponse> getById(@RequestParam(value = "id") int id) {
+        log.info("AuthorizePartyRoleController.getById() => started.");
+        return ResponseEntity.ok(authorizePartyRoleService.getById(id));
+    }
+
+    @DeleteMapping(value = "/delete-by-id")
+    public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
+        log.info("AuthorizePartyRoleController.deleteById() => started.");
+        return ResponseEntity.ok(authorizePartyRoleService.deleteById(id));
     }
 }

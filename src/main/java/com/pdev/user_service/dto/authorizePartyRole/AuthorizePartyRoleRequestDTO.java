@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AuthorizePartyRoleRequestDTO {
-    private Integer authorizePartyRoleId;
+    private Integer id;
     private String role;
     private String status;
 }
