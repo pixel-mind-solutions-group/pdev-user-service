@@ -3,6 +3,7 @@ package com.pdev.user_service.service.impl.applicationScope;
 import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.applicationScope.ApplicationScopeRequestDTO;
 import com.pdev.user_service.dto.applicationScope.ApplicationScopeResponseDTO;
+import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.applicationScope.ApplicationScopeMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
@@ -104,7 +105,9 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService {
         log.info("ApplicationScopeController.getAll() => started.");
         CommonResponse commonResponse = new CommonResponse();
 
-        List<ApplicationScope> applicationScopes = applicationScopeRepository.findAll();
+        List<ApplicationScope> applicationScopes = applicationScopeRepository.findAll().stream()
+                .filter(ApplicationScope::getActive)
+                .toList();
 
         if (!applicationScopes.isEmpty()) {
             log.info("Application scopes are exists.");
@@ -157,5 +160,15 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService {
             commonResponse.setMessage("Application scopes are not exists.");
             return commonResponse;
         }
+    }
+
+    @Override
+    public CommonResponse deleteById(int id) {
+        ApplicationScope scope = applicationScopeRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Application scope not found."));
+        scope.setActive(Boolean.FALSE);
+        applicationScopeRepository.save(scope);
+        return new CommonResponse(
+                HttpStatus.OK, "Application scope is deleted.", null
+        );
     }
 }

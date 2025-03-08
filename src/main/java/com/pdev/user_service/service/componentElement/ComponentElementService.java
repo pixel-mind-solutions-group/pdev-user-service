@@ -37,4 +37,6 @@ public interface ComponentElementService {
      * @author @maleeshasa
      */
     CommonResponse getAllWithPage(PageRequest pageRequest);
+
+    CommonResponse deleteById(int id);
 }

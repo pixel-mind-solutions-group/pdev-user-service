@@ -112,7 +112,8 @@ public class ComponentServiceImpl implements ComponentService {
     @Override
     public CommonResponse getAll() {
         log.info("ComponentServiceImpl.getAll() => started.");
-        List<Component> components = componentRepository.findAll();
+        List<Component> components = componentRepository.findAll().stream()
+                .filter(Component::getActive).toList();
         CommonResponse commonResponse = new CommonResponse();
         if (!components.isEmpty()) {
             log.info("Components are exists.");
@@ -184,5 +185,15 @@ public class ComponentServiceImpl implements ComponentService {
             log.info("Components are not exists for scope and module.");
             return new CommonResponse(HttpStatus.NO_CONTENT, "Components are not exists.", null);
         }
+    }
+
+    @Override
+    public CommonResponse deleteById(int id) {
+        Component component = componentRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Component not found."));
+        component.setActive(Boolean.FALSE);
+        componentRepository.save(component);
+        return new CommonResponse(
+                HttpStatus.OK, "Component is deleted.", null
+        );
     }
 }

@@ -115,7 +115,9 @@ public class ComponentElementServiceImpl implements ComponentElementService {
     @Override
     public CommonResponse getAll() {
         log.info("ComponentElementServiceImpl.getAll() => started.");
-        List<ComponentElement> componentElements = componentElementRepository.findAll();
+        List<ComponentElement> componentElements = componentElementRepository.findAll().stream()
+                .filter(ComponentElement::getActive)
+                .toList();
         CommonResponse commonResponse = new CommonResponse();
         if (!componentElements.isEmpty()) {
             log.info("Component elements are exists.");
@@ -166,5 +168,15 @@ public class ComponentElementServiceImpl implements ComponentElementService {
             commonResponse.setMessage("Component elements are not exists.");
             return commonResponse;
         }
+    }
+
+    @Override
+    public CommonResponse deleteById(int id) {
+        ComponentElement componentElement = componentElementRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Component element not found."));
+        componentElement.setActive(Boolean.FALSE);
+        componentElementRepository.save(componentElement);
+        return new CommonResponse(
+                HttpStatus.OK, "Component element is deleted.", null
+        );
     }
 }

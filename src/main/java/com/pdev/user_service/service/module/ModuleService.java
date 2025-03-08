@@ -45,4 +45,6 @@ public interface ModuleService {
      * @author @maleeshasa
      */
     CommonResponse getModulesByAppScope(String uuid);
+
+    CommonResponse deleteById(int id);
 }

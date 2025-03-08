@@ -167,7 +167,9 @@ public class ModuleServiceImpl implements ModuleService {
     public CommonResponse getModulesByAppScope(String uuid) {
         log.info("ModuleServiceImpl.getModulesByAppScope() => started.");
         CommonResponse commonResponse = new CommonResponse();
-        List<Module> modules = moduleRepository.findByApplicationScopeUniqueId(uuid);
+        List<Module> modules = moduleRepository.findByApplicationScopeUniqueId(uuid).stream()
+                .filter(Module::getActive)
+                .toList();
         if (!modules.isEmpty()) {
             log.info("Modules are exists by app scope.");
             commonResponse.setData(moduleMapper.mapToList(modules));
@@ -181,5 +183,15 @@ public class ModuleServiceImpl implements ModuleService {
             commonResponse.setStatus(HttpStatus.NO_CONTENT);
             return commonResponse;
         }
+    }
+
+    @Override
+    public CommonResponse deleteById(int id) {
+        Module module = moduleRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Module not found."));
+        module.setActive(Boolean.FALSE);
+        moduleRepository.save(module);
+        return new CommonResponse(
+                HttpStatus.OK, "Module is deleted.", null
+        );
     }
 }

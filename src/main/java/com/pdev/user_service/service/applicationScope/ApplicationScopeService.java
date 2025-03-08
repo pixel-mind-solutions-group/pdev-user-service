@@ -35,4 +35,6 @@ public interface ApplicationScopeService {
      * @author @maleeshasa
      */
     CommonResponse getAllWithPagination(PageRequest pageRequest);
+
+    CommonResponse deleteById(int id);
 }
