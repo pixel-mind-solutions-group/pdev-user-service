@@ -28,7 +28,7 @@ public class AuthorizePartyMapper {
         log.info("AuthorizePartyMapper.mapToDTO() => started.");
         dto.setAuthorizePartyId(authorizeParty.getId());
         dto.setParty(authorizeParty.getParty());
-        dto.setActive(authorizeParty.getActive());
+        dto.setStatus(authorizeParty.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
         dto.setAuthorizePartyRoles(
                 authorizePartyRoleMapper.mapToList(
                         authorizeParty.getAuthorizePartyHasPartyRoles().stream()

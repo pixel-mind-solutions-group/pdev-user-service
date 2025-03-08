@@ -16,6 +16,6 @@ import java.util.List;
 public class AuthorizePartyResponseDTO {
     private Integer authorizePartyId;
     private String party;
-    private Boolean active;
+    private String status;
     private List<AuthorizePartyRoleResponseDTO> authorizePartyRoles = new ArrayList<>();
 }
