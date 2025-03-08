@@ -86,7 +86,10 @@ public class AuthorizePartyServiceImpl implements AuthorizePartyService {
      */
     @Override
     public CommonResponse getAll() {
-        List<AuthorizeParty> authorizeParties = authorizePartyRepository.findAll();
+        List<AuthorizeParty> authorizeParties = authorizePartyRepository.findAll()
+                .stream()
+                .filter(a -> a.getActive().equals(Boolean.TRUE))
+                .toList();
         if (!authorizeParties.isEmpty()) {
             return new CommonResponse(
                     HttpStatus.OK, "Authorize parties are exists.", authorizePartyMapper.mapToDTOList(authorizeParties)
@@ -136,7 +139,9 @@ public class AuthorizePartyServiceImpl implements AuthorizePartyService {
 
     @Override
     public CommonResponse deleteById(int id) {
-        authorizePartyRepository.deleteById(id);
+        AuthorizeParty party = authorizePartyRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Authorize party not found."));
+        party.setActive(Boolean.FALSE);
+        authorizePartyRepository.save(party);
         return new CommonResponse(
                 HttpStatus.OK, "Authorize party is deleted.", null
         );

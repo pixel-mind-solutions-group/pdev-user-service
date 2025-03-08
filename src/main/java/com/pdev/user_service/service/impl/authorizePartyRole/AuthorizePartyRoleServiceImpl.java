@@ -84,7 +84,10 @@ public class AuthorizePartyRoleServiceImpl implements AuthorizePartyRoleService 
      */
     @Override
     public CommonResponse getAll() {
-        List<AuthorizePartyRole> authorizePartyRoles = authorizePartyRoleRepository.findAll();
+        List<AuthorizePartyRole> authorizePartyRoles = authorizePartyRoleRepository.findAll()
+                .stream()
+                .filter(a -> a.getActive().equals(Boolean.TRUE))
+                .toList();
         if (!authorizePartyRoles.isEmpty()) {
             return new CommonResponse(
                     HttpStatus.OK, "Authorize party roles are exists.", authorizePartyRoleMapper.mapToList(authorizePartyRoles)
@@ -134,7 +137,9 @@ public class AuthorizePartyRoleServiceImpl implements AuthorizePartyRoleService 
 
     @Override
     public CommonResponse deleteById(int id) {
-        authorizePartyRoleRepository.deleteById(id);
+        AuthorizePartyRole role = authorizePartyRoleRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Authorize party role not found."));
+        role.setActive(Boolean.FALSE);
+        authorizePartyRoleRepository.save(role);
         return new CommonResponse(
                 HttpStatus.OK, "Authorize party role is deleted.", null
         );

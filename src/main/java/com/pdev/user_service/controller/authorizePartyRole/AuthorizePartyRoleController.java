@@ -69,7 +69,7 @@ public class AuthorizePartyRoleController {
         return ResponseEntity.ok(authorizePartyRoleService.getById(id));
     }
 
-    @DeleteMapping(value = "/delete-by-id")
+    @PostMapping(value = "/delete-by-id")
     public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
         log.info("AuthorizePartyRoleController.deleteById() => started.");
         return ResponseEntity.ok(authorizePartyRoleService.deleteById(id));
