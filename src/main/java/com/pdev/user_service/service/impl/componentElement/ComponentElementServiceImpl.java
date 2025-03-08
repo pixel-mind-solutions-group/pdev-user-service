@@ -3,6 +3,7 @@ package com.pdev.user_service.service.impl.componentElement;
 import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.dto.componentElement.ComponentElementRequestDTO;
+import com.pdev.user_service.dto.componentElement.ComponentElementResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.componentElement.ComponentElementMapper;
 import com.pdev.user_service.model.AuditData;
@@ -168,6 +169,17 @@ public class ComponentElementServiceImpl implements ComponentElementService {
             commonResponse.setMessage("Component elements are not exists.");
             return commonResponse;
         }
+    }
+
+    @Override
+    public CommonResponse getById(Integer id) {
+        ComponentElement componentElement = componentElementRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Component element not found."));
+        return new CommonResponse(
+                HttpStatus.OK,
+                "Component element is exists.",
+                componentElementMapper.mapToDTO(new ComponentElementResponseDTO(), componentElement)
+        );
     }
 
     @Override

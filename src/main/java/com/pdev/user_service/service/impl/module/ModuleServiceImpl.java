@@ -1,7 +1,9 @@
 package com.pdev.user_service.service.impl.module;
 
 import com.pdev.user_service.controller.response.PageResponse;
+import com.pdev.user_service.dto.applicationScope.ApplicationScopeResponseDTO;
 import com.pdev.user_service.dto.module.ModuleRequestDTO;
+import com.pdev.user_service.dto.module.ModuleResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.module.ModuleMapper;
 import com.pdev.user_service.model.AuditData;
@@ -183,6 +185,17 @@ public class ModuleServiceImpl implements ModuleService {
             commonResponse.setStatus(HttpStatus.NO_CONTENT);
             return commonResponse;
         }
+    }
+
+    @Override
+    public CommonResponse getById(Integer id) {
+        Module module = moduleRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Module not found."));
+        return new CommonResponse(
+                HttpStatus.OK,
+                "Module is exists.",
+                moduleMapper.mapToDTO(new ModuleResponseDTO(), module)
+        );
     }
 
     @Override

@@ -163,6 +163,17 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService {
     }
 
     @Override
+    public CommonResponse getById(Integer id) {
+        ApplicationScope scope = applicationScopeRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Application scope not found."));
+        return new CommonResponse(
+                HttpStatus.OK,
+                "Application scope is exists.",
+                applicationScopeMapper.mapToDTO(new ApplicationScopeResponseDTO(), scope)
+        );
+    }
+
+    @Override
     public CommonResponse deleteById(int id) {
         ApplicationScope scope = applicationScopeRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Application scope not found."));
         applicationScopeRepository.delete(scope);

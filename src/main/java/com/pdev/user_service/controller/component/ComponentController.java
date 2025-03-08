@@ -61,6 +61,11 @@ public class ComponentController {
         return ResponseEntity.ok(componentService.getAllWithPage(PageRequest.of(page, size)));
     }
 
+    @GetMapping(value = "/get-by-id")
+    public ResponseEntity<CommonResponse> getById(@RequestParam(value = "id") Integer id) {
+        return ResponseEntity.ok(componentService.getById(id));
+    }
+
     /**
      * This method is allowed to get all components by scope and module
      *

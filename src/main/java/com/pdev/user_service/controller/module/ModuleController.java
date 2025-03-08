@@ -61,6 +61,11 @@ public class ModuleController {
         return ResponseEntity.ok(moduleService.getAllWithPagination(PageRequest.of(page, size)));
     }
 
+    @GetMapping(value = "/get-by-id")
+    public ResponseEntity<CommonResponse> getById(@RequestParam(value = "id") Integer id) {
+        return ResponseEntity.ok(moduleService.getById(id));
+    }
+
     /**
      * This method is allowed to get modules by application scope
      *

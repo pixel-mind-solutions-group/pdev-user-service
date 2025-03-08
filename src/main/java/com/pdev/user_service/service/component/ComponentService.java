@@ -47,4 +47,6 @@ public interface ComponentService {
     CommonResponse getByScopeAndModule(String scope, int moduleId);
 
     CommonResponse deleteById(int id);
+
+    CommonResponse getById(Integer id);
 }

@@ -39,4 +39,6 @@ public interface ComponentElementService {
     CommonResponse getAllWithPage(PageRequest pageRequest);
 
     CommonResponse deleteById(int id);
+
+    CommonResponse getById(Integer id);
 }

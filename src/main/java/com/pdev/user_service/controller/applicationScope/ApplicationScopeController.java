@@ -49,6 +49,11 @@ public class ApplicationScopeController {
         return ResponseEntity.ok(applicationScopeService.getAllWithPagination(PageRequest.of(page, size)));
     }
 
+    @GetMapping(value = "/get-by-id")
+    public ResponseEntity<CommonResponse> getById(@RequestParam(value = "id") Integer id) {
+        return ResponseEntity.ok(applicationScopeService.getById(id));
+    }
+
     /**
      * This method is allowed to fetch all application scopes
      *

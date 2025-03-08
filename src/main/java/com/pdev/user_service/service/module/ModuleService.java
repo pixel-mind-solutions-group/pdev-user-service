@@ -47,4 +47,6 @@ public interface ModuleService {
     CommonResponse getModulesByAppScope(String uuid);
 
     CommonResponse deleteById(int id);
+
+    CommonResponse getById(Integer id);
 }

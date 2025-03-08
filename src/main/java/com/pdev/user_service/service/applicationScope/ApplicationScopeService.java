@@ -37,4 +37,6 @@ public interface ApplicationScopeService {
     CommonResponse getAllWithPagination(PageRequest pageRequest);
 
     CommonResponse deleteById(int id);
+
+    CommonResponse getById(Integer id);
 }

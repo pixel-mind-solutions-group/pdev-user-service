@@ -62,6 +62,11 @@ public class ComponentElementController {
         return ResponseEntity.ok(componentElementService.getAllWithPage(PageRequest.of(page, size)));
     }
 
+    @GetMapping(value = "/get-by-id")
+    public ResponseEntity<CommonResponse> getById(@RequestParam(value = "id") Integer id) {
+        return ResponseEntity.ok(componentElementService.getById(id));
+    }
+
     @DeleteMapping(value = "/delete-by-id")
     public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
         log.info("ComponentElementController.deleteById() => started.");
