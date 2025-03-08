@@ -12,5 +12,5 @@ import lombok.Setter;
 public class AuthorizePartyRoleResponseDTO {
     private Integer id;
     private String role;
-    private Boolean active;
+    private String status;
 }

@@ -53,9 +53,9 @@ public class AuthorizePartyProfileMapper {
         return entities.stream()
                 .map(entity -> {
                     AuthorizePartyProfileResponseDTO dto = new AuthorizePartyProfileResponseDTO();
-                    dto.setId(entity.getId());
-                    dto.setAuthorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), entity.getAuthorizeParty()));
-                    dto.setAuthorizePartyRole(authorizePartyRoleMapper.mapToDTO(new AuthorizePartyRoleResponseDTO(), entity.getAuthorizePartyRole()));
+//                    dto.setId(entity.getId());
+//                    dto.setAuthorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), entity.getAuthorizeParty()));
+//                    dto.setAuthorizePartyRole(authorizePartyRoleMapper.mapToDTO(new AuthorizePartyRoleResponseDTO(), entity.getAuthorizePartyRole()));
                     return dto;
                 }).toList();
     }

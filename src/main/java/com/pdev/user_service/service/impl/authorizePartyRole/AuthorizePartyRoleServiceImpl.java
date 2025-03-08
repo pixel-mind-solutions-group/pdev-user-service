@@ -59,7 +59,7 @@ public class AuthorizePartyRoleServiceImpl implements AuthorizePartyRoleService 
             authorizePartyRole.getAuditData().setUpdatedOn(LocalDateTime.now());
 
         } else {
-            message = "Authorize party is created.";
+            message = "Authorize party role is created.";
             authorizePartyRole.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
         }
 

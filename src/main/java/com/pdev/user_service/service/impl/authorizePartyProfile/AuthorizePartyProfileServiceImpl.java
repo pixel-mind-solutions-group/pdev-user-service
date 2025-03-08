@@ -13,6 +13,7 @@ import com.pdev.user_service.model.authorizeParty.AuthorizePartyHasAuthorizePart
 import com.pdev.user_service.repository.authorizeParty.AuthorizePartyHasAuthorizePartyRoleRepository;
 import com.pdev.user_service.repository.authorizeParty.AuthorizePartyRepository;
 import com.pdev.user_service.service.authorizePartyProfile.AuthorizePartyProfileService;
+import com.pdev.user_service.service.validation.CommonValidation;
 import com.pdev.user_service.service.validation.authorizePartyProfile.ValidateAuthorizePartyProfile;
 import com.pdev.user_service.util.CommonResponse;
 import jakarta.transaction.Transactional;
@@ -83,11 +84,6 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
 
                     AuthorizePartyProfileResponseDTO dto = new AuthorizePartyProfileResponseDTO();
                     dto.setAuthorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), authorizeParty));
-                    dto.setAuthorizePartyRoles(
-                            authorizePartyRoleMapper.mapToList(hasAuthorizePartyRoles.stream()
-                                    .map(AuthorizePartyHasAuthorizePartyRole::getAuthorizePartyRole)
-                                    .toList()));
-
                     return dto;
                 }).toList();
 
@@ -108,12 +104,18 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
                             authorizePartyHasAuthorizePartyRoleRepository.findByAuthorizeParty(authorizeParty);
 
                     AuthorizePartyProfileResponseDTO dto = new AuthorizePartyProfileResponseDTO();
+                    dto.setAuthorizePartyId(authorizeParty.getId());
                     dto.setAuthorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), authorizeParty));
-                    dto.setAuthorizePartyRoles(
-                            authorizePartyRoleMapper.mapToList(hasAuthorizePartyRoles.stream()
-                                    .map(AuthorizePartyHasAuthorizePartyRole::getAuthorizePartyRole)
-                                    .toList()));
 
+                    StringBuilder builder = new StringBuilder();
+                    for (AuthorizePartyHasAuthorizePartyRole r : hasAuthorizePartyRoles) {
+                        builder.append(r.getAuthorizePartyRole().getRole()).append(", ");
+                    }
+                    String permissions = builder.toString();
+                    if (!CommonValidation.stringNullValidation(permissions)) {
+                        permissions = permissions.substring(0, permissions.length() - 2);
+                        dto.setAuthorizePartyRoles(permissions);
+                    }
                     return dto;
                 }).toList();
 
@@ -125,6 +127,26 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
 
         if (!authorizeParties.isEmpty()) {
             return new CommonResponse(HttpStatus.OK, "Authorize profiles are exists.", pageResponse);
+        } else {
+            return new CommonResponse(HttpStatus.NO_CONTENT, "Authorize profiles are not exists.", null);
+        }
+    }
+
+    @Override
+    public CommonResponse getAllByAuthParty(Integer id) {
+
+        AuthorizeParty authorizeParty = authorizePartyRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Auth party not found."));
+
+        List<AuthorizePartyHasAuthorizePartyRole> hasAuthorizePartyRoles =
+                authorizePartyHasAuthorizePartyRoleRepository.findByAuthorizeParty(authorizeParty);
+
+        List<String> list = hasAuthorizePartyRoles.stream()
+                .map(r -> r.getAuthorizePartyRole().getId().toString())
+                .toList();
+
+        if (!list.isEmpty()) {
+            return new CommonResponse(HttpStatus.OK, "Authorize profiles are exists.", list);
         } else {
             return new CommonResponse(HttpStatus.NO_CONTENT, "Authorize profiles are not exists.", null);
         }

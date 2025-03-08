@@ -21,7 +21,7 @@ public class AuthorizePartyRoleMapper {
     public AuthorizePartyRoleResponseDTO mapToDTO(AuthorizePartyRoleResponseDTO dto, AuthorizePartyRole authorizePartyRole) {
         log.info("AuthorizePartyRoleMapper.mapToDTO() => started.");
         dto.setId(authorizePartyRole.getId());
-        dto.setActive(authorizePartyRole.getActive());
+        dto.setStatus(authorizePartyRole.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
         dto.setRole(authorizePartyRole.getRole());
         log.info("AuthorizePartyRoleMapper.mapToDTO() => ended.");
         return dto;

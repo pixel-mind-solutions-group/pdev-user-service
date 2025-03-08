@@ -56,4 +56,9 @@ public class AuthorizePartyProfileController {
         log.info("AuthorizePartyProfileController.getAllWithPage() => started.");
         return ResponseEntity.ok(authorizePartyProfileService.getAllWithPage(PageRequest.of(page, size)));
     }
+
+    @GetMapping(value = "/get-by-auth-party")
+    public ResponseEntity<CommonResponse> getAllByAuthParty(@RequestParam(value = "id") Integer id) {
+        return ResponseEntity.ok(authorizePartyProfileService.getAllByAuthParty(id));
+    }
 }

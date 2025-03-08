@@ -12,4 +12,6 @@ public interface AuthorizePartyProfileService {
     CommonResponse getAll();
 
     CommonResponse getAllWithPage(PageRequest of);
+
+    CommonResponse getAllByAuthParty(Integer id);
 }
