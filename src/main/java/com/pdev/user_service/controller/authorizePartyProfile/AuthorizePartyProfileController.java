@@ -61,4 +61,10 @@ public class AuthorizePartyProfileController {
     public ResponseEntity<CommonResponse> getAllByAuthParty(@RequestParam(value = "id") Integer id) {
         return ResponseEntity.ok(authorizePartyProfileService.getAllByAuthParty(id));
     }
+
+    @DeleteMapping(value = "/delete-by-auth-party")
+    public ResponseEntity<CommonResponse> deleteByAuthParty(@RequestParam(value = "id") int id) {
+        log.info("AuthorizePartyRoleController.deleteByAuthParty() => started.");
+        return ResponseEntity.ok(authorizePartyProfileService.deleteByAuthParty(id));
+    }
 }

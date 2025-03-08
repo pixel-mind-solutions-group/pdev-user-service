@@ -165,8 +165,7 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService {
     @Override
     public CommonResponse deleteById(int id) {
         ApplicationScope scope = applicationScopeRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Application scope not found."));
-        scope.setActive(Boolean.FALSE);
-        applicationScopeRepository.save(scope);
+        applicationScopeRepository.delete(scope);
         return new CommonResponse(
                 HttpStatus.OK, "Application scope is deleted.", null
         );

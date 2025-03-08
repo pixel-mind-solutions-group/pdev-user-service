@@ -140,8 +140,7 @@ public class AuthorizePartyServiceImpl implements AuthorizePartyService {
     @Override
     public CommonResponse deleteById(int id) {
         AuthorizeParty party = authorizePartyRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Authorize party not found."));
-        party.setActive(Boolean.FALSE);
-        authorizePartyRepository.save(party);
+        authorizePartyRepository.delete(party);
         return new CommonResponse(
                 HttpStatus.OK, "Authorize party is deleted.", null
         );

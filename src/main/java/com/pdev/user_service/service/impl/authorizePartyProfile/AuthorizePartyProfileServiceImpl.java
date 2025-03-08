@@ -151,4 +151,16 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
             return new CommonResponse(HttpStatus.NO_CONTENT, "Authorize profiles are not exists.", null);
         }
     }
+
+    @Override
+    public CommonResponse deleteByAuthParty(int id) {
+
+        AuthorizeParty authorizeParty = authorizePartyRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Auth party not found."));
+
+        authorizePartyHasAuthorizePartyRoleRepository.deleteAll(authorizeParty.getAuthorizePartyHasPartyRoles());
+        return new CommonResponse(
+                HttpStatus.OK, "Authorize party roles are deleted.", null
+        );
+    }
 }

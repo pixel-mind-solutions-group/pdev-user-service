@@ -61,7 +61,7 @@ public class ApplicationScopeController {
         return ResponseEntity.ok(applicationScopeService.getAll());
     }
 
-    @PostMapping(value = "/delete-by-id")
+    @DeleteMapping(value = "/delete-by-id")
     public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
         log.info("ApplicationScopeController.deleteById() => started.");
         return ResponseEntity.ok(applicationScopeService.deleteById(id));

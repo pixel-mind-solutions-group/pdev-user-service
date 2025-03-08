@@ -138,8 +138,7 @@ public class AuthorizePartyRoleServiceImpl implements AuthorizePartyRoleService 
     @Override
     public CommonResponse deleteById(int id) {
         AuthorizePartyRole role = authorizePartyRoleRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Authorize party role not found."));
-        role.setActive(Boolean.FALSE);
-        authorizePartyRoleRepository.save(role);
+        authorizePartyRoleRepository.delete(role);
         return new CommonResponse(
                 HttpStatus.OK, "Authorize party role is deleted.", null
         );

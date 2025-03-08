@@ -173,8 +173,7 @@ public class ComponentElementServiceImpl implements ComponentElementService {
     @Override
     public CommonResponse deleteById(int id) {
         ComponentElement componentElement = componentElementRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Component element not found."));
-        componentElement.setActive(Boolean.FALSE);
-        componentElementRepository.save(componentElement);
+        componentElementRepository.delete(componentElement);
         return new CommonResponse(
                 HttpStatus.OK, "Component element is deleted.", null
         );

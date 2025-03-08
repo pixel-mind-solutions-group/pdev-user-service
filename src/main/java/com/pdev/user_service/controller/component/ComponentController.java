@@ -76,7 +76,7 @@ public class ComponentController {
         return ResponseEntity.ok(componentService.getByScopeAndModule(scope, moduleId));
     }
 
-    @PostMapping(value = "/delete-by-id")
+    @DeleteMapping(value = "/delete-by-id")
     public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
         log.info("ComponentController.deleteById() => started.");
         return ResponseEntity.ok(componentService.deleteById(id));

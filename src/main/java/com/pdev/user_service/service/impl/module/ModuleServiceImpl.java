@@ -188,8 +188,7 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public CommonResponse deleteById(int id) {
         Module module = moduleRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Module not found."));
-        module.setActive(Boolean.FALSE);
-        moduleRepository.save(module);
+        moduleRepository.delete(module);
         return new CommonResponse(
                 HttpStatus.OK, "Module is deleted.", null
         );
