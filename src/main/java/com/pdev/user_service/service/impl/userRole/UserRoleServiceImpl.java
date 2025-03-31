@@ -33,12 +33,15 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public CommonResponse createOrUpdate(UserRoleRequestDTO userRoleRequest) {
         UserRole userRole = new UserRole();
+        String message;
         if (userRoleRequest.getId() != null) {
+            message = "User role updated.";
             userRole = userRoleRepository.findById(userRoleRequest.getId())
                     .orElseThrow(() -> new RecordNotFoundException("User role not found."));
             userRole.setAuditData(new AuditData(commonUtil.getUsername(), LocalDateTime.now()));
 
         } else {
+            message = "User role created.";
             userRole.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
         }
         UserRole mappedEntity = userRoleMapper.mapToEntity(userRole, userRoleRequest);
@@ -46,7 +49,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         try {
             return new CommonResponse(
                     HttpStatus.OK,
-                    "User role is created.",
+                    message,
                     userRoleMapper.mapToDTO(new UserRoleResponseDTO(), userRoleRepository.save(mappedEntity))
             );
         } catch (Exception e) {

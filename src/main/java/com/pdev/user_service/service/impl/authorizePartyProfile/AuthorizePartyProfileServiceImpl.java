@@ -82,9 +82,9 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
                     List<AuthorizePartyHasAuthorizePartyRole> hasAuthorizePartyRoles =
                             authorizePartyHasAuthorizePartyRoleRepository.findByAuthorizeParty(authorizeParty);
 
-                    AuthorizePartyProfileResponseDTO dto = new AuthorizePartyProfileResponseDTO();
-                    dto.setAuthorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), authorizeParty));
-                    return dto;
+                    return AuthorizePartyProfileResponseDTO.builder()
+                            .authorizeParty(authorizePartyMapper.mapToDTO(new AuthorizePartyResponseDTO(), authorizeParty))
+                            .build();
                 }).toList();
 
         if (!authorizeParties.isEmpty()) {
@@ -146,7 +146,11 @@ public class AuthorizePartyProfileServiceImpl implements AuthorizePartyProfileSe
                 .toList();
 
         if (!list.isEmpty()) {
-            return new CommonResponse(HttpStatus.OK, "Authorize profiles are exists.", list);
+            AuthorizePartyProfileResponseDTO dto = AuthorizePartyProfileResponseDTO.builder()
+                    .authorizePartyId(authorizeParty.getId())
+                    .authorizePartyRolesIdList(list)
+                    .build();
+            return new CommonResponse(HttpStatus.OK, "Authorize profiles are exists.", dto);
         } else {
             return new CommonResponse(HttpStatus.NO_CONTENT, "Authorize profiles are not exists.", null);
         }

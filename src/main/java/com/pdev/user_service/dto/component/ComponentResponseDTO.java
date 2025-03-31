@@ -19,6 +19,7 @@ public class ComponentResponseDTO {
     private String key;
     private String status;
     private String applicationScope;
-    private String module;
+    private Integer module;
+    private String moduleName;
     private List<ComponentElementResponseDTO> componentElements = new ArrayList<>();
 }

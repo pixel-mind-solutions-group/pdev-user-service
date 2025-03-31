@@ -31,7 +31,7 @@ public class UserRoleMapper {
         log.info("UserRoleMapper.mapToDTO() => started.");
         dto.setUserRoleId(userRole.getId());
         dto.setRole(userRole.getRole());
-        dto.setActive(userRole.getActive());
+        dto.setStatus(userRole.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
         dto.setApplicationScope(applicationScopeMapper.mapToDTO(new ApplicationScopeResponseDTO(), userRole.getApplicationScope()));
         dto.setUserRoleHasModules(userRoleHasModuleMapper.mapToList(userRole.getUserRoleHasModules()));
         log.info("UserRoleMapper.mapToDTO() => ended.");

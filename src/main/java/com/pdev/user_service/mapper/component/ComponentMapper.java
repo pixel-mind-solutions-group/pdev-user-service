@@ -29,8 +29,9 @@ public class ComponentMapper {
         dto.setName(component.getElementName());
         dto.setKey(component.getName());
         dto.setStatus(component.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
-        dto.setApplicationScope(component.getApplicationScope().getScope());
-        dto.setModule(component.getModule().getElementName());
+        dto.setApplicationScope(component.getApplicationScope().getUniqueId());
+        dto.setModule(component.getModule().getId());
+        dto.setModuleName(component.getModule().getName());
         dto.setComponentElements(componentElementMapper.mapToList(component.getComponentElements()));
         log.info("ComponentMapper.mapToDTO() => ended.");
         return dto;

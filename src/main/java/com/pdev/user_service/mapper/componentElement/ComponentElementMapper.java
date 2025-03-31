@@ -26,9 +26,11 @@ public class ComponentElementMapper {
         dto.setName(componentElement.getElementName());
         dto.setKey(componentElement.getName());
         dto.setStatus(componentElement.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
-        dto.setScope(componentElement.getApplicationScope().getScope());
-        dto.setModule(componentElement.getModule().getElementName());
-        dto.setComponent(componentElement.getComponent().getElementName());
+        dto.setScope(componentElement.getApplicationScope().getUniqueId());
+        dto.setModuleName(componentElement.getModule().getElementName());
+        dto.setComponentName(componentElement.getComponent().getElementName());
+        dto.setModule(componentElement.getModule().getId());
+        dto.setComponent(componentElement.getComponent().getId());
         log.info("ComponentElementMapper.mapToDTO() => ended.");
         return dto;
     }

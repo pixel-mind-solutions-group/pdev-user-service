@@ -16,7 +16,7 @@ import java.util.List;
 public class UserRoleResponseDTO {
     private Integer userRoleId;
     private String role;
-    private Boolean active;
+    private String status;
     private ApplicationScopeResponseDTO applicationScope;
     private List<UserRoleHasModuleResponseDTO> userRoleHasModules = new ArrayList<>();
 }
