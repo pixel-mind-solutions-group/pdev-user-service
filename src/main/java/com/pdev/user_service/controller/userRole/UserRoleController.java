@@ -42,7 +42,7 @@ public class UserRoleController {
         return ResponseEntity.ok(userRoleService.getById(id));
     }
 
-    @PostMapping(value = "/delete-by-id")
+    @DeleteMapping(value = "/delete-by-id")
     public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
         log.info("UserRoleController.deleteById() => started.");
         return ResponseEntity.ok(userRoleService.deleteById(id));
