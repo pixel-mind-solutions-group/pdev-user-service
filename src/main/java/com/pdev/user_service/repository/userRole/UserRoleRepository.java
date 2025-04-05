@@ -5,6 +5,7 @@ import com.pdev.user_service.model.userRole.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,5 +16,8 @@ import java.util.Optional;
 public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 
     Optional<UserRole> findByRole(String userRole);
+
     Optional<UserRole> findByRoleAndApplicationScope(String userRole, ApplicationScope applicationScope);
+
+    List<UserRole> findByApplicationScopeUniqueIdAndActive(String uuid, Boolean aTrue);
 }

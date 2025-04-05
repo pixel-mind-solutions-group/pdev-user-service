@@ -42,6 +42,12 @@ public class UserRoleController {
         return ResponseEntity.ok(userRoleService.getById(id));
     }
 
+    @GetMapping(value = "/get-by-scope")
+    public ResponseEntity<CommonResponse> getByScope(@RequestParam(value = "uuid") String uuid) {
+        log.info("UserRoleController.getByScope() => started.");
+        return ResponseEntity.ok(userRoleService.getByScope(uuid));
+    }
+
     @DeleteMapping(value = "/delete-by-id")
     public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
         log.info("UserRoleController.deleteById() => started.");

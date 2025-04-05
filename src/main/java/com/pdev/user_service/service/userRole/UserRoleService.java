@@ -15,4 +15,6 @@ public interface UserRoleService {
     CommonResponse getById(int id);
 
     CommonResponse deleteById(int id);
+
+    CommonResponse getByScope(String uuid);
 }
