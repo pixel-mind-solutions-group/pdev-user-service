@@ -18,4 +18,6 @@ public interface ModuleRepository extends JpaRepository<Module, Integer> {
     Module findByElementNameIgnoreCase(String name);
 
     List<Module> findByApplicationScopeUniqueId(String uuid);
+
+    Module findByIdAndActive(Integer id, Boolean active);
 }

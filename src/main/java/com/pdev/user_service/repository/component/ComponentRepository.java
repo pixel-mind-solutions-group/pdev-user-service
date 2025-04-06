@@ -21,4 +21,6 @@ public interface ComponentRepository extends JpaRepository<Component, Integer> {
     List<Component> findByApplicationScopeUniqueIdAndModuleId(String scope, Integer module);
 
     List<Component> findByModule(Module module);
+
+    Component findByIdAndActive(Integer c, Boolean aTrue);
 }

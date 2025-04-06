@@ -22,4 +22,6 @@ public interface ComponentElementRepository extends JpaRepository<ComponentEleme
     List<ComponentElement> findByComponent(Component component);
 
     List<ComponentElement> findByApplicationScopeAndComponent(ApplicationScope applicationScope, Component componentObj);
+
+    ComponentElement findByIdAndActive(Integer ce, Boolean aTrue);
 }
