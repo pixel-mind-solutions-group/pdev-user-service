@@ -41,14 +41,16 @@ public interface ComponentService {
     /**
      * This method is allowed to get all components by scope and module
      *
-     * @param scope    {@link String} - scope uuid
-     * @param moduleId {@link int} - module id
+     * @param scope  {@link String} - scope uuid
+     * @param module {@link int} - module id
      * @return {@link CommonResponse} - all components by scope and module
      * @author @maleeshasa
      */
-    CommonResponse getByScopeAndModule(String scope, List<Integer> moduleId);
+    CommonResponse getByScopeAndModule(String scope, Integer module);
 
     CommonResponse deleteById(int id);
 
     CommonResponse getById(Integer id);
+
+    CommonResponse getByScopeAndModules(String scope, List<Integer> modules);
 }

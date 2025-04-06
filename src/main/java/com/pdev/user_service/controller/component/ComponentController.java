@@ -80,14 +80,14 @@ public class ComponentController {
     public ResponseEntity<CommonResponse> getByScopeAndModule(@RequestParam(value = "scope") String scope,
                                                               @RequestParam(value = "module") Integer moduleId) {
         log.info("ComponentController.getByScopeAndModule() => started.");
-        return ResponseEntity.ok(componentService.getByScopeAndModule(scope, List.of(moduleId)));
+        return ResponseEntity.ok(componentService.getByScopeAndModule(scope, moduleId));
     }
 
     @GetMapping(value = "/get-by-scope-and-modules")
     public ResponseEntity<CommonResponse> getByScopeAndModules(@RequestParam(value = "scope") String scope,
                                                                @RequestParam(value = "modules") List<Integer> modules) {
         log.info("ComponentController.getByScopeAndModules() => started.");
-        return ResponseEntity.ok(componentService.getByScopeAndModule(scope, modules));
+        return ResponseEntity.ok(componentService.getByScopeAndModules(scope, modules));
     }
 
     @DeleteMapping(value = "/delete-by-id")

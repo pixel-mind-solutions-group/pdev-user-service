@@ -3,6 +3,8 @@ package com.pdev.user_service.service.impl.component;
 import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.dto.component.ComponentResponseDTO;
+import com.pdev.user_service.dto.component.ComponentsByModuleResponseDTO;
+import com.pdev.user_service.dto.module.ModuleResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.applicationScope.ApplicationScopeMapper;
 import com.pdev.user_service.mapper.component.ComponentMapper;
@@ -143,6 +145,29 @@ public class ComponentServiceImpl implements ComponentService {
         );
     }
 
+    @Override
+    public CommonResponse getByScopeAndModules(String scope, List<Integer> modules) {
+        log.info("ComponentServiceImpl.getByScopeAndModules() => started.");
+        List<ComponentsByModuleResponseDTO> list = new ArrayList<>();
+        for (Integer module : modules) {
+            Module moduleObj = moduleRepository.findById(module).orElseThrow(() -> new RecordNotFoundException("Module is not exists."));
+            List<Component> components = componentRepository.findByApplicationScopeUniqueIdAndModuleId(scope, moduleObj.getId());
+            if (!components.isEmpty()) {
+                ComponentsByModuleResponseDTO response = new ComponentsByModuleResponseDTO();
+                response.setComponents(componentMapper.mapToList(components));
+                response.setModule(moduleMapper.mapToDTO(new ModuleResponseDTO(), moduleObj));
+                list.add(response);
+            }
+        }
+        if (!list.isEmpty()) {
+            log.info("Components are exists for scope and modules.");
+            return new CommonResponse(HttpStatus.OK, "Components are exists.", list);
+        } else {
+            log.info("Components are not exists for scope and modules.");
+            return new CommonResponse(HttpStatus.NO_CONTENT, "Components are not exists.", null);
+        }
+    }
+
     /**
      * This method is allowed to get all components
      *
@@ -181,15 +206,16 @@ public class ComponentServiceImpl implements ComponentService {
     /**
      * This method is allowed to get all components by scope and module
      *
-     * @param scope   {@link String} - scope uuid
-     * @param modules {@link int} - modules
+     * @param scope  {@link String} - scope uuid
+     * @param module {@link int} - modules
      * @return {@link CommonResponse} - all components by scope and module
      * @author @maleeshasa
      */
     @Override
-    public CommonResponse getByScopeAndModule(String scope, List<Integer> modules) {
+    public CommonResponse getByScopeAndModule(String scope, Integer module) {
         log.info("ComponentServiceImpl.getByScopeAndModule() => started.");
-        List<Component> components = componentRepository.findByApplicationScopeUniqueIdAndModuleIdIn(scope, modules);
+        Module moduleObj = moduleRepository.findById(module).orElseThrow(() -> new RecordNotFoundException("Module is not exists."));
+        List<Component> components = componentRepository.findByApplicationScopeUniqueIdAndModuleId(scope, moduleObj.getId());
         if (!components.isEmpty()) {
             log.info("Components are exists for scope and module.");
             return new CommonResponse(HttpStatus.OK, "Components are exists.", componentMapper.mapToList(components));
