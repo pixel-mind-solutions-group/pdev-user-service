@@ -4,6 +4,8 @@ import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.util.CommonResponse;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * @author @maleeshasa
  * @Date 2024/02/22
@@ -44,7 +46,7 @@ public interface ComponentService {
      * @return {@link CommonResponse} - all components by scope and module
      * @author @maleeshasa
      */
-    CommonResponse getByScopeAndModule(String scope, int moduleId);
+    CommonResponse getByScopeAndModule(String scope, List<Integer> moduleId);
 
     CommonResponse deleteById(int id);
 

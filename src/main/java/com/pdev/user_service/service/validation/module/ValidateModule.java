@@ -6,6 +6,7 @@ import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
 import com.pdev.user_service.model.module.Module;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
+import com.pdev.user_service.repository.component.ComponentRepository;
 import com.pdev.user_service.repository.module.ModuleRepository;
 import com.pdev.user_service.service.validation.CommonValidation;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class ValidateModule {
 
+    private final ComponentRepository componentRepository;
     private final ApplicationScopeRepository applicationScopeRepository;
     private final ModuleRepository moduleRepository;
 
@@ -116,9 +118,10 @@ public class ValidateModule {
             if (byKeyName != null) {
                 throw new BaseException(422, "Entered key is already in used: " + byKeyName.getName());
 
-            } else if (byModuleName != null) {
-                throw new BaseException(422, "Entered element name is already in used: " + byModuleName.getElementName());
             }
+//            else if (byModuleName != null) {
+//                throw new BaseException(422, "Entered element name is already in used: " + byModuleName.getElementName());
+//            }
 
         } else {
             Module byId = moduleRepository.findById(moduleId).orElseThrow(() -> new RecordNotFoundException("Module is not exists."));
@@ -128,12 +131,19 @@ public class ValidateModule {
                 }
             }
 
-            if (!byId.getElementName().equalsIgnoreCase(module)) {
-                if (byModuleName != null) {
-                    throw new BaseException(422, "Entered element name is already in used for another module: " + byModuleName.getElementName());
-                }
-            }
+//            if (!byId.getElementName().equalsIgnoreCase(module)) {
+//                if (byModuleName != null) {
+//                    throw new BaseException(422, "Entered element name is already in used for another module: " + byModuleName.getElementName());
+//                }
+//            }
         }
         log.info("ValidateModule.validateModuleNameAndKey() => ended.");
+    }
+
+    public void validateDeletion(Module module) {
+        List<com.pdev.user_service.model.component.Component> byModule = componentRepository.findByModule(module);
+        if (!byModule.isEmpty()) {
+            throw new BaseException(400, "Module is already in used.");
+        }
     }
 }

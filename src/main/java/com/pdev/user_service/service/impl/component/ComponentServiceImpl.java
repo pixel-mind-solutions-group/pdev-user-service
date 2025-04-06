@@ -3,7 +3,6 @@ package com.pdev.user_service.service.impl.component;
 import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.dto.component.ComponentResponseDTO;
-import com.pdev.user_service.dto.module.ModuleResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.applicationScope.ApplicationScopeMapper;
 import com.pdev.user_service.mapper.component.ComponentMapper;
@@ -182,15 +181,15 @@ public class ComponentServiceImpl implements ComponentService {
     /**
      * This method is allowed to get all components by scope and module
      *
-     * @param scope    {@link String} - scope uuid
-     * @param moduleId {@link int} - module id
+     * @param scope   {@link String} - scope uuid
+     * @param modules {@link int} - modules
      * @return {@link CommonResponse} - all components by scope and module
      * @author @maleeshasa
      */
     @Override
-    public CommonResponse getByScopeAndModule(String scope, int moduleId) {
+    public CommonResponse getByScopeAndModule(String scope, List<Integer> modules) {
         log.info("ComponentServiceImpl.getByScopeAndModule() => started.");
-        List<Component> components = componentRepository.findByApplicationScopeUniqueIdAndModuleId(scope, moduleId);
+        List<Component> components = componentRepository.findByApplicationScopeUniqueIdAndModuleIdIn(scope, modules);
         if (!components.isEmpty()) {
             log.info("Components are exists for scope and module.");
             return new CommonResponse(HttpStatus.OK, "Components are exists.", componentMapper.mapToList(components));
@@ -203,6 +202,7 @@ public class ComponentServiceImpl implements ComponentService {
     @Override
     public CommonResponse deleteById(int id) {
         Component component = componentRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Component not found."));
+        validateComponent.validateDeletion(component);
         componentRepository.delete(component);
         return new CommonResponse(
                 HttpStatus.OK, "Component is deleted.", null

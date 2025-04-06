@@ -1,6 +1,7 @@
 package com.pdev.user_service.repository.component;
 
 import com.pdev.user_service.model.component.Component;
+import com.pdev.user_service.model.module.Module;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,7 @@ public interface ComponentRepository extends JpaRepository<Component, Integer> {
 
     Component findByElementNameIgnoreCase(String component);
 
-    List<Component> findByApplicationScopeUniqueIdAndModuleId(String scope, int moduleId);
+    List<Component> findByApplicationScopeUniqueIdAndModuleIdIn(String scope, List<Integer> moduleId);
+
+    List<Component> findByModule(Module module);
 }

@@ -15,6 +15,7 @@ public class ComponentElementResponseDTO {
     private String key;
     private String status;
     private String scope;
+    private String uuid;
     private Integer module;
     private String moduleName;
     private Integer component;

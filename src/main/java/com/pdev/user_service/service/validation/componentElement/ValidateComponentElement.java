@@ -103,7 +103,7 @@ public class ValidateComponentElement {
     private void validateComponentElementNameAndKey(String componentElement, String key, AtomicBoolean isCreation, Integer componentElementId) {
         log.info("ValidateComponentElement.validateComponentElementNameAndKey() => started.");
         ComponentElement byKeyName = componentElementRepository.findByNameIgnoreCase(key);
-        ComponentElement byComponentElementName = componentElementRepository.findByElementNameIgnoreCase(componentElement);
+//        ComponentElement byComponentElementName = componentElementRepository.findByElementNameIgnoreCase(componentElement);
 
         if (key.equalsIgnoreCase(componentElement)) {
             throw new BaseException(422, "Both key and name must not be same." + key + " : " + componentElement);
@@ -113,9 +113,10 @@ public class ValidateComponentElement {
             if (byKeyName != null) {
                 throw new BaseException(422, "Entered key is already in used: " + byKeyName.getName());
 
-            } else if (byComponentElementName != null) {
-                throw new BaseException(422, "Entered element name is already in used: " + byComponentElementName.getElementName());
             }
+//            else if (byComponentElementName != null) {
+//                throw new BaseException(422, "Entered element name is already in used: " + byComponentElementName.getElementName());
+//            }
 
         } else {
             ComponentElement byId = componentElementRepository.findById(componentElementId).orElseThrow(() -> new RecordNotFoundException("Component element is not exists."));
@@ -125,11 +126,11 @@ public class ValidateComponentElement {
                 }
             }
 
-            if (!byId.getElementName().equalsIgnoreCase(componentElement)) {
-                if (byComponentElementName != null) {
-                    throw new BaseException(422, "Entered element name is already in used for another component element: " + byComponentElementName.getElementName());
-                }
-            }
+//            if (!byId.getElementName().equalsIgnoreCase(componentElement)) {
+//                if (byComponentElementName != null) {
+//                    throw new BaseException(422, "Entered element name is already in used for another component element: " + byComponentElementName.getElementName());
+//                }
+//            }
         }
         log.info("ValidateComponentElement.validateComponentElementNameAndKey() => ended.");
     }

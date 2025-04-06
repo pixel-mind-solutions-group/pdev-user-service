@@ -4,8 +4,10 @@ import com.pdev.user_service.dto.component.ComponentRequestDTO;
 import com.pdev.user_service.exception.BaseException;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
+import com.pdev.user_service.model.componentElement.ComponentElement;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.repository.component.ComponentRepository;
+import com.pdev.user_service.repository.componentElement.ComponentElementRepository;
 import com.pdev.user_service.service.validation.CommonValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class ValidateComponent {
 
     private final ApplicationScopeRepository applicationScopeRepository;
     private final ComponentRepository componentRepository;
+    private final ComponentElementRepository componentElementRepository;
 
     public void validateComponent(ComponentRequestDTO componentRequest) {
         log.info("ValidateComponent.validateComponent() => started.");
@@ -113,9 +116,10 @@ public class ValidateComponent {
             if (byKeyName != null) {
                 throw new BaseException(422, "Entered key is already in used: " + byKeyName.getName());
 
-            } else if (byComponentName != null) {
-                throw new BaseException(422, "Entered element name is already in used: " + byComponentName.getElementName());
             }
+//            else if (byComponentName != null) {
+//                throw new BaseException(422, "Entered element name is already in used: " + byComponentName.getElementName());
+//            }
 
         } else {
             com.pdev.user_service.model.component.Component byId = componentRepository.findById(componentId).orElseThrow(() -> new RecordNotFoundException("Component is not exists."));
@@ -125,12 +129,19 @@ public class ValidateComponent {
                 }
             }
 
-            if (!byId.getElementName().equalsIgnoreCase(component)) {
-                if (byComponentName != null) {
-                    throw new BaseException(422, "Entered element name is already in used for another component: " + byComponentName.getElementName());
-                }
-            }
+//            if (!byId.getElementName().equalsIgnoreCase(component)) {
+//                if (byComponentName != null) {
+//                    throw new BaseException(422, "Entered element name is already in used for another component: " + byComponentName.getElementName());
+//                }
+//            }
         }
         log.info("ValidateComponent.validateComponentNameAndKey() => ended.");
+    }
+
+    public void validateDeletion(com.pdev.user_service.model.component.Component component) {
+        List<ComponentElement> componentElements = componentElementRepository.findByComponent(component);
+        if (!componentElements.isEmpty()) {
+            throw new BaseException(400, "Component is already in used.");
+        }
     }
 }

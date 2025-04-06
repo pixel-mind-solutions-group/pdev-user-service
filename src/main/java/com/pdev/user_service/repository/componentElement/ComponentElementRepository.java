@@ -1,8 +1,11 @@
 package com.pdev.user_service.repository.componentElement;
 
+import com.pdev.user_service.model.component.Component;
 import com.pdev.user_service.model.componentElement.ComponentElement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author @maleeshasa
@@ -14,4 +17,6 @@ public interface ComponentElementRepository extends JpaRepository<ComponentEleme
     ComponentElement findByNameIgnoreCase(String key);
 
     ComponentElement findByElementNameIgnoreCase(String component);
+
+    List<ComponentElement> findByComponent(Component component);
 }
