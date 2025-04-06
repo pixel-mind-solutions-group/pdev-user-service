@@ -2,9 +2,12 @@ package com.pdev.user_service.service.impl.componentElement;
 
 import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.component.ComponentRequestDTO;
+import com.pdev.user_service.dto.component.ComponentResponseDTO;
 import com.pdev.user_service.dto.componentElement.ComponentElementRequestDTO;
 import com.pdev.user_service.dto.componentElement.ComponentElementResponseDTO;
+import com.pdev.user_service.dto.componentElement.ComponentElementsByComponentResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
+import com.pdev.user_service.mapper.component.ComponentMapper;
 import com.pdev.user_service.mapper.componentElement.ComponentElementMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
@@ -46,6 +49,7 @@ public class ComponentElementServiceImpl implements ComponentElementService {
     private final ComponentRepository componentRepository;
     private final ValidateComponentElement validateComponentElement;
     private final ComponentElementMapper componentElementMapper;
+    private final ComponentMapper componentMapper;
     private final CommonUtil commonUtil;
 
     /**
@@ -189,5 +193,29 @@ public class ComponentElementServiceImpl implements ComponentElementService {
         return new CommonResponse(
                 HttpStatus.OK, "Component element is deleted.", null
         );
+    }
+
+    @Override
+    public CommonResponse getByScopeAndComponents(String scope, List<Integer> components) {
+        log.info("ComponentElementServiceImpl.getByScopeAndComponents() => started.");
+        List<ComponentElementsByComponentResponseDTO> list = new ArrayList<>();
+        for (Integer component : components) {
+            ApplicationScope applicationScope = applicationScopeRepository.findByUniqueId(scope);
+            Component componentObj = componentRepository.findById(component).orElseThrow(() -> new RecordNotFoundException("Component is not exists."));
+            List<ComponentElement> componentElements = componentElementRepository.findByApplicationScopeAndComponent(applicationScope, componentObj);
+            if (!componentElements.isEmpty()) {
+                ComponentElementsByComponentResponseDTO response = new ComponentElementsByComponentResponseDTO();
+                response.setComponent(componentMapper.mapToDTO(new ComponentResponseDTO(), componentObj));
+                response.setElements(componentElementMapper.mapToList(componentElements));
+                list.add(response);
+            }
+        }
+        if (!list.isEmpty()) {
+            log.info("Component elements are exists for scope and modules.");
+            return new CommonResponse(HttpStatus.OK, "Component elements are exists.", list);
+        } else {
+            log.info("Component elements are not exists for scope and modules.");
+            return new CommonResponse(HttpStatus.NO_CONTENT, "Component elements are not exists.", null);
+        }
     }
 }

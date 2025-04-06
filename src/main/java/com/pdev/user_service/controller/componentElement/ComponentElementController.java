@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author @maleeshasa
  * @Date 2024/02/22
@@ -71,5 +73,12 @@ public class ComponentElementController {
     public ResponseEntity<CommonResponse> deleteById(@RequestParam(value = "id") int id) {
         log.info("ComponentElementController.deleteById() => started.");
         return ResponseEntity.ok(componentElementService.deleteById(id));
+    }
+
+    @GetMapping(value = "/get-by-scope-and-components")
+    public ResponseEntity<CommonResponse> getByScopeAndComponents(@RequestParam(value = "scope") String scope,
+                                                                  @RequestParam(value = "components") List<Integer> components) {
+        log.info("ComponentController.getByScopeAndModulesAndComponents() => started.");
+        return ResponseEntity.ok(componentElementService.getByScopeAndComponents(scope, components));
     }
 }

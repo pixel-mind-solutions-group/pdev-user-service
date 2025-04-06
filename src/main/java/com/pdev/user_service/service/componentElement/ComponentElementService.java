@@ -6,6 +6,8 @@ import com.pdev.user_service.util.CommonResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 /**
  * @author @maleeshasa
  * @Date 2025/02/22
@@ -41,4 +43,6 @@ public interface ComponentElementService {
     CommonResponse deleteById(int id);
 
     CommonResponse getById(Integer id);
+
+    CommonResponse getByScopeAndComponents(String scope, List<Integer> components);
 }
