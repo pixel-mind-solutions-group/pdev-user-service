@@ -74,6 +74,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/iam/authorize-party-role/v1/**").permitAll()
                                 .requestMatchers("/api/iam/authorize-party-profile/v1/**").permitAll()
                                 .requestMatchers("/api/iam/user-role/v1/**").permitAll()
+                                .requestMatchers("/api/iam/access-control/v1/**").permitAll()
 
                                 .requestMatchers("/api/iam/v1/user/**").hasAuthority(RolePermissionsConstants.PERMISSION_USER_AUTH_SERVICE)
                                 .anyRequest().authenticated()
