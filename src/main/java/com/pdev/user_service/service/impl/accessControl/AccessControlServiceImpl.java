@@ -43,7 +43,6 @@ public class AccessControlServiceImpl implements AccessControlService {
     private final UserRoleHasModuleHasComponentHasElementRepository userRoleHasModuleHasComponentHasElementRepository;
 
     @Override
-    @Transactional
     public CommonResponse createOrUpdate(AccessControlRequestDTO accessControlRequest) {
         UserRole role = userRoleRepository.findById(accessControlRequest.getUserRole())
                 .orElseThrow(() -> new RecordNotFoundException("User role not found"));

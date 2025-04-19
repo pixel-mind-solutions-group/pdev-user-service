@@ -13,5 +13,8 @@ import java.util.List;
  */
 @Repository
 public interface UserRoleHasModuleRepository extends JpaRepository<UserRoleHasModule, Integer> {
+
+    void deleteAllByUserRole(UserRole role);
+
     List<UserRoleHasModule> findByUserRole(UserRole role);
 }

@@ -40,6 +40,6 @@ public class UserRoleHasModuleHasComponent {
     @JoinColumn(name = "component_id_component")
     private Component component;
 
-    @OneToMany(mappedBy = "userRoleHasModuleHasComponent", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "userRoleHasModuleHasComponent", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<UserRoleHasModuleHasComponentHasElement> userRoleHasModuleHasComponentHasElements = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package com.pdev.user_service.repository.userRole;
 
+import com.pdev.user_service.model.userRole.UserRole;
 import com.pdev.user_service.model.userRole.UserRoleHasModuleHasComponentHasElement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRoleHasModuleHasComponentHasElementRepository extends JpaRepository<UserRoleHasModuleHasComponentHasElement, Integer> {
+
+    void deleteAllByUserRoleHasModuleHasComponentUserRoleHasModuleUserRole(UserRole role);
 }
