@@ -1,7 +1,9 @@
 package com.pdev.user_service.service.impl.accessControl;
 
+import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.accessControl.AccessControlRequestDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
+import com.pdev.user_service.mapper.accessControl.AccessControlMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.component.Component;
 import com.pdev.user_service.model.componentElement.ComponentElement;
@@ -22,18 +24,23 @@ import com.pdev.user_service.util.CommonResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccessControlServiceImpl implements AccessControlService {
 
+    private final AccessControlMapper accessControlMapper;
     private final UserRoleRepository userRoleRepository;
     private final ModuleRepository moduleRepository;
     private final ComponentElementRepository componentElementRepository;
@@ -67,6 +74,37 @@ public class AccessControlServiceImpl implements AccessControlService {
         } catch (Exception e) {
             log.error("Error occurred while creating access control. Error: {}", e.getMessage());
             return new CommonResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred while creating access control.", null);
+        }
+    }
+
+    @Override
+    public CommonResponse getAllWithPagination(PageRequest pageRequest) {
+        log.info("AccessControlServiceImpl.getAllWithPagination() => started.");
+        CommonResponse commonResponse = new CommonResponse();
+
+        Page<UserRoleHasModule> userRoleHasModules = userRoleHasModuleRepository.findAll(pageRequest);
+        Set<UserRole> userRoles = userRoleHasModules.getContent().stream().map(UserRoleHasModule::getUserRole).collect(Collectors.toSet());
+
+        if (!userRoleHasModules.isEmpty()) {
+            log.info("Access controls are exists.");
+            // Constructing page response as pagination
+            PageResponse pageResponse = PageResponse.builder()
+                    .totalPages(userRoleHasModules.getTotalPages())
+                    .totalElements(userRoleHasModules.getTotalElements())
+                    .currentPage(userRoleHasModules.getNumber())
+                    .dataList(accessControlMapper.mapToDTOList(userRoles)).build();
+
+            commonResponse.setData(pageResponse);
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage("Access controls are exists.");
+            return commonResponse;
+
+        } else {
+            log.info("Access controls are not exists.");
+            commonResponse.setData(null);
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
+            commonResponse.setMessage("Access controls are not exists.");
+            return commonResponse;
         }
     }
 

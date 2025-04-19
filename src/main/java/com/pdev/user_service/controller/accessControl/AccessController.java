@@ -5,11 +5,9 @@ import com.pdev.user_service.service.accessControl.AccessControlService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,5 +20,12 @@ public class AccessController {
     @PostMapping(value = "/create-or-update")
     public ResponseEntity<CommonResponse> createOrUpdate(@RequestBody AccessControlRequestDTO accessControlRequest) {
         return ResponseEntity.ok(accessControlService.createOrUpdate(accessControlRequest));
+    }
+
+    @GetMapping(value = "/get-all-page")
+    public ResponseEntity<CommonResponse> getAllWithPagination(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(value = "size", defaultValue = "10") int size) {
+        log.info("AccessController.getAllWithPagination() => started.");
+        return ResponseEntity.ok(accessControlService.getAllWithPagination(PageRequest.of(page, size)));
     }
 }
