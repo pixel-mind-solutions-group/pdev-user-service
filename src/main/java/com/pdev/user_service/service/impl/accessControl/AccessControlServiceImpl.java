@@ -2,8 +2,16 @@ package com.pdev.user_service.service.impl.accessControl;
 
 import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.accessControl.AccessControlRequestDTO;
+import com.pdev.user_service.dto.accessControl.EditAccessControlResponseDTO;
+import com.pdev.user_service.dto.component.ComponentResponseDTO;
+import com.pdev.user_service.dto.component.ComponentsByModuleResponseDTO;
+import com.pdev.user_service.dto.componentElement.ComponentElementsByComponentResponseDTO;
+import com.pdev.user_service.dto.module.ModuleResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.accessControl.AccessControlMapper;
+import com.pdev.user_service.mapper.component.ComponentMapper;
+import com.pdev.user_service.mapper.componentElement.ComponentElementMapper;
+import com.pdev.user_service.mapper.module.ModuleMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.component.Component;
 import com.pdev.user_service.model.componentElement.ComponentElement;
@@ -40,6 +48,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccessControlServiceImpl implements AccessControlService {
 
+    private final ComponentElementMapper componentElementMapper;
+    private final ComponentMapper componentMapper;
+    private final ModuleMapper moduleMapper;
     private final AccessControlMapper accessControlMapper;
     private final UserRoleRepository userRoleRepository;
     private final ModuleRepository moduleRepository;
@@ -172,5 +183,37 @@ public class AccessControlServiceImpl implements AccessControlService {
             }
         }
         return userRoleHasModuleHasComponentHasElements;
+    }
+
+    @Override
+    public CommonResponse getById(int id) {
+        UserRole role = userRoleRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("User role not found."));
+        List<UserRoleHasModule> userRoleHasModules = userRoleHasModuleRepository.findByUserRole(role);
+        List<ModuleResponseDTO> moduleResponses = moduleMapper.mapToList(userRoleHasModules.stream().map(UserRoleHasModule::getModule).toList());
+
+        List<ComponentsByModuleResponseDTO> componentsByModules = new ArrayList<>();
+        for (UserRoleHasModule userRoleHasModule : userRoleHasModules) {
+            ComponentsByModuleResponseDTO componentsByModule = new ComponentsByModuleResponseDTO();
+            componentsByModule.setModule(moduleMapper.mapToDTO(new ModuleResponseDTO(), userRoleHasModule.getModule()));
+            componentsByModule.setComponents(componentMapper.mapToList(userRoleHasModule.getUserRoleHasModuleHasComponents().stream().map(UserRoleHasModuleHasComponent::getComponent).toList()));
+            componentsByModules.add(componentsByModule);
+        }
+
+        List<ComponentElementsByComponentResponseDTO> componentElementsByComponents = new ArrayList<>();
+        for (UserRoleHasModule userRoleHasModule : userRoleHasModules) {
+            for (UserRoleHasModuleHasComponent userRoleHasModuleHasComponent : userRoleHasModule.getUserRoleHasModuleHasComponents()) {
+                ComponentElementsByComponentResponseDTO response = new ComponentElementsByComponentResponseDTO();
+                response.setComponent(componentMapper.mapToDTO(new ComponentResponseDTO(), userRoleHasModuleHasComponent.getComponent()));
+                response.setElements(componentElementMapper.mapToList(userRoleHasModuleHasComponent.getUserRoleHasModuleHasComponentHasElements().stream().map(UserRoleHasModuleHasComponentHasElement::getComponentElement).toList()));
+                componentElementsByComponents.add(response);
+            }
+        }
+
+        EditAccessControlResponseDTO dto = new EditAccessControlResponseDTO();
+        dto.setModuleResponses(moduleResponses);
+        dto.setComponentsByModules(componentsByModules);
+        dto.setComponentElementsByComponents(componentElementsByComponents);
+        return new CommonResponse(HttpStatus.OK, "Access controls are exists.", dto);
     }
 }

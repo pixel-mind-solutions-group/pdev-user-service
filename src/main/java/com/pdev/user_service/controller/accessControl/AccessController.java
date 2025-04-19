@@ -28,4 +28,9 @@ public class AccessController {
         log.info("AccessController.getAllWithPagination() => started.");
         return ResponseEntity.ok(accessControlService.getAllWithPagination(PageRequest.of(page, size)));
     }
+
+    @GetMapping(value = "/get-by-id")
+    public ResponseEntity<CommonResponse> getById(@RequestParam(value = "id") int id) {
+        return ResponseEntity.ok(accessControlService.getById(id));
+    }
 }

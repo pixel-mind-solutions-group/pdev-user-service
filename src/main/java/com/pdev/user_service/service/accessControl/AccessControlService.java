@@ -9,4 +9,6 @@ public interface AccessControlService {
     CommonResponse createOrUpdate(AccessControlRequestDTO accessControlRequest);
 
     CommonResponse getAllWithPagination(PageRequest of);
+
+    CommonResponse getById(int id);
 }
