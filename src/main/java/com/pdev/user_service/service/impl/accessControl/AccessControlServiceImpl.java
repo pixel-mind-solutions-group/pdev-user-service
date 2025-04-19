@@ -43,6 +43,7 @@ public class AccessControlServiceImpl implements AccessControlService {
     private final UserRoleHasModuleHasComponentHasElementRepository userRoleHasModuleHasComponentHasElementRepository;
 
     @Override
+    @Transactional
     public CommonResponse createOrUpdate(AccessControlRequestDTO accessControlRequest) {
         UserRole role = userRoleRepository.findById(accessControlRequest.getUserRole())
                 .orElseThrow(() -> new RecordNotFoundException("User role not found"));
@@ -51,19 +52,11 @@ public class AccessControlServiceImpl implements AccessControlService {
         List<UserRoleHasModuleHasComponent> roleHasModuleHasComponents = mapUserRoleHasModuleHasComponentEntities(userRoleHasModules, accessControlRequest.getComponents());
         List<UserRoleHasModuleHasComponentHasElement> userRoleHasModuleHasComponentHasElements = mapUserRoleHasModuleHasComponentHasElementEntities(roleHasModuleHasComponents, accessControlRequest.getComponentElements());
 
-
         try {
-            // Deleting previous settings
-//// Step 1: Delete Elements (deepest level)
-//            userRoleHasModuleHasComponentHasElementRepository
-//                    .deleteAllByUserRoleHasModuleHasComponentUserRoleHasModuleUserRole(role);
-//
-//// Step 2: Delete Components
-//            userRoleHasModuleHasComponentRepository
-//                    .deleteAllByUserRoleHasModuleUserRole(role);
-
-// Step 3: Delete Modules (top level)
             List<UserRoleHasModule> existingModules = userRoleHasModuleRepository.findByUserRole(role);
+
+            log.info("Deleting {} modules.", existingModules.size());
+            role.getUserRoleHasModules().clear();
             userRoleHasModuleRepository.deleteAll(existingModules);
 
             // Creating new access settings
@@ -80,9 +73,10 @@ public class AccessControlServiceImpl implements AccessControlService {
     private List<UserRoleHasModule> mapUserRoleHasModuleEntities(UserRole role, List<Integer> modules) {
         List<UserRoleHasModule> userRoleHasModules = new ArrayList<>();
         for (Integer m : modules) {
-            Module module = moduleRepository.findByIdAndActive(m, Boolean.TRUE);
-            if (module == null) {
-                throw new RecordNotFoundException("Active module not found");
+            Module module = moduleRepository.findById(m)
+                    .orElseThrow(() -> new RecordNotFoundException("Module not found."));
+            if (!module.getActive()) {
+                throw new RecordNotFoundException("Module is in-active: " + module.getElementName() + "(" + module.getName() + ")");
             }
 
             UserRoleHasModule userRoleHasModule = new UserRoleHasModule();
@@ -100,9 +94,10 @@ public class AccessControlServiceImpl implements AccessControlService {
         for (UserRoleHasModule userRoleHasModule : userRoleHasModules) {
             List<Component> componentList = componentRepository.findByModule(userRoleHasModule.getModule());
             for (Integer c : components) {
-                Component component = componentRepository.findByIdAndActive(c, Boolean.TRUE);
-                if (component == null) {
-                    throw new RecordNotFoundException("Active component not found");
+                Component component = componentRepository.findById(c)
+                        .orElseThrow(() -> new RecordNotFoundException("Component not found."));
+                if (!component.getActive()) {
+                    throw new RecordNotFoundException("Component is in-active: " + component.getElementName() + "(" + component.getName() + ")");
                 }
                 if (componentList.contains(component)) {
                     UserRoleHasModuleHasComponent userRoleHasModuleHasComponent = new UserRoleHasModuleHasComponent();
@@ -123,9 +118,10 @@ public class AccessControlServiceImpl implements AccessControlService {
         for (UserRoleHasModuleHasComponent userRoleHasModuleHasComponent : roleHasModuleHasComponents) {
             List<ComponentElement> componentElementList = componentElementRepository.findByComponent(userRoleHasModuleHasComponent.getComponent());
             for (Integer ce : componentElements) {
-                ComponentElement componentElement = componentElementRepository.findByIdAndActive(ce, Boolean.TRUE);
-                if (componentElement == null) {
-                    throw new RecordNotFoundException("Active component element not found");
+                ComponentElement componentElement = componentElementRepository.findById(ce)
+                        .orElseThrow(() -> new RecordNotFoundException("Component element not found."));
+                if (!componentElement.getActive()) {
+                    throw new RecordNotFoundException("Component element is in-active: " + componentElement.getElementName() + "(" + componentElement.getName() + ")");
                 }
                 if (componentElementList.contains(componentElement)) {
                     UserRoleHasModuleHasComponentHasElement userRoleHasModuleHasComponentHasElement = new UserRoleHasModuleHasComponentHasElement();

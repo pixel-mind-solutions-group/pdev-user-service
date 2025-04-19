@@ -29,11 +29,11 @@ public class UserRoleHasModuleHasComponentHasElement {
     })
     private AuditData auditData;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "user_role_has_module_has_component_id_user_role_has_module_has_")
     private UserRoleHasModuleHasComponent userRoleHasModuleHasComponent;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "component_element_id_component_element")
     private ComponentElement componentElement;
 

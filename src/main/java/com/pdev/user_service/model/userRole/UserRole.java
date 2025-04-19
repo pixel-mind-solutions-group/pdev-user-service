@@ -42,6 +42,6 @@ public class UserRole {
     @JoinColumn(name = "application_scope_id_application_scope")
     private ApplicationScope applicationScope;
 
-    @OneToMany(mappedBy = "userRole", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userRole", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserRoleHasModule> userRoleHasModules = new ArrayList<>();
 }

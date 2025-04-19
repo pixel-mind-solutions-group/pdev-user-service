@@ -3,7 +3,8 @@ package com.pdev.user_service.model.userRole;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.module.Module;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,14 @@ public class UserRoleHasModule {
     })
     private AuditData auditData;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "user_role_id_user_role")
     private UserRole userRole;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "module_id_module")
     private Module module;
 
-    @OneToMany(mappedBy = "userRoleHasModule", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "userRoleHasModule", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRoleHasModuleHasComponent> userRoleHasModuleHasComponents = new ArrayList<>();
 }

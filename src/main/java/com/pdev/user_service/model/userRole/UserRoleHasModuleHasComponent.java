@@ -32,14 +32,14 @@ public class UserRoleHasModuleHasComponent {
     })
     private AuditData auditData;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_role_has_module_id_user_role_has_module")
     private UserRoleHasModule userRoleHasModule;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "component_id_component")
     private Component component;
 
-    @OneToMany(mappedBy = "userRoleHasModuleHasComponent", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "userRoleHasModuleHasComponent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRoleHasModuleHasComponentHasElement> userRoleHasModuleHasComponentHasElements = new ArrayList<>();
 }
