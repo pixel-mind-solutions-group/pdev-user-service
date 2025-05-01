@@ -34,7 +34,7 @@ public class UserController {
      * @return {@link ResponseEntity<CommonResponse>} - user created or modified response
      * @author maleesahsa
      */
-    @PreAuthorize("hasRole(T(com.pdev.user_service.constant.UserRoles).ADMIN) and hasAuthority(T(com.pdev.user_service.constant.RolePermissionsConstants).PERMISSION_USER_AUTH_SERVICE)")
+    //@PreAuthorize("hasRole(T(com.pdev.user_service.constant.UserRoles).ADMIN) and hasAuthority(T(com.pdev.user_service.constant.RolePermissionsConstants).PERMISSION_USER_AUTH_SERVICE)")
     @PostMapping(value = "/ad/create-or-modify")
     public ResponseEntity<CommonResponse> createOrModifyAD(@RequestBody UserRequestDTO userRequest) {
         log.info("UserController.createOrModify() => started.");

@@ -24,6 +24,7 @@ public class UserResponseDTO {
     private String lastName;
     private String userName;
     private Boolean active;
+    private String status;
     private Short failCount;
     private Boolean accountNonLocked;
     private List<AuthorizePartyResponseDTO> userHasAuthorizeParties = new ArrayList<>();

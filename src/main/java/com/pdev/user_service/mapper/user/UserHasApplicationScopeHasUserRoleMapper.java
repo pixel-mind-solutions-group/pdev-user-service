@@ -71,11 +71,11 @@ public class UserHasApplicationScopeHasUserRoleMapper {
 
         userHasApplicationScopeHasUserRoles.forEach(dto -> {
             UserHasApplicationScopeHasUserRole entity = new UserHasApplicationScopeHasUserRole();
-            entity.setUserRole(userRoleRepository.findById(dto.getUserRoleId())
-                    .orElseThrow(() -> new RecordNotFoundException("User role is not exists.")));
+            UserRole userRole = userRoleRepository.findById(dto.getUserRoleId())
+                    .orElseThrow(() -> new RecordNotFoundException("User role is not exists."));
+            entity.setUserRole(userRole);
             entity.setUser(user);
-            entity.setApplicationScope(applicationScopeRepository.findById(dto.getApplicationScopeId())
-                    .orElseThrow(() -> new RecordNotFoundException("Application scope is not exists.")));
+            entity.setApplicationScope(userRole.getApplicationScope());
             entity.setAuditData(new AuditData(LocalDateTime.now(), "admin"));
             entity.setActive(Boolean.TRUE);
             entities.add(entity);

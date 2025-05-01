@@ -2,6 +2,7 @@ package com.pdev.user_service.mapper.user;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
+import com.pdev.user_service.enums.CommonStatus;
 import com.pdev.user_service.mapper.authorizeParty.AuthorizePartyMapper;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.model.user.UserHasAuthorizeParty;
@@ -38,6 +39,7 @@ public class UserAccountMapper {
         dto.setLastName(user.getLastName());
         dto.setUserName(user.getUserName());
         dto.setActive(user.getActive());
+        dto.setStatus(user.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
         dto.setFailCount(user.getFailCount());
         dto.setAccountNonLocked(user.getAccountNonLocked());
         dto.setUserHasAuthorizeParties(
@@ -66,7 +68,11 @@ public class UserAccountMapper {
         log.info("UserAccountMapper.mapToEntity() => started.");
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
-        user.setActive(userRequest.getActive());
+        user.setActive(userRequest.getStatus().equals(CommonStatus.ACTIVE.getValue()) ? Boolean.TRUE : Boolean.FALSE);
+        user.setEmail(userRequest.getEmail());
+        user.setAccountNonLocked(userRequest.getLocked());
+        user.setIsEmailVerified(userRequest.getEmailVerified());
+        user.setUserName(userRequest.getUserName());
         user.setFailCount((short) 0);
         user.setUserHasAuthorizeParties(userHasAuthorizePartyMapper.mapToADEntities(userRequest, user));
         user.setUserHasApplicationScopeHasUserRoles(

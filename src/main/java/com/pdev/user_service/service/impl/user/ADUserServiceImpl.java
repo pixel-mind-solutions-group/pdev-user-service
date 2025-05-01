@@ -2,6 +2,7 @@ package com.pdev.user_service.service.impl.user;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
+import com.pdev.user_service.enums.CommonStatus;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.user.UserAccountMapper;
 import com.pdev.user_service.model.AuditData;
@@ -55,10 +56,6 @@ public class ADUserServiceImpl implements ADUserService {
         if (isNewUser) {
             log.info("User is new user.");
             user = new User();
-            user.setEmail(userRequest.getEmail());
-            user.setAccountNonLocked(Boolean.TRUE);
-            user.setIsEmailVerified(Boolean.TRUE);
-            user.setUserName(userRequest.getUserName());
             user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword())); // Set password only for new user
             user.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
             message = "User created successfully.";

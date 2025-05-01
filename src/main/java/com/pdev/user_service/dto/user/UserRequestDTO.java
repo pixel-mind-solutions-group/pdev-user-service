@@ -22,6 +22,9 @@ public class UserRequestDTO {
     private String password;
     private String uuid;
     private Boolean active;
+    private String status;
+    private Boolean emailVerified;
+    private Boolean locked;
     private List<Integer> userHasAuthorizePartyIds = new ArrayList<>();
     private List<String> userHasAuthorizeParties = new ArrayList<>();
     private List<UserHasApplicationScopeHasUserRoleRequestDTO> userHasApplicationScopeHasUserRoles = new ArrayList<>();

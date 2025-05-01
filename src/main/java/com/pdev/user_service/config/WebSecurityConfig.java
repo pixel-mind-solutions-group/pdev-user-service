@@ -61,9 +61,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers("/health/healthChecker").permitAll()
-                                .requestMatchers("/api/iam/v1/auth/user/token").permitAll()
-                                .requestMatchers("/api/iam/v1/user/get-by-username/**").permitAll()
-                                .requestMatchers("/api/iam/v1/user/non-ad/create").permitAll()
+                                .requestMatchers("/api/iam/auth/user/v1/token").permitAll()
+                                .requestMatchers("/api/iam/user/v1/get-by-username/**").permitAll()
+                                .requestMatchers("/api/iam/user/v1/non-ad/create").permitAll()
 
                                 // TODO: should remove after configure authorization for below endpoints
                                 .requestMatchers("/api/iam/application-scope/v1/**").permitAll()
@@ -77,7 +77,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/iam/access-control/v1/**").permitAll()
                                 .requestMatchers("/api/iam/user/v1/**").permitAll()
 
-                                .requestMatchers("/api/iam/v1/user/**").hasAuthority(RolePermissionsConstants.PERMISSION_USER_AUTH_SERVICE)
+                                .requestMatchers("/api/iam/user/v1/**").hasAuthority(RolePermissionsConstants.PERMISSION_USER_AUTH_SERVICE)
                                 .anyRequest().authenticated()
                 ).sessionManagement(ses -> ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
