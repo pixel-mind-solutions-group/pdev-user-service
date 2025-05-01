@@ -8,6 +8,7 @@ import com.pdev.user_service.service.user.UserService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/iam/v1/user")
+@RequestMapping(value = "/api/iam/user/v1")
 public class UserController {
 
     private final UserService userService;
@@ -84,4 +85,11 @@ public class UserController {
 
     // reset email
 
+
+    @GetMapping(value = "/get-all-page")
+    public ResponseEntity<CommonResponse> getAllWithPage(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                         @RequestParam(value = "size", defaultValue = "10") int size) {
+        log.info("UserController.getAllWithPage() => started.");
+        return ResponseEntity.ok(userService.getAllWithPage(PageRequest.of(page, size)));
+    }
 }

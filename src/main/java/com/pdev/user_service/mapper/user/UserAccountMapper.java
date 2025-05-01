@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,5 +88,16 @@ public class UserAccountMapper {
         user.setUserHasApplicationScopeHasUserRoles(
                 userHasApplicationScopeHasUserRoleMapper.mapToEntitiesForNonAD(userRequest.getUserHasApplicationScopeHasUserRoles(), user));
         log.info("UserAccountMapper.mapToNonADEntity() => ended.");
+    }
+
+    public List<UserResponseDTO> mapToLazyResponseList(List<User> content) {
+        List<UserResponseDTO> dtoList = new ArrayList<>();
+        if (!content.isEmpty()) {
+            dtoList = content.stream()
+                    .filter(uar -> uar.getActive().equals(Boolean.TRUE))
+                    .map(user -> mapToDTO(new UserResponseDTO(), user))
+                    .toList();
+        }
+        return dtoList;
     }
 }

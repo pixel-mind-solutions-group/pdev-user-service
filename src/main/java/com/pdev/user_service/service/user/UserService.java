@@ -2,6 +2,7 @@ package com.pdev.user_service.service.user;
 
 import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
 import com.pdev.user_service.util.CommonResponse;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author @maleeshasa
@@ -26,4 +27,6 @@ public interface UserService {
      * @author maleesahsa
      */
     CommonResponse getByUserDetails(UserDetailsRequestDTO userDetailsRequest);
+
+    CommonResponse getAllWithPage(PageRequest of);
 }

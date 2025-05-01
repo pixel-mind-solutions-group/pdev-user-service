@@ -1,5 +1,6 @@
 package com.pdev.user_service.service.impl.user;
 
+import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.user.UserResponseDTO;
 import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
 import com.pdev.user_service.dto.user.userDetails.UserDetailsResponseDTO;
@@ -18,6 +19,8 @@ import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -104,5 +107,25 @@ public class UserServiceImpl implements UserService {
 
         log.info("UserServiceImpl.getByUserDetails() => ended.");
         return commonResponse;
+    }
+
+    @Override
+    public CommonResponse getAllWithPage(PageRequest of) {
+        Page<User> users = userRepository.findAll(of);
+        if (!users.isEmpty()) {
+            PageResponse pageResponse = PageResponse.builder()
+                    .currentPage(users.getNumber())
+                    .totalPages(users.getTotalPages())
+                    .totalElements(users.getTotalElements())
+                    .dataList(userAccountMapper.mapToLazyResponseList(users.getContent())).build();
+
+            return new CommonResponse(
+                    HttpStatus.OK, "Users are exists.", pageResponse
+            );
+        } else {
+            return new CommonResponse(
+                    HttpStatus.NO_CONTENT, "Users not found.", null
+            );
+        }
     }
 }
