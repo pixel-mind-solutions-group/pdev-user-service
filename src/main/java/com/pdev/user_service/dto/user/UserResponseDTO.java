@@ -27,10 +27,15 @@ public class UserResponseDTO {
     private String status;
     private Short failCount;
     private Boolean accountNonLocked;
+    private Boolean isLocked;
     private List<AuthorizePartyResponseDTO> userHasAuthorizeParties = new ArrayList<>();
     private List<UserHasApplicationScopeHasUserRoleResponseDTO> userHasApplicationScopeHasUserRoles = new ArrayList<>();
 
     // custom value for kcs_v1
     private Map<String, String> appScopeWithRole = new HashMap<>();
     private String password;
+
+    // custom values for user update
+    private List<Integer> userAuthParties = new ArrayList<>();
+
 }

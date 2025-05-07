@@ -85,11 +85,16 @@ public class UserController {
 
     // reset email
 
-
     @GetMapping(value = "/get-all-page")
     public ResponseEntity<CommonResponse> getAllWithPage(@RequestParam(value = "page", defaultValue = "0") int page,
                                                          @RequestParam(value = "size", defaultValue = "10") int size) {
         log.info("UserController.getAllWithPage() => started.");
         return ResponseEntity.ok(userService.getAllWithPage(PageRequest.of(page, size)));
+    }
+
+    @GetMapping(value = "/get-by-id")
+    public ResponseEntity<CommonResponse> getById(@RequestParam(value = "userId") Integer userId) {
+        log.info("UserController.getById() => started.");
+        return ResponseEntity.ok(userService.getById(userId));
     }
 }

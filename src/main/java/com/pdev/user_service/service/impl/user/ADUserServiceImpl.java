@@ -2,20 +2,19 @@ package com.pdev.user_service.service.impl.user;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
-import com.pdev.user_service.enums.CommonStatus;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.user.UserAccountMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.user.User;
 import com.pdev.user_service.repository.user.UserRepository;
 import com.pdev.user_service.service.user.ADUserService;
+import com.pdev.user_service.service.validation.CommonValidation;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,7 +32,6 @@ public class ADUserServiceImpl implements ADUserService {
 
     private final UserAccountMapper userAccountMapper;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CommonUtil commonUtil;
 
     /**
@@ -56,7 +54,12 @@ public class ADUserServiceImpl implements ADUserService {
         if (isNewUser) {
             log.info("User is new user.");
             user = new User();
-            user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword())); // Set password only for new user
+            if (CommonValidation.stringNullValidation(userRequest.getPassword())) {
+                log.info("User password is null.");
+                commonResponse.setStatus(HttpStatus.EXPECTATION_FAILED);
+                commonResponse.setMessage("User password is not exists.");
+                return commonResponse;
+            }
             user.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
             message = "User created successfully.";
 

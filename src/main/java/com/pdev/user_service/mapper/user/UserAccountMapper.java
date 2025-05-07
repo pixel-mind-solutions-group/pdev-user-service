@@ -2,13 +2,18 @@ package com.pdev.user_service.mapper.user;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
+import com.pdev.user_service.dto.user.userHasApplicationScopeHasUserRole.UserHasApplicationScopeHasUserRoleResponseDTO;
+import com.pdev.user_service.dto.userRole.UserRoleResponseDTO;
 import com.pdev.user_service.enums.CommonStatus;
 import com.pdev.user_service.mapper.authorizeParty.AuthorizePartyMapper;
+import com.pdev.user_service.mapper.userRole.UserRoleMapper;
 import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
 import com.pdev.user_service.model.user.UserHasAuthorizeParty;
-import com.pdev.user_service.repository.user.UserHasAuthorizePartyRepository;
+import com.pdev.user_service.service.validation.CommonValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,10 +30,11 @@ import java.util.Map;
 @Component
 public class UserAccountMapper {
 
+    private final UserRoleMapper userRoleMapper;
     private final AuthorizePartyMapper authorizePartyMapper;
     private final UserHasAuthorizePartyMapper userHasAuthorizePartyMapper;
     private final UserHasApplicationScopeHasUserRoleMapper userHasApplicationScopeHasUserRoleMapper;
-    private final UserHasAuthorizePartyRepository userHasAuthorizePartyRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserResponseDTO mapToDTO(UserResponseDTO dto, User user) {
         log.info("UserAccountMapper.mapToDTO() => started.");
@@ -70,13 +76,16 @@ public class UserAccountMapper {
         user.setLastName(userRequest.getLastName());
         user.setActive(userRequest.getStatus().equals(CommonStatus.ACTIVE.getValue()) ? Boolean.TRUE : Boolean.FALSE);
         user.setEmail(userRequest.getEmail());
-        user.setAccountNonLocked(userRequest.getLocked());
+        user.setAccountNonLocked(userRequest.getLocked() ? Boolean.FALSE : Boolean.TRUE);
         user.setIsEmailVerified(userRequest.getEmailVerified());
         user.setUserName(userRequest.getUserName());
         user.setFailCount((short) 0);
         user.setUserHasAuthorizeParties(userHasAuthorizePartyMapper.mapToADEntities(userRequest, user));
         user.setUserHasApplicationScopeHasUserRoles(
                 userHasApplicationScopeHasUserRoleMapper.mapToEntitiesForAD(userRequest.getUserHasApplicationScopeHasUserRoles(), user));
+        if (!CommonValidation.stringNullValidation(userRequest.getPassword())) {
+            user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword())); // Set password only for new user
+        }
         log.info("UserAccountMapper.mapToEntity() => ended.");
     }
 
@@ -105,5 +114,34 @@ public class UserAccountMapper {
                     .toList();
         }
         return dtoList;
+    }
+
+    public UserResponseDTO mapToUpdateUserDTO(User byId) {
+        UserResponseDTO userResponse = new UserResponseDTO();
+        userResponse.setIdUser(byId.getId());
+        userResponse.setIsLocked(byId.getAccountNonLocked() ? Boolean.FALSE : Boolean.TRUE);
+        userResponse.setActive(byId.getActive());
+        userResponse.setFirstName(byId.getFirstName());
+        userResponse.setLastName(byId.getLastName());
+        userResponse.setUserName(byId.getUserName());
+        userResponse.setEmail(byId.getEmail());
+        userResponse.setStatus(byId.getActive() ? CommonStatus.ACTIVE.getValue() : CommonStatus.INACTIVE.getValue());
+        userResponse.setIsEmailVerified(byId.getIsEmailVerified());
+        userResponse.setAccountNonLocked(byId.getAccountNonLocked());
+        userResponse.setUserAuthParties(
+                byId.getUserHasAuthorizeParties().stream()
+                        .filter(UserHasAuthorizeParty::getActive)
+                        .map(u -> u.getAuthorizeParty().getId()).toList()
+        );
+        userResponse.setUserHasApplicationScopeHasUserRoles(
+                byId.getUserHasApplicationScopeHasUserRoles().stream()
+                        .filter(UserHasApplicationScopeHasUserRole::getActive)
+                        .map(uhr -> {
+                            UserHasApplicationScopeHasUserRoleResponseDTO dto = new UserHasApplicationScopeHasUserRoleResponseDTO();
+                            dto.setActive(uhr.getActive());
+                            dto.setUserRole(userRoleMapper.mapToDTO(new UserRoleResponseDTO(), uhr.getUserRole()));
+                            return dto;
+                        }).toList());
+        return userResponse;
     }
 }

@@ -128,4 +128,12 @@ public class UserServiceImpl implements UserService {
             );
         }
     }
+
+    @Override
+    public CommonResponse getById(Integer userId) {
+        User byId = userRepository.findById(userId)
+                .orElseThrow(() -> new RecordNotFoundException("User is not exists."));
+
+        return new CommonResponse(HttpStatus.OK, "User is exists.", userAccountMapper.mapToUpdateUserDTO(byId));
+    }
 }

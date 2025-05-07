@@ -29,4 +29,6 @@ public interface UserService {
     CommonResponse getByUserDetails(UserDetailsRequestDTO userDetailsRequest);
 
     CommonResponse getAllWithPage(PageRequest of);
+
+    CommonResponse getById(Integer userId);
 }
