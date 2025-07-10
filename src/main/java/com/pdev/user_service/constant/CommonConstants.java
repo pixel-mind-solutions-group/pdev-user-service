@@ -11,4 +11,5 @@ public class CommonConstants {
     public static final String BEARER = "Bearer ";
     public static final Integer LOGIN = 1;
     public static final Integer LOG_OUT = 0;
+    public static final String PIXEL_HR_MFA_REMARK = "pixel_hr_user_login";
 }

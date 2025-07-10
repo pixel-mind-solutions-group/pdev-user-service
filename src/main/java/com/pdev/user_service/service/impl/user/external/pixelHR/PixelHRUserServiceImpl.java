@@ -4,10 +4,14 @@ import com.pdev.user_service.builder.OneTimePasswordBuilder;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
+import com.pdev.user_service.mapper.mfa.MFARegistryMapper;
 import com.pdev.user_service.mapper.user.external.PixelHR.PixelHRUserAccountMapper;
 import com.pdev.user_service.model.AuditData;
+import com.pdev.user_service.model.mfa.MFARegistry;
 import com.pdev.user_service.model.user.external.pixelHR.PixelHRUser;
+import com.pdev.user_service.repository.mfa.MFARegistryRepository;
 import com.pdev.user_service.repository.user.external.pixelHR.PixelHRUserRepository;
+import com.pdev.user_service.service.mfa.MFARegistryService;
 import com.pdev.user_service.service.user.external.pixelHR.PixelHRUserService;
 import com.pdev.user_service.service.validation.CommonValidation;
 import com.pdev.user_service.util.CommonResponse;
@@ -25,8 +29,10 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class PixelHRUserServiceImpl implements PixelHRUserService {
 
+    private final MFARegistryMapper mfaRegistryMapper;
     private final PixelHRUserAccountMapper pixelHRUserAccountMapper;
     private final PixelHRUserRepository pixelHRUserRepository;
+    private final MFARegistryService mfaRegistryService;
     private final CommonUtil commonUtil;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final OneTimePasswordBuilder oneTimePasswordBuilder;
@@ -65,6 +71,10 @@ public class PixelHRUserServiceImpl implements PixelHRUserService {
             log.info("Saving or updating user...");
             // Save or update the user
             PixelHRUser savedUser = pixelHRUserRepository.save(user);
+
+            // Save mfa registry
+            mfaRegistryService.saveMFARegistry(userRequest);
+
             commonResponse.setStatus(HttpStatus.OK);
             commonResponse.setMessage(message);
             log.info("Constructing saved user response...");
