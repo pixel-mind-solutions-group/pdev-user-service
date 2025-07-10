@@ -2,7 +2,7 @@ package com.pdev.user_service.mapper.user;
 
 import com.pdev.user_service.dto.user.userDetails.UserDetailsResponseDTO;
 import com.pdev.user_service.dto.user.userHasApplicationScopeHasUserRole.UserHasApplicationScopeHasUserRoleResponseDTO;
-import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

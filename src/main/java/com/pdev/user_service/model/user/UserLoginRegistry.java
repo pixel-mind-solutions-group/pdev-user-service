@@ -1,6 +1,7 @@
 package com.pdev.user_service.model.user;
 
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
+import com.pdev.user_service.model.user.internal.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

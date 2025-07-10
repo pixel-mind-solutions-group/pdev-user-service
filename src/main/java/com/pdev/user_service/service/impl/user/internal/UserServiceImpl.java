@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.impl.user;
+package com.pdev.user_service.service.impl.user.internal;
 
 import com.pdev.user_service.controller.response.PageResponse;
 import com.pdev.user_service.dto.user.UserResponseDTO;
@@ -8,12 +8,12 @@ import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.user.UserAccountMapper;
 import com.pdev.user_service.mapper.user.UserDetailsMapper;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
-import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.repository.user.UserHasApplicationScopeHasUserRoleRepository;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.user.UserService;
+import com.pdev.user_service.service.user.internal.UserService;
 import com.pdev.user_service.service.validation.user.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;

@@ -1,6 +1,6 @@
 package com.pdev.user_service.service.impl.auth;
 
-import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.repository.user.UserRepository;
 import com.pdev.user_service.service.auth.CustomUserDetailsService;
 import lombok.AllArgsConstructor;

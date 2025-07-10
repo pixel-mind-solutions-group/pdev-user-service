@@ -1,7 +1,7 @@
 package com.pdev.user_service.repository.user;
 
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
-import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
 import com.pdev.user_service.model.userRole.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -3,7 +3,7 @@ package com.pdev.user_service.mapper.user;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.model.AuditData;
-import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.model.user.UserHasAuthorizeParty;
 import com.pdev.user_service.repository.authorizeParty.AuthorizePartyRepository;
 import com.pdev.user_service.util.CommonUtil;

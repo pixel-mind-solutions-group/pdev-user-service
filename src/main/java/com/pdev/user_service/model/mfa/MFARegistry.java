@@ -1,0 +1,35 @@
+package com.pdev.user_service.model.mfa;
+
+import com.pdev.user_service.model.applicationScope.ApplicationScope;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "mfa_registry")
+public class MFARegistry {
+    @Id
+    @Column(name = "id_mfa_registry")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "application_scope_id_application_scope", nullable = false)
+    private ApplicationScope applicationScope;
+
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @Column(name = "mfa_status")
+    private String mfaStatus;
+
+    @Column(name = "ref_value")
+    private String refValue;
+
+    @Column(name = "remark")
+    private String remark;
+}

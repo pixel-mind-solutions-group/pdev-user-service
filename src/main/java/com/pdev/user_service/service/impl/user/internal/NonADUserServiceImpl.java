@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.impl.user;
+package com.pdev.user_service.service.impl.user.internal;
 
 import com.pdev.user_service.dto.candidate.CandidateDTO;
 import com.pdev.user_service.dto.user.UserRequestDTO;
@@ -7,9 +7,9 @@ import com.pdev.user_service.enums.CommonStatus;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.user.UserAccountMapper;
 import com.pdev.user_service.model.AuditData;
-import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.user.NonADUserService;
+import com.pdev.user_service.service.user.internal.NonADUserService;
 import com.pdev.user_service.service.rest.candidate.CandidateClientService;
 import com.pdev.user_service.service.validation.user.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;

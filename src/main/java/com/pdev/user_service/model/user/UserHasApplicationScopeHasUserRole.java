@@ -2,6 +2,8 @@ package com.pdev.user_service.model.user;
 
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
+import com.pdev.user_service.model.user.external.pixelHR.PixelHRUser;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.model.userRole.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -33,9 +35,13 @@ public class UserHasApplicationScopeHasUserRole {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @JoinColumn(name = "user_id_user", nullable = false)
+    @JoinColumn(name = "user_id_user")
     @ManyToOne
     private User user;
+
+    @JoinColumn(name = "pixel_hr_user_id")
+    @ManyToOne
+    private PixelHRUser pixelHRUser;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "application_scope_id_application_scope")

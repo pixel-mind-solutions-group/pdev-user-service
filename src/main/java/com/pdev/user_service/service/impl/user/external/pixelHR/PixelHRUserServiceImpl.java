@@ -1,70 +1,54 @@
-package com.pdev.user_service.service.impl.user;
+package com.pdev.user_service.service.impl.user.external.pixelHR;
 
+import com.pdev.user_service.builder.OneTimePasswordBuilder;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
-import com.pdev.user_service.mapper.user.UserAccountMapper;
+import com.pdev.user_service.mapper.user.external.PixelHR.PixelHRUserAccountMapper;
 import com.pdev.user_service.model.AuditData;
-import com.pdev.user_service.model.user.User;
-import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.user.ADUserService;
+import com.pdev.user_service.model.user.external.pixelHR.PixelHRUser;
+import com.pdev.user_service.repository.user.external.pixelHR.PixelHRUserRepository;
+import com.pdev.user_service.service.user.external.pixelHR.PixelHRUserService;
 import com.pdev.user_service.service.validation.CommonValidation;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-/**
- * @author @maleeshasa
- * @Date 2024/11/15
- */
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ADUserServiceImpl implements ADUserService {
+public class PixelHRUserServiceImpl implements PixelHRUserService {
 
-    private final UserRepository userRepository;
-
-    private final UserAccountMapper userAccountMapper;
-
+    private final PixelHRUserAccountMapper pixelHRUserAccountMapper;
+    private final PixelHRUserRepository pixelHRUserRepository;
     private final CommonUtil commonUtil;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final OneTimePasswordBuilder oneTimePasswordBuilder;
 
-    /**
-     * This method is allowed to create or modify AD user
-     *
-     * @param userRequest {@link UserRequestDTO} - AD user request details
-     * @return {@link CommonResponse} - AD user created or modified response
-     * @author maleesahsa
-     */
-    @Transactional
     @Override
-    public CommonResponse createOrModifyAD(UserRequestDTO userRequest) {
-        log.info("UserServiceImpl.createOrModify() => started.");
+    public CommonResponse createOrModify(UserRequestDTO userRequest) {
         CommonResponse commonResponse = new CommonResponse();
         String message;
 
-        User user = userRepository.findByUserName(userRequest.getUserName());
+        PixelHRUser user = pixelHRUserRepository.findByUserName(userRequest.getUserName());
         boolean isNewUser = (user == null);
 
         if (isNewUser) {
             log.info("User is new user.");
-            user = new User();
-            if (CommonValidation.stringNullValidation(userRequest.getPassword())) {
-                log.info("User password is null.");
-                commonResponse.setStatus(HttpStatus.EXPECTATION_FAILED);
-                commonResponse.setMessage("User password is not exists.");
-                return commonResponse;
-            }
+            user = new PixelHRUser();
+            user.setPassword(bCryptPasswordEncoder.encode(oneTimePasswordBuilder.generatePassword()));
             user.setAuditData(new AuditData(LocalDateTime.now(), commonUtil.getUsername()));
             message = "User created successfully.";
 
         } else {
             log.info("User is existing user.");
+            user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
             user.getAuditData().setUpdatedBy(commonUtil.getUsername());
             user.getAuditData().setUpdatedOn(LocalDateTime.now());
             message = "User updated successfully.";
@@ -75,16 +59,16 @@ public class ADUserServiceImpl implements ADUserService {
 
         // Map user entity from request dto
         log.info("Mapping user entity...");
-        userAccountMapper.mapToADEntity(user, userRequest);
+        pixelHRUserAccountMapper.mapToEntity(user, userRequest);
 
         try {
             log.info("Saving or updating user...");
             // Save or update the user
-            User savedUser = userRepository.save(user);
+            PixelHRUser savedUser = pixelHRUserRepository.save(user);
             commonResponse.setStatus(HttpStatus.OK);
             commonResponse.setMessage(message);
             log.info("Constructing saved user response...");
-            commonResponse.setData(userAccountMapper.mapToDTO(new UserResponseDTO(), savedUser));
+            commonResponse.setData(pixelHRUserAccountMapper.mapToDTO(new UserResponseDTO(), savedUser));
 
         } catch (RecordNotFoundException ex) {
             // Handle record not found exceptions
@@ -104,17 +88,10 @@ public class ADUserServiceImpl implements ADUserService {
         return commonResponse;
     }
 
-    /**
-     * This method is allowed to in-active existing user data
-     *
-     * @param user {@link User} - existing user
-     * @author maleesahsa
-     */
-    private void inActiveExistingUserData(User user) {
-        log.info("UserServiceImpl.inActiveExistingUserData() => started.");
+    private void inActiveExistingUserData(PixelHRUser user) {
+        log.info("PixelHRUserServiceImpl.inActiveExistingUserData() => started.");
         user.getUserHasAuthorizeParties().forEach(entity -> entity.setActive(Boolean.FALSE));
-
         user.getUserHasApplicationScopeHasUserRoles().forEach(entity -> entity.setActive(Boolean.FALSE));
-        log.info("UserServiceImpl.inActiveExistingUserData() => ended.");
+        log.info("PixelHRUserServiceImpl.inActiveExistingUserData() => ended.");
     }
 }

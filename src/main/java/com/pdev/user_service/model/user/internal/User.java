@@ -1,6 +1,8 @@
-package com.pdev.user_service.model.user;
+package com.pdev.user_service.model.user.internal;
 
 import com.pdev.user_service.model.AuditData;
+import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
+import com.pdev.user_service.model.user.UserHasAuthorizeParty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

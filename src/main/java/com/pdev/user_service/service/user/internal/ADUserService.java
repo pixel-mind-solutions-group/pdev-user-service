@@ -1,4 +1,4 @@
-package com.pdev.user_service.service.user;
+package com.pdev.user_service.service.user.internal;
 
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.util.CommonResponse;

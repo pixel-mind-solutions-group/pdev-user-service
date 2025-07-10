@@ -5,7 +5,7 @@ import com.pdev.user_service.exception.BaseException;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.exception.UnauthorizedException;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
-import com.pdev.user_service.model.user.User;
+import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.model.user.UserHasApplicationScopeHasUserRole;
 import com.pdev.user_service.repository.user.UserHasApplicationScopeHasUserRoleRepository;
 import com.pdev.user_service.repository.user.UserRepository;

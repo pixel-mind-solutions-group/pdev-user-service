@@ -2,6 +2,8 @@ package com.pdev.user_service.model.user;
 
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.authorizeParty.AuthorizeParty;
+import com.pdev.user_service.model.user.external.pixelHR.PixelHRUser;
+import com.pdev.user_service.model.user.internal.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +37,10 @@ public class UserHasAuthorizeParty {
     @JoinColumn(name = "user_id_user", nullable = false)
     @ManyToOne
     private User user;
+
+    @JoinColumn(name = "pixel_hr_user_id")
+    @ManyToOne
+    private PixelHRUser pixelHRUser;
 
     @JoinColumn(name = "authorize_party_id_authorize_party", nullable = false)
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)

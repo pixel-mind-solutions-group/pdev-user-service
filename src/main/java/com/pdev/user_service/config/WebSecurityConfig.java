@@ -76,6 +76,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/iam/user-role/v1/**").permitAll()
                                 .requestMatchers("/api/iam/access-control/v1/**").permitAll()
                                 .requestMatchers("/api/iam/user/v1/**").permitAll()
+                                .requestMatchers("/api/iam/user/pixel-hr/v1/**").permitAll()
 
                                 .requestMatchers("/api/iam/user/v1/**").hasAuthority(RolePermissionsConstants.PERMISSION_USER_AUTH_SERVICE)
                                 .anyRequest().authenticated()
