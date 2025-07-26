@@ -17,4 +17,6 @@ public interface AuthService {
      * @author maleeshasa
      */
     CommonResponse authenticateUser(UserRequestDTO userRequest);
+
+    CommonResponse authenticateExternalUser(UserRequestDTO userRequest);
 }

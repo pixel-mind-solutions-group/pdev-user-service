@@ -20,6 +20,7 @@ public class UserRequestDTO {
     private String lastName;
     private String userName;
     private String password;
+    private String newPassword;
     private String uuid;
     private Boolean active;
     private String status;

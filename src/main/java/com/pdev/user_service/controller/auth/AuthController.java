@@ -35,4 +35,10 @@ public class AuthController {
         log.info("AuthController.authenticate() => started.");
         return ResponseEntity.ok(authService.authenticateUser(userRequest));
     }
+
+    @PostMapping(value = "/external-token")
+    public ResponseEntity<CommonResponse> authenticateExternalUser(@RequestBody UserRequestDTO userRequest) {
+        log.info("AuthController.authenticate() => started.");
+        return ResponseEntity.ok(authService.authenticateExternalUser(userRequest));
+    }
 }

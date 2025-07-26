@@ -3,24 +3,26 @@ package com.pdev.user_service.service.impl.user.external.pixelHR;
 import com.pdev.user_service.builder.OneTimePasswordBuilder;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
+import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.mfa.MFARegistryMapper;
 import com.pdev.user_service.mapper.user.external.PixelHR.PixelHRUserAccountMapper;
 import com.pdev.user_service.model.AuditData;
-import com.pdev.user_service.model.mfa.MFARegistry;
 import com.pdev.user_service.model.user.external.pixelHR.PixelHRUser;
-import com.pdev.user_service.repository.mfa.MFARegistryRepository;
 import com.pdev.user_service.repository.user.external.pixelHR.PixelHRUserRepository;
 import com.pdev.user_service.service.mfa.MFARegistryService;
 import com.pdev.user_service.service.user.external.pixelHR.PixelHRUserService;
-import com.pdev.user_service.service.validation.CommonValidation;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
+import feign.Response;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 
@@ -103,5 +105,11 @@ public class PixelHRUserServiceImpl implements PixelHRUserService {
         user.getUserHasAuthorizeParties().forEach(entity -> entity.setActive(Boolean.FALSE));
         user.getUserHasApplicationScopeHasUserRoles().forEach(entity -> entity.setActive(Boolean.FALSE));
         log.info("PixelHRUserServiceImpl.inActiveExistingUserData() => ended.");
+    }
+
+    @Override
+    public CommonResponse resetPassword(@RequestBody UserRequestDTO userRequest) {
+
+        return null;
     }
 }

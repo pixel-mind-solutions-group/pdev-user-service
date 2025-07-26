@@ -19,5 +19,6 @@ public class UserDetailsResponseDTO {
     private String userName;
     private Boolean active;
     private Short failCount;
+    private String mfaStatus;
     private UserHasApplicationScopeHasUserRoleResponseDTO userHasApplicationScopeHasUserRole;
 }

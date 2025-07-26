@@ -25,4 +25,9 @@ public class PixelHRUserController {
         log.info("UserController.createOrModify() => started.");
         return ResponseEntity.ok(pixelHRUserService.createOrModify(userRequest));
     }
+
+    @PostMapping(value = "/reset-password")
+    public ResponseEntity<CommonResponse> resetPassword(@RequestBody UserRequestDTO userRequest) {
+        return ResponseEntity.ok(pixelHRUserService.resetPassword(userRequest));
+    }
 }

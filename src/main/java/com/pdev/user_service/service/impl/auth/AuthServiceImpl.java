@@ -5,10 +5,12 @@ import com.pdev.user_service.dto.auth.AuthResponseDTO;
 import com.pdev.user_service.dto.user.UserLoginRegistryRequestDTO;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.model.applicationScope.ApplicationScope;
+import com.pdev.user_service.model.user.external.pixelHR.PixelHRUser;
 import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.repository.applicationScope.ApplicationScopeRepository;
 import com.pdev.user_service.repository.user.UserLoginRegistryRepository;
 import com.pdev.user_service.repository.user.UserRepository;
+import com.pdev.user_service.repository.user.external.pixelHR.PixelHRUserRepository;
 import com.pdev.user_service.service.auth.AuthService;
 import com.pdev.user_service.service.rest.keyCloak.KeyCloakClientService;
 import com.pdev.user_service.service.user.loginRegistry.UserLoginRegistryService;
@@ -28,8 +30,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final UserLoginRegistryRepository loginRegistryRepository;
     private final UserRepository userRepository;
+    private final PixelHRUserRepository pixelHRUserRepository;
     private final ApplicationScopeRepository applicationScopeRepository;
 
     private final UserLoginRegistryService userLoginRegistryService;
@@ -45,6 +47,31 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public CommonResponse authenticateUser(UserRequestDTO userRequest) {
+        log.info("AuthServiceImpl.authenticateUser() => started.");
+        CommonResponse commonResponse = new CommonResponse();
+
+        PixelHRUser user = pixelHRUserRepository.findByUserName(userRequest.getUserName());
+        ApplicationScope applicationScope = applicationScopeRepository.findByUniqueId(userRequest.getUuid());
+
+        log.info("Validating user...");
+//        validateUser.validateExternalUser(user);
+
+        log.info("Validating user application scope...");
+//        validateUser.validateExternalUserApplicationScope(user, applicationScope);
+
+        // calling key cloak service to get the token
+        log.info("Calling key cloak service to get user token...");
+        AuthResponseDTO response = keyCloakClientService.authenticateUser(userRequest);
+
+        commonResponse.setMessage("Authentication accepted.");
+        commonResponse.setData(response);
+        commonResponse.setStatus(HttpStatus.ACCEPTED);
+        log.info("AuthServiceImpl.authenticateUser() => ended.");
+        return commonResponse;
+    }
+
+    @Override
+    public CommonResponse authenticateExternalUser(UserRequestDTO userRequest) {
         log.info("AuthServiceImpl.authenticateUser() => started.");
         CommonResponse commonResponse = new CommonResponse();
 
