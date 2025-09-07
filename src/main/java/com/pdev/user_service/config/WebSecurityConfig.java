@@ -60,6 +60,7 @@ public class WebSecurityConfig {
                 .cors(Customizer.withDefaults()) // by default use a bean by the name of corsConfigurationSource
                 .authorizeHttpRequests(
                         request -> request
+                                .requestMatchers("/actuator/prometheus/**").permitAll()
                                 .requestMatchers("/health/healthChecker").permitAll()
                                 .requestMatchers("/api/iam/auth/user/v1/token").permitAll()
                                 .requestMatchers("/api/iam/user/v1/get-by-username/**").permitAll()
