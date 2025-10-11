@@ -4,16 +4,18 @@ import com.pdev.user_service.dto.candidate.CandidateDTO;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
 import com.pdev.user_service.enums.CommonStatus;
+import com.pdev.user_service.event.UserRegisteredPublisher;
 import com.pdev.user_service.exception.RecordNotFoundException;
 import com.pdev.user_service.mapper.user.UserAccountMapper;
 import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.repository.user.UserRepository;
-import com.pdev.user_service.service.user.internal.NonADUserService;
 import com.pdev.user_service.service.rest.candidate.CandidateClientService;
+import com.pdev.user_service.service.user.internal.NonADUserService;
 import com.pdev.user_service.service.validation.user.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
+import com.pdev.user_service.builder.email.EmailRequestBuilder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,7 @@ public class NonADUserServiceImpl implements NonADUserService {
 
     private final UserAccountMapper userAccountMapper;
 
+    private final UserRegisteredPublisher userRegisteredPublisher;
     private final CandidateClientService candidateClientService;
     private final ValidateUser validateUser;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -78,6 +81,12 @@ public class NonADUserServiceImpl implements NonADUserService {
             candidateRequest.setIdUserAccount(savedUser.getId());
             candidateClientService.saveCandidate(candidateRequest);
 
+            // Publish user registered event
+            log.info("Publishing user registered event...");
+            userRegisteredPublisher.publishUserRegisteredEvent(
+                    EmailRequestBuilder.getEmailEventRequest(userRequest)
+            );
+
             commonResponse.setStatus(HttpStatus.OK);
             commonResponse.setMessage("User created successfully.");
             commonResponse.setData(userAccountMapper.mapToDTO(new UserResponseDTO(), savedUser));
@@ -99,7 +108,6 @@ public class NonADUserServiceImpl implements NonADUserService {
             deleteUser(savedUser);
         }
         return commonResponse;
-
     }
 
     private void deleteUser(User user) {
