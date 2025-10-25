@@ -37,7 +37,6 @@ public class PixelHireNonADUserServiceImpl implements PixelHireNonADUserService 
 
     private final UserRepository userRepository;
     private final UserAccountMapper userAccountMapper;
-    private final EmailRequestBuilder emailRequestBuilder;
     private final UserRegisteredPublisher userRegisteredPublisher;
     private final CandidateClientService candidateClientService;
     private final ValidateUser validateUser;
