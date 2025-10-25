@@ -3,7 +3,6 @@ package com.pdev.user_service.controller.user.internal;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.userDetails.UserDetailsRequestDTO;
 import com.pdev.user_service.service.user.internal.ADUserService;
-import com.pdev.user_service.service.user.internal.NonADUserService;
 import com.pdev.user_service.service.user.internal.UserService;
 import com.pdev.user_service.util.CommonResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ public class UserController {
 
     private final UserService userService;
     private final ADUserService adUserService;
-    private final NonADUserService nonADUserService;
 
     /**
      * This method is allowed to create or modify AD user
@@ -39,19 +37,6 @@ public class UserController {
     public ResponseEntity<CommonResponse> createOrModifyAD(@RequestBody UserRequestDTO userRequest) {
         log.info("UserController.createOrModify() => started.");
         return ResponseEntity.ok(adUserService.createOrModifyAD(userRequest));
-    }
-
-    /**
-     * This method is allowed to create or modify Non AD user
-     *
-     * @param userRequest {@link UserRequestDTO} - user request details
-     * @return {@link ResponseEntity<CommonResponse>} - user created or modified response
-     * @author maleesahsa
-     */
-    @PostMapping(value = "/non-ad/create")
-    public ResponseEntity<CommonResponse> createNonAD(@RequestBody UserRequestDTO userRequest) {
-        log.info("UserController.createNonAD() => started.");
-        return ResponseEntity.ok(nonADUserService.createNonAD(userRequest));
     }
 
     /**

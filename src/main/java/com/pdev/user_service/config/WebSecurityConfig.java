@@ -64,7 +64,8 @@ public class WebSecurityConfig {
                                 .requestMatchers("/health/healthChecker").permitAll()
                                 .requestMatchers("/api/iam/auth/user/v1/token").permitAll()
                                 .requestMatchers("/api/iam/user/v1/get-by-username/**").permitAll()
-                                .requestMatchers("/api/iam/user/v1/non-ad/create").permitAll()
+                                .requestMatchers("/api/iam/user/pixel-hire/v1/non-ad/create").permitAll()
+                                .requestMatchers("/api/iam/user/pixel-hire/v1/verify-email").permitAll()
 
                                 // TODO: should remove after configure authorization for below endpoints
                                 .requestMatchers("/api/iam/application-scope/v1/**").permitAll()

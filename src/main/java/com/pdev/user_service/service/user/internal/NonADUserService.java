@@ -6,6 +6,7 @@ import com.pdev.user_service.util.CommonResponse;
 /**
  * @author maleeshasa
  * @Date 2024/11/15
+ * @deprecated
  */
 public interface NonADUserService {
 

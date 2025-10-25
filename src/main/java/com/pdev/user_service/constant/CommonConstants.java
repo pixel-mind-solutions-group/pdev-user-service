@@ -6,6 +6,7 @@ package com.pdev.user_service.constant;
  */
 public class CommonConstants {
 
+    public static final String PDEV_USER = "PDEV_USER";
     public static final String AUTHORIZATION = "Authorization";
     public static final String OUT_SERVICE = "OUT_SERVICE";
     public static final String BEARER = "Bearer ";
