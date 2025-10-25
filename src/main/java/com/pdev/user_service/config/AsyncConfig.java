@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -24,7 +24,12 @@ public class AsyncConfig {
      * @author maleeshasa
      */
     @Bean(name = "userRegistrationVTExecutor")
-    public Executor userRegistrationVTExecutor() {
+    public ExecutorService userRegistrationVTExecutor() {
+        return Executors.newVirtualThreadPerTaskExecutor();
+    }
+
+    @Bean(name = "emailVerificationURLVTExecutor")
+    public ExecutorService emailVerificationURLVTExecutor() {
         return Executors.newVirtualThreadPerTaskExecutor();
     }
 }

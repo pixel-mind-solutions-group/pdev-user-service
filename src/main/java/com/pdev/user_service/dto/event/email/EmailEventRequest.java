@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class EmailEventRequest {
+    private String applicationSource;
     private List<String> toEmails = new ArrayList<>();
     private List<String> ccEmails = new ArrayList<>();
     private List<String> bccEmails = new ArrayList<>();
@@ -17,4 +18,5 @@ public class EmailEventRequest {
     private String subject;
     private String body;
     private LocalDateTime scheduleDateTime;
+    private Boolean isHtml;
 }

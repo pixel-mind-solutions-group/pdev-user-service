@@ -1,5 +1,6 @@
-package com.pdev.user_service.service.impl.user.internal;
+package com.pdev.user_service.service.impl.user.external.pixelHire;
 
+import com.pdev.user_service.builder.email.EmailRequestBuilder;
 import com.pdev.user_service.dto.candidate.CandidateDTO;
 import com.pdev.user_service.dto.user.UserRequestDTO;
 import com.pdev.user_service.dto.user.UserResponseDTO;
@@ -11,7 +12,7 @@ import com.pdev.user_service.model.AuditData;
 import com.pdev.user_service.model.user.internal.User;
 import com.pdev.user_service.repository.user.UserRepository;
 import com.pdev.user_service.service.rest.candidate.CandidateClientService;
-import com.pdev.user_service.service.user.internal.NonADUserService;
+import com.pdev.user_service.service.user.external.pixelHire.PixelHireNonADUserService;
 import com.pdev.user_service.service.validation.user.ValidateUser;
 import com.pdev.user_service.util.CommonResponse;
 import com.pdev.user_service.util.CommonUtil;
@@ -23,20 +24,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @author @maleeshasa
  * @Date 2024/11/15
- * @deprecated
  */
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class NonADUserServiceImpl implements NonADUserService {
+public class PixelHireNonADUserServiceImpl implements PixelHireNonADUserService {
 
     private final UserRepository userRepository;
-
     private final UserAccountMapper userAccountMapper;
+    private final EmailRequestBuilder emailRequestBuilder;
     private final UserRegisteredPublisher userRegisteredPublisher;
     private final CandidateClientService candidateClientService;
     private final ValidateUser validateUser;
@@ -114,20 +115,69 @@ public class NonADUserServiceImpl implements NonADUserService {
     }
 
     /**
-     * This method is allowed to in-active existing user data
+     * This method is allowed to verify email of pixel hire non AD user
      *
-     * @param user {@link User} - existing user
-     * @author maleesahsa
+     * @param userId {@link Integer} - user id
+     * @param verify {@link Boolean} - verify or unverify email
+     * @return {@link CommonResponse} - email verified or unverified response
+     * @author @maleesahsa
      */
-    private void inActiveExistingUserData(User user) {
-        log.info("UserServiceImpl.inActiveExistingUserData() => started.");
-        user.getUserHasAuthorizeParties().forEach(entity -> {
-            entity.setActive(Boolean.FALSE);
-        });
+    @Override
+    public CommonResponse verifyEmail(Integer userId, Boolean verify) {
 
-        user.getUserHasApplicationScopeHasUserRoles().forEach(entity -> {
-            entity.setActive(Boolean.FALSE);
-        });
-        log.info("UserServiceImpl.inActiveExistingUserData() => ended.");
+        Optional<User> pixelHireCandidateUser = userRepository.findById(userId);
+
+        if (!pixelHireCandidateUser.isPresent()) {
+            throw new RecordNotFoundException("User not found");
+        }
+
+        CommonResponse commonResponse = new CommonResponse();
+        try {
+            pixelHireCandidateUser.get().setIsEmailVerified(Boolean.TRUE);
+            userRepository.save(pixelHireCandidateUser.get());
+
+            commonResponse.setData(Boolean.TRUE);
+            commonResponse.setMessage("Email verification successfully");
+            commonResponse.setStatus(HttpStatus.OK);
+            return commonResponse;
+
+        } catch (Exception e) {
+            commonResponse.setData(Boolean.FALSE);
+            commonResponse.setMessage("Email verification failed");
+            commonResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            return commonResponse;
+        }
+    }
+
+    /**
+     * This method is allowed to send verification email to pixel hire non AD user
+     *
+     * @param username {@link String} - username of the user
+     * @return {@link CommonResponse} - email sent response
+     * @author @maleesahsa
+     */
+    @Override
+    public CommonResponse sendVerificationEmail(String username) {
+
+        User pixelHireCandidateUser = userRepository.findByUserName(username);
+
+        CommonResponse commonResponse = new CommonResponse();
+        if (pixelHireCandidateUser != null) {
+
+            // Publish user email verification url event
+            log.info("Publishing user email verification url event...");
+            userRegisteredPublisher.publishEmailVerificationURLEvent(pixelHireCandidateUser);
+
+            commonResponse.setData(null);
+            commonResponse.setMessage("Verification email resent successfully. Please check your inbox.");
+            commonResponse.setStatus(HttpStatus.OK);
+            return commonResponse;
+
+        } else {
+            commonResponse.setData(null);
+            commonResponse.setMessage("User not found");
+            commonResponse.setStatus(HttpStatus.NO_CONTENT);
+            return commonResponse;
+        }
     }
 }
